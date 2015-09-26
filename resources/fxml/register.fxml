@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<GridPane fx:id="container" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserRegistrationController">
+    <ImageView GridPane.rowIndex="0" onMouseClicked="#handleBackButton">
+        <image>
+            <Image url="/images/back_button.png" requestedWidth="50" requestedHeight="50"/>
+        </image>
+    </ImageView>
+    <VBox GridPane.rowIndex="1" GridPane.columnIndex="1">
+        <Label fx:id="title" text="MMORPG"/>
+        <GridPane styleClass="grid-pane">
+
+            <Label text="First name: "
+                   GridPane.rowIndex="0"
+                   GridPane.columnIndex="0"/>
+
+            <TextField fx:id="firstNameField"
+                       promptText="Enter your first name"
+                       GridPane.rowIndex="0"
+                       GridPane.columnIndex="1"/>
+
+            <Label text="Last name: "
+                   GridPane.rowIndex="1"
+                   GridPane.columnIndex="0"/>
+
+            <TextField fx:id="lastNameField"
+                       promptText="Enter last name"
+                       GridPane.rowIndex="1"
+                       GridPane.columnIndex="1"/>
+
+            <Label text="Username: "
+                   GridPane.rowIndex="2"
+                   GridPane.columnIndex="0"/>
+
+            <TextField fx:id="usernameField"
+                       promptText="Enter username"
+                       GridPane.rowIndex="2"
+                       GridPane.columnIndex="1"/>
+
+            <Label text="Password: "
+                   GridPane.rowIndex="3"
+                   GridPane.columnIndex="0"/>
+
+            <PasswordField fx:id="passwordField"
+                           promptText="Enter password"
+                           GridPane.rowIndex="3"
+                           GridPane.columnIndex="1"/>
+
+            <Label text="Iban number: "
+                   GridPane.rowIndex="4"
+                   GridPane.columnIndex="0"/>
+
+            <TextField fx:id="ibanField"
+                       promptText="Enter IBAN number"
+                       GridPane.rowIndex="4"
+                       GridPane.columnIndex="1"/>
+
+            <Button fx:id="registerButton"
+                    text="Register"
+                    onAction="#handleRegister"
+                    GridPane.rowIndex="5"
+                    GridPane.columnSpan="2"
+                    GridPane.halignment="RIGHT"/>
+
+        </GridPane>
+    </VBox>
+
+</GridPane>
