@@ -23,7 +23,7 @@ public class UserDAOImpl implements UserDAO {
         List<User> userList = new ArrayList<>();
         Session session = HibernateUtil.openSession();
         session.beginTransaction();
-        userList = session.createQuery("FROM Users").list();
+        userList = session.createQuery("FROM User").list();
         session.getTransaction().commit();
         session.close();
         return userList;

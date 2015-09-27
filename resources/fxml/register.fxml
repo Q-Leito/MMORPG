@@ -4,8 +4,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<GridPane fx:id="container" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8"
-          xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.UserRegistrationController">
+<GridPane styleClass="container" fx:id="containerRegister" hgap="50" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistrationController">
     <ImageView GridPane.rowIndex="0" onMouseClicked="#handleBackButton">
         <image>
             <Image url="/images/back_button.png" requestedWidth="50" requestedHeight="50"/>
@@ -13,9 +13,10 @@
     </ImageView>
     <VBox GridPane.rowIndex="1" GridPane.columnIndex="1">
         <Label fx:id="title" text="MMORPG"/>
+        <Label fx:id="errorLabel" styleClass="validationLabel"/>
         <GridPane styleClass="grid-pane">
 
-            <Label text="First name: "
+            <Label text="First name: * "
                    GridPane.rowIndex="0"
                    GridPane.columnIndex="0"/>
 
@@ -24,7 +25,7 @@
                        GridPane.rowIndex="0"
                        GridPane.columnIndex="1"/>
 
-            <Label text="Last name: "
+            <Label text="Last name: * "
                    GridPane.rowIndex="1"
                    GridPane.columnIndex="0"/>
 
@@ -33,7 +34,7 @@
                        GridPane.rowIndex="1"
                        GridPane.columnIndex="1"/>
 
-            <Label text="Username: "
+            <Label text="Username: * "
                    GridPane.rowIndex="2"
                    GridPane.columnIndex="0"/>
 
@@ -42,7 +43,7 @@
                        GridPane.rowIndex="2"
                        GridPane.columnIndex="1"/>
 
-            <Label text="Password: "
+            <Label text="Password: * "
                    GridPane.rowIndex="3"
                    GridPane.columnIndex="0"/>
 
@@ -51,7 +52,7 @@
                            GridPane.rowIndex="3"
                            GridPane.columnIndex="1"/>
 
-            <Label text="Iban number: "
+            <Label text="Iban number: * "
                    GridPane.rowIndex="4"
                    GridPane.columnIndex="0"/>
 
@@ -64,8 +65,13 @@
                     text="Register"
                     onAction="#handleRegister"
                     GridPane.rowIndex="5"
-                    GridPane.columnSpan="2"
+                    GridPane.columnIndex="1"
                     GridPane.halignment="RIGHT"/>
+
+            <Label styleClass="validationLabel"
+                   text="* Required!"
+                   GridPane.rowIndex="5"
+                   GridPane.columnIndex="0"/>
 
         </GridPane>
     </VBox>

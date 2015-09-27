@@ -1,4 +1,4 @@
-import controller.UserRegistrationController;
+import controller.RegistrationController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -7,7 +7,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    private UserRegistrationController mController = new UserRegistrationController();
+    private RegistrationController mController = new RegistrationController();
 
     @Override
     public void start(Stage primaryStage) throws Exception {

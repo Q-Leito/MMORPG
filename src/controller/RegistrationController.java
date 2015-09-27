@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -21,7 +22,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
-public class UserRegistrationController {
+public class RegistrationController {
     public static final double BALANCE = 0.0;
     public static final int CHARACTER_SLOTS = 5;
     public static final Timestamp LAST_PAYMENT = null;
@@ -30,7 +31,7 @@ public class UserRegistrationController {
     private UserService mUserService = new UserServiceImpl();
     private ObservableList<User> mUsersList = FXCollections.observableArrayList();
 
-
+    @FXML private Label errorLabel;
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
     @FXML private TextField usernameField;
@@ -66,48 +67,37 @@ public class UserRegistrationController {
                 firstNameField.getText(), lastNameField.getText(), usernameField.getText(),
                 passwordField.getText(), ibanField.getText());
 
-//        User user = new User();
-//        user.setFirstName(firstNameField.getText());
-//        user.setLastName(lastNameField.getText());
-//        user.setUsername(usernameField.getText());
-//        user.setPassword(passwordField.getText());
-//        user.setIban(ibanField.getText());
-//        user.setBalance(BALANCE);
-//        user.setCharacterSlots(CHARACTER_SLOTS);
-//        user.setLastPayment(LAST_PAYMENT);
-//        user.setMonthsPayed(MONTHS_PAYED);
-//        user.setBanned(BANNED);
-//
-//        addUser(user);
-
-        if (actionEvent.getSource().equals(registerButton)) {
-            User user = new User(
-                usernameField.getText(),
-                BALANCE,
-                firstNameField.getText(),
-                lastNameField.getText(),
-                ibanField.getText(),
-                CHARACTER_SLOTS,
-                LAST_PAYMENT,
-                MONTHS_PAYED,
-                passwordField.getText(),
-                BANNED
-            );
-            addUser(user);
+        for (User user : getUserList()) {
+            if (!firstNameField.getText().isEmpty() &&
+                !lastNameField.getText().isEmpty() &&
+                !usernameField.getText().isEmpty() &&
+                !passwordField.getText().isEmpty() &&
+                !ibanField.getText().isEmpty()) {
+                if (!usernameField.getText().equals(user.getUsername())) {
+                    addUser(new User(
+                            usernameField.getText(),
+                            BALANCE,
+                            firstNameField.getText(),
+                            lastNameField.getText(),
+                            ibanField.getText(),
+                            CHARACTER_SLOTS,
+                            LAST_PAYMENT,
+                            MONTHS_PAYED,
+                            passwordField.getText(),
+                            BANNED
+                    ));
+                    return;
+                } else {
+                    System.out.println("Duplicate Username!");
+                    errorLabel.setText("Sorry, but "
+                            + usernameField.getText()
+                            + " already  exist. Try another!");
+                    return;
+                }
+            } else {
+                errorLabel.setText("All fields are required!");
+            }
         }
-
-//        addUser(new User(
-//                usernameField.getText(),
-//                BALANCE,
-//                firstNameField.getText(),
-//                lastNameField.getText(),
-//                ibanField.getText(),
-//                CHARACTER_SLOTS,
-//                LAST_PAYMENT,
-//                MONTHS_PAYED,
-//                passwordField.getText(),
-//                BANNED
-//        ));
     }
 
     public void handleBackButton(Event event) throws IOException {

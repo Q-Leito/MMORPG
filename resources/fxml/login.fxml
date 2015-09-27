@@ -3,10 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.TextFlow?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="container" stylesheets="/css/main.css"
-      xmlns="http://javafx.com/javafx/8" fx:controller="controller.LoginController">
-    <Label fx:id="title" text="MMORPG"/>
+<GridPane styleClass="container" fx:id="containerLogin" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8"
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
     <VBox>
+        <Label fx:id="title" text="MMORPG"/>
+        <Label fx:id="errorLabel" styleClass="validationLabel"/>
         <GridPane styleClass="grid-pane">
 
             <Label text="Username: "
@@ -37,8 +38,8 @@
         <TextFlow textAlignment="CENTER">
             <Label text="Don't have an account?"/>
             <Hyperlink text="Click here"
-                       onAction="#handleRegisterScreen"/>
+                       onAction="#openRegisterScreen"/>
             <Label text="to register!"/>
         </TextFlow>
     </VBox>
-</VBox>
+</GridPane>

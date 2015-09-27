@@ -1,15 +1,29 @@
 * {
     -fx-font-family: 'Audiowide';
-    -fx-alignment: center;
+    -fx-alignment: center-left;
     -fx-text-fill: #fff;
 }
 
-#container {
+.container {
     -fx-background-image: url("../images/bg.jpg");
     -fx-background-repeat: no-repeat;
     -fx-background-size: 100% 100%;
-    -fx-padding: 0 400px 0 100px;
-    -fx-spacing: 20px;
+    -fx-padding: 0 0 0 100px;
+    -fx-alignment: center-left;
+}
+
+#containerLogin {
+    -fx-padding: 0 0 0 150px;
+}
+
+#containerRegister {
+    -fx-padding: 0 0 0 75px;
+}
+
+.validationLabel {
+    -fx-font-size: 14px;
+    -fx-text-fill: #ff0;
+    -fx-padding: 5px;
 }
 
 #title {
