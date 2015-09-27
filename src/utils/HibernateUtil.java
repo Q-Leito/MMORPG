@@ -12,6 +12,8 @@ public class HibernateUtil {
     private static final SessionFactory SESSION_FACTORY;
     private static final ServiceRegistry SERVICE_REGISTRY;
 
+    private static Session mSession;
+
     static {
         try {
             Configuration configuration = getConfiguration();
@@ -26,7 +28,24 @@ public class HibernateUtil {
     }
 
     public static Session openSession() throws HibernateException {
-        return SESSION_FACTORY.openSession();
+
+        mSession = SESSION_FACTORY.openSession();
+
+        System.out.printf("Session is %s \n", mSession.isOpen());
+
+        return mSession;
+    }
+
+    public static void close()
+    {
+        mSession.close();
+
+        System.out.printf("Session is %s \n", mSession.isConnected());
+    }
+
+    public static Session getCurrentSession(){
+        Session session = SESSION_FACTORY.getCurrentSession();
+        return  session;
     }
 
     public static Configuration getConfiguration() {

@@ -65,13 +65,13 @@ public class RegistrationController {
             for (User user : getUserList()) {
                 if (!usernameField.getText().equals(user.getUsername())) {
                     registerUser(actionEvent);
+                    return;
                 } else
                 {
                     System.out.println("Duplicate Username!");
                     errorLabel.setText("Sorry, but "
                             + usernameField.getText()
                             + " already  exist. Try another!");
-                    return;
                 }
             }
         }
@@ -119,12 +119,9 @@ public class RegistrationController {
 
             if (isAdded) {
                 openHomepage(actionEvent, newUser);
-            } else
-            {
+            } else {
                 System.out.println("Something went wrong!");
             }
-
-            return;
         } else {
             errorLabel.setText("All fields are required!");
         }
