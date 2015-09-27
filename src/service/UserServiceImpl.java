@@ -6,7 +6,7 @@ import model.User;
 
 import java.util.List;
 
-public class UserServiceImpl  implements UserService {
+public class UserServiceImpl implements UserService {
     private UserDAO mUserDAO = new UserDAOImpl();
 
     @Override

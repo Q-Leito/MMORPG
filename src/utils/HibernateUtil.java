@@ -1,5 +1,7 @@
 package utils;
 
+import model.Character;
+import model.Server;
 import model.User;
 import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
@@ -30,7 +32,6 @@ public class HibernateUtil {
     }
 
     public static Session openSession() throws HibernateException {
-
         mSession = SESSION_FACTORY.openSession();
         mSession.setFlushMode(FlushMode.MANUAL);
         ManagedSessionContext.bind(mSession);
@@ -46,13 +47,15 @@ public class HibernateUtil {
         session.getTransaction().commit();
         session.close();
 
-        System.out.printf("Session is %s", session.isConnected() ? "connected" : "not connected");
+        System.out.printf("Session is %s \n", session.isConnected() ? "connected" : "not connected");
     }
 
     public static Configuration getConfiguration() {
         Configuration cfg = new Configuration();
 
         cfg.addAnnotatedClass(User.class);
+        cfg.addAnnotatedClass(Character.class);
+        cfg.addAnnotatedClass(Server.class);
         cfg.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
         cfg.setProperty("hibernate.connection.url", "jdbc:postgresql://127.0.0.1:5432/mmorpg-postgres");
         cfg.setProperty("hibernate.connection.username", "postgres");

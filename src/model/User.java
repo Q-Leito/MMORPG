@@ -2,6 +2,8 @@ package model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -37,6 +39,15 @@ public class User {
 
     @Column(name = "banned")
     private Boolean mBanned;
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "owns",
+                joinColumns = {@JoinColumn(name = "user_name")},
+                inverseJoinColumns = {@JoinColumn(name = "name")})
+    private Set<Character> mCharacters = new HashSet<>();
+
+    @ManyToMany(mappedBy="mUsers")
+    private Set<Server> mServers = new HashSet<>();
 
     public User() {
         super();
@@ -96,5 +107,13 @@ public class User {
 
     public Boolean getBanned() {
         return mBanned;
+    }
+
+    public Set<Character> getCharacters() {
+        return mCharacters;
+    }
+
+    public Set<Server> getServers() {
+        return mServers;
     }
 }

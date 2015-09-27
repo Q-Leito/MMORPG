@@ -1,14 +1,11 @@
-import controller.RegistrationController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import utils.HibernateUtil;
 
 public class Main extends Application {
-    private RegistrationController mController = new RegistrationController();
 
     @Override
     public void start(Stage primaryStage) throws Exception {

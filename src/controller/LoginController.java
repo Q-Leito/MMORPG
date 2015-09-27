@@ -25,9 +25,12 @@ public class LoginController implements Initializable {
     private UserService mUserService = new UserServiceImpl();
     private ObservableList<User> mUsersList = FXCollections.observableArrayList();
 
-    @FXML private Label errorLabel;
-    @FXML private TextField usernameField;
-    @FXML private PasswordField passwordField;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private PasswordField passwordField;
 
     public ObservableList<User> getUserList() {
         if (!mUsersList.isEmpty())
@@ -43,9 +46,9 @@ public class LoginController implements Initializable {
 
         for (User user : getUserList()) {
             if (usernameField.getText().equals(user.getUsername()) && passwordField.getText().equals(user.getPassword())) {
-                    System.out.println("Valid Credentials!");
-                    openHomepage(actionEvent, user);
-                    return;
+                System.out.println("Valid Credentials!");
+                openHomepage(actionEvent, user);
+                return;
             } else {
                 System.out.println("Invalid Credentials!");
                 errorLabel.setText("Invalid username or password!");

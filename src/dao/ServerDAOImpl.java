@@ -1,21 +1,21 @@
 package dao;
 
-import model.User;
+import model.Server;
 import org.hibernate.Session;
 import utils.HibernateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImpl implements UserDAO {
+public class ServerDAOImpl implements ServerDAO {
     @Override
-    public boolean addUser(User user) {
+    public boolean addServer(Server server) {
         boolean isAdded = false;
         Session session = HibernateUtil.openSession();
 
         try {
             session.beginTransaction();
-            session.save(user);
+            session.save(server);
             HibernateUtil.commitTransaction(session);
 
             isAdded = true;
@@ -28,29 +28,29 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> UserList() {
-        List<User> userList = new ArrayList<>();
+    public List<Server> ServerList() {
+        List<Server> serverList = new ArrayList<>();
         Session session = HibernateUtil.openSession();
         session.beginTransaction();
-        userList = session.createQuery("FROM User").list();
+        serverList = session.createQuery("FROM Server").list();
         HibernateUtil.commitTransaction(session);
-        return userList;
+        return serverList;
     }
 
     @Override
-    public void deleteUser(String userName) {
+    public void deleteServer(String serverName) {
         Session session = HibernateUtil.openSession();
         session.beginTransaction();
-        User user = (User) session.load(User.class, userName);
-        session.delete(user);
+        Server server = (Server) session.load(Character.class, serverName);
+        session.delete(server);
         HibernateUtil.commitTransaction(session);
     }
 
     @Override
-    public void updateUser(User user) {
+    public void updateServer(Server server) {
         Session session = HibernateUtil.openSession();
         session.beginTransaction();
-        session.update(user);
+        session.update(server);
         HibernateUtil.commitTransaction(session);
     }
 }

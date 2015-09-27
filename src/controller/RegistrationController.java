@@ -30,16 +30,23 @@ public class RegistrationController {
     private UserService mUserService = new UserServiceImpl();
     private ObservableList<User> mUsersList = FXCollections.observableArrayList();
 
-    @FXML private Label errorLabel;
-    @FXML private TextField firstNameField;
-    @FXML private TextField lastNameField;
-    @FXML private TextField usernameField;
-    @FXML private PasswordField passwordField;
-    @FXML private TextField ibanField;
-    @FXML private Button registerButton;
+    @FXML
+    private Label errorLabel;
+    @FXML
+    private TextField firstNameField;
+    @FXML
+    private TextField lastNameField;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private TextField ibanField;
+    @FXML
+    private Button registerButton;
 
     public boolean addUser(User user) {
-       return mUserService.addUser(user);
+        return mUserService.addUser(user);
     }
 
     public ObservableList<User> getUserList() {
@@ -60,14 +67,12 @@ public class RegistrationController {
 
         if (getUserList().size() <= 0) {
             registerUser(actionEvent);
-        }
-        else {
+        } else {
             for (User user : getUserList()) {
                 if (!usernameField.getText().equals(user.getUsername())) {
                     registerUser(actionEvent);
                     return;
-                } else
-                {
+                } else {
                     System.out.println("Duplicate Username!");
                     errorLabel.setText("Sorry, but "
                             + usernameField.getText()
