@@ -4,18 +4,34 @@ import model.User;
 import org.hibernate.Session;
 import utils.HibernateUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
 
     @Override
-    public void addUser(User user) {
+    public boolean addUser(User user) {
+
+        boolean isAdded = false;
+
         Session session = HibernateUtil.openSession();
-        session.beginTransaction();
-        session.save(user);
-        session.getTransaction().commit();
-        session.close();
+
+        try {
+            session.beginTransaction();
+            session.save(user);
+            session.getTransaction().commit();
+
+            isAdded = true;
+
+        } catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        } finally {
+            session.close();
+        }
+
+        return isAdded;
     }
 
     @Override

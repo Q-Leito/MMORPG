@@ -38,8 +38,8 @@ public class RegistrationController {
     @FXML private TextField ibanField;
     @FXML private Button registerButton;
 
-    public void addUser(User user) {
-        mUserService.addUser(user);
+    public boolean addUser(User user) {
+       return mUserService.addUser(user);
     }
 
     public ObservableList<User> getUserList() {
@@ -58,36 +58,18 @@ public class RegistrationController {
                 firstNameField.getText(), lastNameField.getText(), usernameField.getText(),
                 passwordField.getText(), ibanField.getText());
 
-        for (User user : getUserList()) {
-            if (!firstNameField.getText().isEmpty() &&
-                !lastNameField.getText().isEmpty() &&
-                !usernameField.getText().isEmpty() &&
-                !passwordField.getText().isEmpty() &&
-                !ibanField.getText().isEmpty()) {
+        if (getUserList().size() <= 0) {
+            registerUser(actionEvent, null);
+        }
+        else {
+            for (User user : getUserList()) {
                 if (!usernameField.getText().equals(user.getUsername())) {
-                    addUser(new User(
-                            usernameField.getText(),
-                            BALANCE,
-                            firstNameField.getText(),
-                            lastNameField.getText(),
-                            ibanField.getText(),
-                            CHARACTER_SLOTS,
-                            LAST_PAYMENT,
-                            MONTHS_PAYED,
-                            passwordField.getText(),
-                            BANNED
-                    ));
-                    openHomepage(actionEvent, user);
-                    return;
+
+                    registerUser(actionEvent, user);
+
                 } else {
-                    System.out.println("Duplicate Username!");
-                    errorLabel.setText("Sorry, but "
-                            + usernameField.getText()
-                            + " already  exist. Try another!");
-                    return;
+                    errorLabel.setText("All fields are required!");
                 }
-            } else {
-                errorLabel.setText("All fields are required!");
             }
         }
     }
@@ -107,6 +89,47 @@ public class RegistrationController {
         HomepageController homepageController = loader.getController();
         homepageController.setCurrentUser(currentUser);
         homepageStage.show();
+    }
+
+    private void registerUser(ActionEvent actionEvent, User user) throws IOException {
+
+        if (!firstNameField.getText().isEmpty() &&
+                !lastNameField.getText().isEmpty() &&
+                !usernameField.getText().isEmpty() &&
+                !passwordField.getText().isEmpty() &&
+                !ibanField.getText().isEmpty()) {
+
+            User newUser = new User(
+                    usernameField.getText(),
+                    BALANCE,
+                    firstNameField.getText(),
+                    lastNameField.getText(),
+                    ibanField.getText(),
+                    CHARACTER_SLOTS,
+                    LAST_PAYMENT,
+                    MONTHS_PAYED,
+                    passwordField.getText(),
+                    BANNED
+            );
+
+            boolean isAdded = addUser(newUser);
+
+            if (isAdded) {
+                openHomepage(actionEvent, newUser);
+            } else
+            {
+                System.out.println("Something went wrong!");
+            }
+
+            return;
+        } else {
+            System.out.println("Duplicate Username!");
+            errorLabel.setText("Sorry, but "
+                    + usernameField.getText()
+                    + " already  exist. Try another!");
+            return;
+        }
+
     }
 
     public void handleBackButton(Event event) throws IOException {
