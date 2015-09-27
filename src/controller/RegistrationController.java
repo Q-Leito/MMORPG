@@ -20,7 +20,6 @@ import service.UserServiceImpl;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.util.List;
 
 public class RegistrationController {
     public static final double BALANCE = 0.0;
@@ -46,19 +45,11 @@ public class RegistrationController {
     public ObservableList<User> getUserList() {
         if (!mUsersList.isEmpty())
             mUsersList.clear();
-        mUsersList = FXCollections.observableList((List<User>) mUserService.UserList());
+        mUsersList = FXCollections.observableList(mUserService.UserList());
         return mUsersList;
     }
 
-    public void deleteUser(String userName) {
-        mUserService.deleteUser(userName);
-    }
-
-    public void updateUser(User user) {
-        mUserService.updateUser(user);
-    }
-
-    public void handleRegister(ActionEvent actionEvent) {
+    public void handleRegister(ActionEvent actionEvent) throws IOException {
         System.out.printf("First name: %s %n" +
                         "Last name: %s %n" +
                         "Username: %s %n" +
@@ -86,6 +77,7 @@ public class RegistrationController {
                             passwordField.getText(),
                             BANNED
                     ));
+                    openHomepage(actionEvent, user);
                     return;
                 } else {
                     System.out.println("Duplicate Username!");
@@ -100,6 +92,23 @@ public class RegistrationController {
         }
     }
 
+    private void openHomepage(ActionEvent actionEvent, User currentUser) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/homepage.fxml"));
+        loader.load();
+        Parent root = loader.getRoot();
+
+        Scene homepageScene = new Scene(root, 960, 600);
+        Stage homepageStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+        homepageStage.setTitle("Home - MMORPG");
+        homepageStage.setScene(homepageScene);
+        homepageStage.setResizable(false);
+        HomepageController homepageController = loader.getController();
+        homepageController.setCurrentUser(currentUser);
+        homepageStage.show();
+    }
+
     public void handleBackButton(Event event) throws IOException {
         System.out.println("You clicked me!");
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
@@ -107,6 +116,7 @@ public class RegistrationController {
         Scene rootScene = new Scene(root, 960, 600);
         Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
+        primaryStage.setTitle("Login - MMORPG");
         primaryStage.setScene(rootScene);
         primaryStage.setResizable(false);
         primaryStage.show();

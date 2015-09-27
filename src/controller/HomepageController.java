@@ -20,7 +20,6 @@ public class HomepageController {
     private UserService mUserService = new UserServiceImpl();
     private ObservableList<User> mUsersList = FXCollections.observableArrayList();
     private StringProperty mFirstName;
-    private User mCurrentUser;
 
     public HomepageController() {
         mFirstName = new SimpleStringProperty();
@@ -39,7 +38,6 @@ public class HomepageController {
     }
 
     public void setCurrentUser(User currentUser) {
-        mCurrentUser = currentUser;
         setFirstName("Welcome " + currentUser.getFirstName() + "!");
     }
 
@@ -50,6 +48,7 @@ public class HomepageController {
         Scene rootScene = new Scene(root, 960, 600);
         Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
+        primaryStage.setTitle("Login - MMORPG");
         primaryStage.setScene(rootScene);
         primaryStage.setResizable(false);
         primaryStage.show();

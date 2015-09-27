@@ -19,13 +19,11 @@ import service.UserServiceImpl;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
     private UserService mUserService = new UserServiceImpl();
     private ObservableList<User> mUsersList = FXCollections.observableArrayList();
-    private User mCurrentUser;
 
     @FXML private Label errorLabel;
     @FXML private TextField usernameField;
@@ -34,7 +32,7 @@ public class LoginController implements Initializable {
     public ObservableList<User> getUserList() {
         if (!mUsersList.isEmpty())
             mUsersList.clear();
-        mUsersList = FXCollections.observableList((List<User>) mUserService.UserList());
+        mUsersList = FXCollections.observableList(mUserService.UserList());
         return mUsersList;
     }
 
@@ -69,6 +67,7 @@ public class LoginController implements Initializable {
         Scene homepageScene = new Scene(root, 960, 600);
         Stage homepageStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
+        homepageStage.setTitle("Home - MMORPG");
         homepageStage.setScene(homepageScene);
         homepageStage.setResizable(false);
         HomepageController homepageController = loader.getController();
@@ -83,6 +82,7 @@ public class LoginController implements Initializable {
         Scene registerScene = new Scene(root, 960, 600);
         Stage registerStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
+        registerStage.setTitle("Registration - MMORPG");
         registerStage.setScene(registerScene);
         registerStage.setResizable(false);
         registerStage.show();
