@@ -53,4 +53,12 @@ public class HomepageController {
         primaryStage.setResizable(false);
         primaryStage.show();
     }
+
+    public void handleCharacterInfo(ActionEvent actionEvent) {
+
+    }
+
+    public void handleUserInfo(ActionEvent actionEvent) {
+
+    }
 }
