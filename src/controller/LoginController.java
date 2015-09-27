@@ -42,15 +42,10 @@ public class LoginController implements Initializable {
                 usernameField.getText(), passwordField.getText());
 
         for (User user : getUserList()) {
-            if (usernameField.getText().equals(user.getUsername())) {
-                if (passwordField.getText().equals(user.getPassword())) {
+            if (usernameField.getText().equals(user.getUsername()) && passwordField.getText().equals(user.getPassword())) {
                     System.out.println("Valid Credentials!");
                     openHomepage(actionEvent, user);
                     return;
-                } else {
-                    errorLabel.setText("Invalid password!");
-                    return;
-                }
             } else {
                 System.out.println("Invalid Credentials!");
                 errorLabel.setText("Invalid username or password!");

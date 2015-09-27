@@ -1,10 +1,12 @@
 package utils;
 
 import model.User;
+import org.hibernate.FlushMode;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.context.internal.ManagedSessionContext;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
@@ -30,22 +32,21 @@ public class HibernateUtil {
     public static Session openSession() throws HibernateException {
 
         mSession = SESSION_FACTORY.openSession();
+        mSession.setFlushMode(FlushMode.MANUAL);
+        ManagedSessionContext.bind(mSession);
 
         System.out.printf("Session is %s \n", mSession.isOpen());
 
         return mSession;
     }
 
-    public static void close()
-    {
-        mSession.close();
+    public static void commitTransaction(Session session) {
+        ManagedSessionContext.unbind(HibernateUtil.SESSION_FACTORY);
+        session.flush();
+        session.getTransaction().commit();
+        session.close();
 
-        System.out.printf("Session is %s \n", mSession.isConnected());
-    }
-
-    public static Session getCurrentSession(){
-        Session session = SESSION_FACTORY.getCurrentSession();
-        return  session;
+        System.out.printf("Session is %s", session.isConnected() ? "connected" : "not connected");
     }
 
     public static Configuration getConfiguration() {

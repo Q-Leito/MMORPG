@@ -13,8 +13,6 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        HibernateUtil.openSession();
-
         // Load the font
         Font.loadFont(getClass().getResource("/fonts/Audiowide regular.ttf").toExternalForm(), 10);
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
@@ -23,11 +21,6 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 960, 600));
         primaryStage.setResizable(false);
         primaryStage.show();
-    }
-
-    @Override
-    public void stop() {
-        HibernateUtil.close();
     }
 
     public static void main(String[] args) {
