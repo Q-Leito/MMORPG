@@ -59,16 +59,19 @@ public class RegistrationController {
                 passwordField.getText(), ibanField.getText());
 
         if (getUserList().size() <= 0) {
-            registerUser(actionEvent, null);
+            registerUser(actionEvent);
         }
         else {
             for (User user : getUserList()) {
                 if (!usernameField.getText().equals(user.getUsername())) {
-
-                    registerUser(actionEvent, user);
-
-                } else {
-                    errorLabel.setText("All fields are required!");
+                    registerUser(actionEvent);
+                } else
+                {
+                    System.out.println("Duplicate Username!");
+                    errorLabel.setText("Sorry, but "
+                            + usernameField.getText()
+                            + " already  exist. Try another!");
+                    return;
                 }
             }
         }
@@ -91,7 +94,7 @@ public class RegistrationController {
         homepageStage.show();
     }
 
-    private void registerUser(ActionEvent actionEvent, User user) throws IOException {
+    private void registerUser(ActionEvent actionEvent) throws IOException {
 
         if (!firstNameField.getText().isEmpty() &&
                 !lastNameField.getText().isEmpty() &&
@@ -123,13 +126,8 @@ public class RegistrationController {
 
             return;
         } else {
-            System.out.println("Duplicate Username!");
-            errorLabel.setText("Sorry, but "
-                    + usernameField.getText()
-                    + " already  exist. Try another!");
-            return;
+            errorLabel.setText("All fields are required!");
         }
-
     }
 
     public void handleBackButton(Event event) throws IOException {
