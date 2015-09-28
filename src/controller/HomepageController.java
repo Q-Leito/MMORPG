@@ -207,7 +207,7 @@ public class HomepageController {
 
     public void addMoney(ActionEvent actionEvent) {
         if (!balanceField.getText().isEmpty()) {
-            if (isInt(balanceField, balanceField.getText())) {
+            if (isDouble(balanceField, balanceField.getText())) {
                 double balance = Math.round((Double.parseDouble(getBalance()) +
                         Double.parseDouble(balanceField.getText())) * 100.0) / 100.0;
 
@@ -234,7 +234,7 @@ public class HomepageController {
         }
     }
 
-    private boolean isInt(TextField input, String amount) {
+    private boolean isDouble(TextField input, String amount) {
         try {
             Double balance = Double.parseDouble(input.getText());
             System.out.println("Added " + balance + " to the balance.");
