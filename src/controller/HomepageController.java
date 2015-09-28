@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -19,9 +20,12 @@ import service.UserServiceImpl;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HomepageController {
+    public static final Timestamp LAST_PAYMENT = null;
     private UserService mUserService = new UserServiceImpl();
     private ObservableList<User> mUsersList = FXCollections.observableArrayList();
     private StringProperty mUserName;
@@ -39,6 +43,8 @@ public class HomepageController {
     private Label errorLabel;
     @FXML
     private TextField balanceField;
+    @FXML
+    private ChoiceBox subscriptionChoice;
 
     public HomepageController() {
         mUserName = new SimpleStringProperty();
@@ -207,24 +213,30 @@ public class HomepageController {
 
     public void addMoney(ActionEvent actionEvent) {
         if (!balanceField.getText().isEmpty()) {
-            if (isDouble(balanceField, balanceField.getText())) {
-                double balance = Math.round((Double.parseDouble(getBalance()) +
-                        Double.parseDouble(balanceField.getText())) * 100.0) / 100.0;
+            if (isDouble(balanceField.getText())) {
+                if (Double.parseDouble(balanceField.getText()) > 0) {
+                    double balance = Math.round((Double.parseDouble(getBalance()) +
+                            Double.parseDouble(balanceField.getText())) * 100.0) / 100.0;
 
-                User updatedUser = new User(
-                        getUserName(),
-                        balance,
-                        getFirstName(),
-                        getLastName(),
-                        getIban(),
-                        Integer.parseInt(getCharacterSlots()),
-                        new Timestamp(new Date().getTime()),
-                        Integer.parseInt(getMonthsPayed()),
-                        getPassword(),
-                        Boolean.parseBoolean(getBanned())
-                );
+                    User updatedUser = new User(
+                            getUserName(),
+                            balance,
+                            getFirstName(),
+                            getLastName(),
+                            getIban(),
+                            Integer.parseInt(getCharacterSlots()),
+                            lastPayment(getLastPayment()),
+                            Integer.parseInt(getMonthsPayed()),
+                            getPassword(),
+                            Boolean.parseBoolean(getBanned())
+                    );
 
-                updateUser(updatedUser);
+                    updateUser(updatedUser);
+                    setBalance(String.valueOf(balance));
+                    balanceField.clear();
+                } else {
+                    errorLabel.setText("Please enter a number greater than zero!");
+                }
             } else {
                 errorLabel.setText("Please enter a number!");
             }
@@ -234,10 +246,81 @@ public class HomepageController {
         }
     }
 
-    private boolean isDouble(TextField input, String amount) {
+    public void addSubscription(ActionEvent actionEvent) {
+        if (subscriptionChoice.getValue() != null) {
+            if (subscriptionChoice.getValue().equals("1 Month")) {
+                if (Double.parseDouble(getBalance()) >= 5) {
+                    subscriptionChoice(1, 5);
+                    setBalance(String.valueOf(Double.parseDouble(getBalance()) - 5));
+                    errorLabel.setText("");
+                } else {
+                    errorLabel.setText("Please add money to your account!");
+                }
+            } else if (subscriptionChoice.getValue().equals("2 Months")) {
+                if (Double.parseDouble(getBalance()) >= 8) {
+                    subscriptionChoice(2, 8);
+                    setBalance(String.valueOf(Double.parseDouble(getBalance()) - 8));
+                    errorLabel.setText("");
+                } else {
+                    errorLabel.setText("Please add money to your account!");
+                }
+            } else if (subscriptionChoice.getValue().equals("3 Months")) {
+                if (Double.parseDouble(getBalance()) >= 10) {
+                    subscriptionChoice(3, 10);
+                    setBalance(String.valueOf(Double.parseDouble(getBalance()) - 10));
+                    errorLabel.setText("");
+                } else {
+                    errorLabel.setText("Please add money to your account!");
+                }
+            } else if (subscriptionChoice.getValue().equals("1 Year")) {
+                if (Double.parseDouble(getBalance()) >= 35) {
+                    subscriptionChoice(12, 35);
+                    setBalance(String.valueOf(Double.parseDouble(getBalance()) - 35));
+                    errorLabel.setText("");
+                } else {
+                    errorLabel.setText("Please add money to your account!");
+                }
+            }
+        }
+    }
+
+    private void subscriptionChoice(int subscriptionChoice, double balance) {
+        int monthsPayed = Integer.parseInt(getMonthsPayed()) + subscriptionChoice;
+        User updatedUser = new User(
+                getUserName(),
+                Double.parseDouble(getBalance()) - balance,
+                getFirstName(),
+                getLastName(),
+                getIban(),
+                Integer.parseInt(getCharacterSlots()),
+                new Timestamp(new Date().getTime()),
+                monthsPayed,
+                getPassword(),
+                Boolean.parseBoolean(getBanned())
+        );
+
+        updateUser(updatedUser);
+        setMonthsPayed(String.valueOf(monthsPayed));
+    }
+
+    private Timestamp lastPayment(String lastPayment) {
         try {
-            Double balance = Double.parseDouble(input.getText());
-            System.out.println("Added " + balance + " to the balance.");
+            if (lastPayment != null) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+                Date parsedDate = dateFormat.parse(lastPayment);
+                return new Timestamp(parsedDate.getTime());
+            } else {
+                return LAST_PAYMENT;
+            }
+        } catch(ParseException e) {
+            return LAST_PAYMENT;
+        }
+    }
+
+    private boolean isDouble(String amount) {
+        try {
+            Double balance = Double.parseDouble(amount);
+            System.out.println(balance + " is a number.");
             return true;
         } catch (NumberFormatException e) {
             System.out.println(amount + " is not a number.");
