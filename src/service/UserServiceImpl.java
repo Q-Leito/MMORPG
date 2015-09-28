@@ -17,12 +17,12 @@ public class UserServiceImpl extends MainDAO implements UserService {
     public List<User> userList() { return getList(EntityEnum.User); }
 
     @Override
-    public void deleteUser(String userName) {
-        delete(userName);
+    public boolean deleteUser(String userName) {
+        return delete(userName);
     }
 
     @Override
-    public void updateUser(User user) {
-        update(user);
+    public boolean updateUser(User user) {
+        return update(user);
     }
 }

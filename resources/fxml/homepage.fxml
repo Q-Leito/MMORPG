@@ -2,40 +2,82 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.TextFlow?>
 <AnchorPane styleClass="container" stylesheets="/css/main.css"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controller.HomepageController">
 
-    <GridPane fx:id="containerHomepage" styleClass="grid-pane, grid-pane-home">
+    <GridPane fx:id="containerHomepage"
+              styleClass="grid-pane, grid-pane-home"
+              gridLinesVisible="true">
+
         <Button text="Logout"
                 onAction="#handleLogout"
                 GridPane.rowIndex="0"
                 GridPane.columnIndex="0"/>
 
-        <Label fx:id="title"
-               GridPane.rowIndex="3"
-               GridPane.columnIndex="1"
-               GridPane.columnSpan="2"
-               text="${controller.firstName}"/>
+        <TextFlow fx:id="title"
+                  GridPane.rowIndex="3"
+                  GridPane.columnIndex="1">
+            <Label text="Welcome "/>
+            <Label text="${controller.firstName}"/>
+            <Label text=" "/>
+            <Label text="${controller.lastName}"/>
+            <Label text="!"/>
+        </TextFlow>
+
+        <TabPane GridPane.rowIndex="4"
+                 GridPane.columnIndex="1"
+                 tabClosingPolicy="UNAVAILABLE">
+
+            <Tab text="Profile">
+                <AnchorPane>
+                    <Label fx:id="errorLabel"
+                           AnchorPane.topAnchor="5"
+                           AnchorPane.leftAnchor="5"
+                           styleClass="validationLabel"/>
+
+                    <Label AnchorPane.topAnchor="30"
+                           AnchorPane.leftAnchor="10"
+                           text="Username: "/>
+                    <Label AnchorPane.topAnchor="30"
+                           AnchorPane.leftAnchor="110"
+                           text="${controller.userName}"/>
+
+                    <Label AnchorPane.topAnchor="50"
+                           AnchorPane.leftAnchor="10"
+                           text="Balance: "/>
+                    <Label AnchorPane.topAnchor="50"
+                           AnchorPane.leftAnchor="110"
+                           text="${controller.balance}"/>
+
+                    <Label AnchorPane.topAnchor="70"
+                           AnchorPane.leftAnchor="10"
+                           text="IBAN: "/>
+                    <Label AnchorPane.topAnchor="70"
+                           AnchorPane.leftAnchor="110"
+                           text="${controller.iban}"/>
+
+                    <Label AnchorPane.topAnchor="100"
+                           AnchorPane.leftAnchor="10"
+                           text="Add money: "/>
+                    <TextField fx:id="balanceField"
+                               AnchorPane.topAnchor="95"
+                               AnchorPane.leftAnchor="110"
+                               promptText="Enter amount"/>
+
+                    <Button text="Add to balance"
+                            onAction="#addMoney"
+                            AnchorPane.topAnchor="135"
+                            AnchorPane.leftAnchor="162"/>
+
+                </AnchorPane>
+            </Tab>
+            <Tab text="Characters">
+                <AnchorPane>
+
+                </AnchorPane>
+            </Tab>
+        </TabPane>
     </GridPane>
-
-
-    <TabPane  tabClosingPolicy="UNAVAILABLE">
-
-        <Tab text="Profile"/>
-        <Tab text="Characters"/>
-
-
-        <!--<Button text="Profile"-->
-                <!--onAction="#handleCharacterInfo"-->
-                <!--GridPane.rowIndex="0"-->
-                <!--GridPane.columnIndex="1"/>-->
-
-        <!--<Button text="Characters"-->
-                <!--onAction="#handleUserInfo"-->
-                <!--GridPane.rowIndex="0"-->
-                <!--GridPane.columnIndex="2"/>-->
-
-    </TabPane>
-
 </AnchorPane>

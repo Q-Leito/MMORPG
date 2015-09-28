@@ -102,10 +102,10 @@ public class RegistrationController {
 
     private void registerUser(ActionEvent actionEvent) throws IOException {
 
-        if (!firstNameField.getText().isEmpty() &&
-                !lastNameField.getText().isEmpty() &&
-                !usernameField.getText().isEmpty() &&
-                !passwordField.getText().isEmpty() &&
+        if (!firstNameField.getText().isEmpty() ||
+                !lastNameField.getText().isEmpty() ||
+                !usernameField.getText().isEmpty() ||
+                !passwordField.getText().isEmpty() ||
                 !ibanField.getText().isEmpty()) {
 
             User newUser = new User(
