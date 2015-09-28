@@ -1,31 +1,28 @@
 package service;
 
-import dao.UserDAO;
-import dao.UserDAOImpl;
+import dao.MainDAO;
 import model.User;
+import utils.EntityEnum;
 
 import java.util.List;
 
-public class UserServiceImpl implements UserService {
-    private UserDAO mUserDAO = new UserDAOImpl();
+public class UserServiceImpl extends MainDAO implements UserService {
 
     @Override
     public boolean addUser(User user) {
-        return mUserDAO.addUser(user);
+        return add(user);
     }
 
     @Override
-    public List<User> UserList() {
-        return mUserDAO.UserList();
-    }
+    public List<User> userList() { return getList(EntityEnum.User); }
 
     @Override
     public void deleteUser(String userName) {
-        mUserDAO.deleteUser(userName);
+        delete(userName);
     }
 
     @Override
     public void updateUser(User user) {
-        mUserDAO.updateUser(user);
+        update(user);
     }
 }

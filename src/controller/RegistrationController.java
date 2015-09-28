@@ -52,7 +52,7 @@ public class RegistrationController {
     public ObservableList<User> getUserList() {
         if (!mUsersList.isEmpty())
             mUsersList.clear();
-        mUsersList = FXCollections.observableList(mUserService.UserList());
+        mUsersList = FXCollections.observableList(mUserService.userList());
         return mUsersList;
     }
 

@@ -1,31 +1,26 @@
 package service;
 
-import dao.CharacterDAO;
-import dao.CharacterDAOImpl;
+import dao.MainDAO;
 import model.Character;
+import utils.EntityEnum;
 
 import java.util.List;
 
-public class CharacterServiceImpl implements CharacterService {
-    private CharacterDAO mCharacterDAO = new CharacterDAOImpl();
+public class CharacterServiceImpl extends MainDAO implements CharacterService {
 
     @Override
-    public boolean addCharacter(model.Character character) {
-        return mCharacterDAO.addCharacter(character);
-    }
+    public boolean addCharacter(model.Character character) { return add(character); }
 
     @Override
-    public List<Character> CharacterList() {
-        return mCharacterDAO.CharacterList();
-    }
+    public List<Character> CharacterList() { return getList(EntityEnum.Character); }
 
     @Override
     public void deleteCharacter(String characterName) {
-        mCharacterDAO.deleteCharacter(characterName);
+        delete(characterName);
     }
 
     @Override
     public void updateCharacter(Character character) {
-        mCharacterDAO.updateCharacter(character);
+        update(character);
     }
 }

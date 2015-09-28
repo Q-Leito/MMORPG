@@ -1,31 +1,23 @@
 package service;
 
-import dao.ServerDAO;
-import dao.ServerDAOImpl;
+import dao.MainDAO;
 import model.Server;
+import sun.applet.Main;
+import utils.EntityEnum;
 
 import java.util.List;
 
-public class ServerServiceImpl implements ServerService {
-    private ServerDAO mServerDAO = new ServerDAOImpl();
+public class ServerServiceImpl extends MainDAO implements ServerService {
 
     @Override
-    public boolean addServer(Server server) {
-        return mServerDAO.addServer(server);
-    }
+    public boolean addServer(Server server) { return add(server); }
 
     @Override
-    public List<Server> ServerList() {
-        return mServerDAO.ServerList();
-    }
+    public List<Server> ServerList() { return getList(EntityEnum.Server); }
 
     @Override
-    public void deleteServer(String serverName) {
-        mServerDAO.deleteServer(serverName);
-    }
+    public void deleteServer(String serverName) { delete(serverName); }
 
     @Override
-    public void updateServer(Server user) {
-        mServerDAO.updateServer(user);
-    }
+    public void updateServer(Server user) { update(user); }
 }

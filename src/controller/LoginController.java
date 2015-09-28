@@ -35,7 +35,7 @@ public class LoginController implements Initializable {
     public ObservableList<User> getUserList() {
         if (!mUsersList.isEmpty())
             mUsersList.clear();
-        mUsersList = FXCollections.observableList(mUserService.UserList());
+        mUsersList = FXCollections.observableList(mUserService.userList());
         return mUsersList;
     }
 
