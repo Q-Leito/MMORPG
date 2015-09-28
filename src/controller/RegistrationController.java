@@ -68,16 +68,17 @@ public class RegistrationController {
         if (getUserList().size() <= 0) {
             registerUser(actionEvent);
         } else {
+            boolean exist = false;
             for (User user : getUserList()) {
-                if (!usernameField.getText().equals(user.getUsername())) {
-                    registerUser(actionEvent);
-                    return;
-                } else {
-                    System.out.println("Duplicate Username!");
-                    errorLabel.setText("Sorry, but "
-                            + usernameField.getText()
-                            + " already  exist. Try another!");
-                }
+                exist = usernameField.getText().equals(user.getUsername());
+            }
+            if (!exist) {
+                registerUser(actionEvent);
+            } else {
+                System.out.println("Duplicate Username!");
+                errorLabel.setText("Sorry, but "
+                        + usernameField.getText()
+                        + " already  exist. Try another!");
             }
         }
     }
