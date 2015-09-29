@@ -146,6 +146,8 @@
             <Tab text="Characters">
                 <AnchorPane>
 
+                    <Button text="Characters Page" onAction="#goToCharacterScene" alignment="CENTER" />
+
                 </AnchorPane>
             </Tab>
         </TabPane>

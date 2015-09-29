@@ -57,9 +57,9 @@ public class LoginController implements Initializable {
     }
 
     private void openHomepage(ActionEvent actionEvent, User currentUser) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/homepage.fxml"));
-        loader.load();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/homepage.fxml"));
+            loader.load();
         Parent root = loader.getRoot();
 
         Scene homepageScene = new Scene(root, 960, 600);

@@ -17,6 +17,11 @@ public class UserServiceImpl extends MainDAO implements UserService {
     public List<User> userList() { return getList(EntityEnum.User); }
 
     @Override
+    public List<Character> characterList(String query) {
+        return getList(query);
+    }
+
+    @Override
     public boolean deleteUser(String userName) {
         return delete(userName);
     }

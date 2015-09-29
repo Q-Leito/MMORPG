@@ -11,7 +11,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         // Load the font
-        Font.loadFont(getClass().getResource("/fonts/Audiowide regular.ttf").toExternalForm(), 10);
+        Font.loadFont(getClass().getResource("/fonts/Audiowide-Regular.ttf").toExternalForm(), 10);
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
 
         primaryStage.setTitle("Login - MMORPG");

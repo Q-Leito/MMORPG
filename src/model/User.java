@@ -1,5 +1,7 @@
 package model;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -7,6 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@Proxy(lazy=false)
 public class User {
 
     @Id
@@ -40,13 +43,13 @@ public class User {
     @Column(name = "banned")
     private Boolean mBanned;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch=FetchType.EAGER)
     @JoinTable(name = "owns",
-                joinColumns = {@JoinColumn(name = "user_name")},
-                inverseJoinColumns = {@JoinColumn(name = "name")})
+            joinColumns = {@JoinColumn(name = "user_name")},
+            inverseJoinColumns = {@JoinColumn(name = "name")})
     private Set<Character> mCharacters = new HashSet<>();
 
-    @ManyToMany(mappedBy="mUsers")
+    @ManyToMany(mappedBy = "mUsers")
     private Set<Server> mServers = new HashSet<>();
 
     public User() {
@@ -115,5 +118,12 @@ public class User {
 
     public Set<Server> getServers() {
         return mServers;
+    }
+
+    public void setCharacter(Character character) {
+
+        if (character != null) {
+            mCharacters.add(character);
+        }
     }
 }

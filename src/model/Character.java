@@ -13,7 +13,7 @@ public class Character {
     private String mCharacterName;
 
     @Column(name = "class")
-    private Integer mCharacterClass;
+    private String mCharacterClass;
 
     @Column(name = "race")
     private String mCharacterRace;
@@ -28,7 +28,7 @@ public class Character {
         super();
     }
 
-    public Character(String characterName, Integer characterClass, String characterRace,
+    public Character(String characterName, String characterClass, String characterRace,
                      Integer characterLevel) {
         super();
         mCharacterName = characterName;
@@ -41,7 +41,7 @@ public class Character {
         return mCharacterName;
     }
 
-    public Integer getCharacterClass() {
+    public String getCharacterClass() {
         return mCharacterClass;
     }
 

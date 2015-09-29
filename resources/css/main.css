@@ -23,6 +23,22 @@
     -fx-padding: 10px 5px 5px 10px;
 }
 
+#scrollPane {
+    -fx-background-color: transparent;
+}
+
+#characterList {
+    -fx-background-color: transparent;
+}
+
+#addBtn {
+    -fx-alignment: center;
+}
+
+#cancelBtn {
+    -fx-alignment: center;
+}
+
 .validationLabel {
     -fx-font-size: 14px;
     -fx-text-fill: #ff0;
@@ -41,6 +57,9 @@
     -fx-hgap: 15;
 }
 
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
 .tab-pane .tab-header-area .tab-header-background {
     -fx-opacity: 0;
 }

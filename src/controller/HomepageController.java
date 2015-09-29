@@ -39,6 +39,8 @@ public class HomepageController {
     private StringProperty mPassword;
     private StringProperty mBanned;
 
+    private User mUser;
+
     @FXML
     private Label errorLabel;
     @FXML
@@ -47,6 +49,7 @@ public class HomepageController {
     private ChoiceBox characterSlots;
     @FXML
     private ChoiceBox subscriptionChoice;
+
 
     public HomepageController() {
         mUserName = new SimpleStringProperty();
@@ -186,6 +189,9 @@ public class HomepageController {
     }
 
     public void setCurrentUser(User currentUser) {
+
+        mUser = currentUser;
+
         setUserName(currentUser.getUsername());
         setBalance(currentUser.getBalance().toString());
         setFirstName(currentUser.getFirstName());
@@ -368,6 +374,25 @@ public class HomepageController {
 
         updateUser(updatedUser);
         setMonthsPayed(String.valueOf(monthsPayed));
+    }
+
+    public void goToCharacterScene(ActionEvent actionEvent) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/character.fxml"));
+        loader.load();
+        Parent root = loader.getRoot();
+
+        Scene characterScene = new Scene(root, 960, 600);
+        Stage characterStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+        characterStage.setTitle("Characters - MMORPG");
+        characterStage.setScene(characterScene);
+        characterStage.setResizable(false);
+
+        CharacterController characterController = loader.getController();
+        characterController.loadData(mUser);
+        characterStage.show();
     }
 
     private Timestamp lastPayment(String lastPayment) {

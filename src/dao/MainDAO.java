@@ -75,6 +75,9 @@ public abstract class MainDAO
             Session session = HibernateUtil.openSession();
             session.beginTransaction();
             obj = session.load(entity, columnValue);
+
+            session.update(obj);
+
             HibernateUtil.commitTransaction(session);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -85,6 +88,14 @@ public abstract class MainDAO
 
     protected <T> List<T> getList(EntityEnum entity)
     {
+        return get(entity);
+    }
+
+    protected <T> List<T> getList(String queryString) {
+        return get(queryString);
+    }
+
+    private <T> List<T> get(EntityEnum entity) {
         Object result = null;
 
         try
@@ -92,6 +103,25 @@ public abstract class MainDAO
             Session session = HibernateUtil.openSession();
             session.beginTransaction();
             result = session.createQuery(String.format("FROM %s", entity)).list();
+            HibernateUtil.commitTransaction(session);
+        } catch (Exception ex)
+        {
+            ex.printStackTrace();
+
+            System.out.println(ex.getMessage());
+        }
+
+        return (List<T>) result;
+    }
+
+    private <T> List<T> get(String queryString) {
+        Object result = null;
+
+        try
+        {
+            Session session = HibernateUtil.openSession();
+            session.beginTransaction();
+            result = session.createQuery(queryString).list();
             HibernateUtil.commitTransaction(session);
         } catch (Exception ex)
         {
