@@ -44,6 +44,8 @@ public class HomepageController {
     @FXML
     private TextField balanceField;
     @FXML
+    private ChoiceBox characterSlots;
+    @FXML
     private ChoiceBox subscriptionChoice;
 
     public HomepageController() {
@@ -244,6 +246,71 @@ public class HomepageController {
         } else {
             errorLabel.setText("Add amount to your bank account!");
         }
+    }
+
+    public void addSlot(ActionEvent actionEvent) {
+        if (characterSlots.getValue() != null) {
+            if (characterSlots.getValue().equals("1 Slot")) {
+                if (Double.parseDouble(getBalance()) >= 1) {
+                    characterSlot(1, 1);
+                    setBalance(String.valueOf(Double.parseDouble(getBalance()) - 1));
+                    errorLabel.setText("");
+                } else {
+                    errorLabel.setText("Please add money to your account!");
+                }
+            } else if (characterSlots.getValue().equals("2 Slots")) {
+                if (Double.parseDouble(getBalance()) >= 2) {
+                    characterSlot(2, 2);
+                    setBalance(String.valueOf(Double.parseDouble(getBalance()) - 2));
+                    errorLabel.setText("");
+                } else {
+                    errorLabel.setText("Please add money to your account!");
+                }
+            } else if (characterSlots.getValue().equals("3 Slots")) {
+                if (Double.parseDouble(getBalance()) >= 3) {
+                    characterSlot(3, 3);
+                    setBalance(String.valueOf(Double.parseDouble(getBalance()) - 3));
+                    errorLabel.setText("");
+                } else {
+                    errorLabel.setText("Please add money to your account!");
+                }
+            } else if (characterSlots.getValue().equals("4 Slots")) {
+                if (Double.parseDouble(getBalance()) >= 4) {
+                    characterSlot(4, 4);
+                    setBalance(String.valueOf(Double.parseDouble(getBalance()) - 4));
+                    errorLabel.setText("");
+                } else {
+                    errorLabel.setText("Please add money to your account!");
+                }
+            } else if (characterSlots.getValue().equals("5 Slots")) {
+                if (Double.parseDouble(getBalance()) >= 4) {
+                    characterSlot(5, 5);
+                    setBalance(String.valueOf(Double.parseDouble(getBalance()) - 5));
+                    errorLabel.setText("");
+                } else {
+                    errorLabel.setText("Please add money to your account!");
+                }
+            }
+        }
+    }
+
+    private void characterSlot(int characterSlot, double balance) {
+        int characterSlots = Integer.parseInt(getCharacterSlots()) + characterSlot;
+        User updatedUser = new User(
+                getUserName(),
+                Double.parseDouble(getBalance()) - balance,
+                getFirstName(),
+                getLastName(),
+                getIban(),
+                characterSlots,
+                new Timestamp(new Date().getTime()),
+                Integer.parseInt(getMonthsPayed()),
+                getPassword(),
+                Boolean.parseBoolean(getBanned())
+        );
+
+        updateUser(updatedUser);
+        setCharacterSlots(String.valueOf(characterSlots));
     }
 
     public void addSubscription(ActionEvent actionEvent) {

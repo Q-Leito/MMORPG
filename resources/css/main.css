@@ -41,6 +41,38 @@
     -fx-hgap: 15;
 }
 
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane {
+    -fx-tab-min-width:90px;
+}
+
+.tab {
+    -fx-background-insets: 0 1 0 1,0,0;
+}
+
+.tab-pane .tab {
+    -fx-background-color: #fff;
+}
+
+.tab-pane .tab:selected {
+    -fx-background-color: #f44;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-font-size: 14px;
+    -fx-text-fill: #f44;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #fff;
+}
+
 .text-field {
     -fx-border-radius: 4px;
     -fx-border-width: 1px;
