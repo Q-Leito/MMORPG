@@ -63,17 +63,6 @@ public class LoginController implements Initializable {
             System.out.println("Invalid Credentials!");
             errorLabel.setText("Invalid username or password!");
         }
-
-//        for (User user : getUserList()) {
-//            if (usernameField.getText().equals(user.getUsername()) && passwordField.getText().equals(user.getPassword())) {
-//                System.out.println("Valid Credentials!");
-//                openHomepage(actionEvent, user);
-//                return;
-//            } else {
-//                System.out.println("Invalid Credentials!");
-//                errorLabel.setText("Invalid username or password!");
-//            }
-//        }
     }
 
     private void openHomepage(ActionEvent actionEvent, User currentUser) throws IOException {
