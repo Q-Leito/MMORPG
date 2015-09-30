@@ -40,6 +40,8 @@ public class CharacterController implements Initializable {
     @FXML
     private VBox addCharacterBox;
     @FXML
+    private VBox characterInfoBox;
+    @FXML
     private Button addBtn;
     @FXML
     private Button cancelBtn;
@@ -53,6 +55,16 @@ public class CharacterController implements Initializable {
     private TextField nameField;
     @FXML
     private Label title;
+    @FXML
+    private Label characterName;
+    @FXML
+    private Label characterClass;
+    @FXML
+    private Label characterLevel;
+    @FXML
+    private Label characterRace;
+    @FXML
+    private ImageView avatarImg;
 
     //endregion
 
@@ -75,14 +87,14 @@ public class CharacterController implements Initializable {
 
         addBtn.setOnAction(event -> {
 
-            addCharacter();
+            addCharacterToUser();
 
-            showWindow(true, false);
+            showWindow(true, false, false);
             showTitle("Characters".toUpperCase());
         });
 
         cancelBtn.setOnAction(event -> {
-            showWindow(true, false);
+            showWindow(true, false, false);
             showTitle("Characters".toUpperCase());
         });
 
@@ -102,26 +114,29 @@ public class CharacterController implements Initializable {
         loadCharacterList(characterSlotsUsed, characterSlotsAvailable);
     }
 
-    private void addCharacter() {
+    private void addCharacterToUser() {
 
         String name = nameField.getText();
         Object raceSelectedItem = raceBox.getSelectionModel().getSelectedItem();
         String race = raceSelectedItem != null ? raceSelectedItem.toString() : "";
         Object classSelectedItem = classBox.getSelectionModel().getSelectedItem();
         String characterClass = classSelectedItem != null ? classSelectedItem.toString() : "";
-        Integer level = Integer.getInteger(levelField.getText());
+        Integer level = Integer.parseInt(levelField.getText());
 
         Character character = new Character(name, characterClass, race, level);
 
         mUser.setCharacter(character);
         boolean isAdded = mUserService.updateUser(mUser);
 
-        if (isAdded) {
-            updateValues(character);
+        Integer maxSlots = mUser.getCharacterSlots();
+        Integer slotsUsed = mUser.getCharacters().size();
+
+        if (isAdded && slotsUsed <= maxSlots) {
+            updateAddedCharacterValues(character);
         }
     }
 
-    private void updateValues(Character character) {
+    private void updateAddedCharacterValues(Character character) {
 
         Button btn = constructCharacterBtn(getRandomAvatarPath());
         btn.setText(character.getCharacterName());
@@ -132,6 +147,7 @@ public class CharacterController implements Initializable {
         slotLabel.setText(String.format("SLOTS USED %s/%s", slotsUsed, maxSlots));
 
         characterList.getChildren().add(0, btn);
+        characterList.getChildren().remove(characterList.getChildren().size() - 1);
     }
 
     private void loadCharacterList(int slotsUsed, int maxSlots) {
@@ -140,8 +156,22 @@ public class CharacterController implements Initializable {
 
         for (Character character : mUser.getCharacters()) {
 
-            Button btn = constructCharacterBtn(getRandomAvatarPath());
+            String path = getRandomAvatarPath();
+
+            Button btn = constructCharacterBtn(path);
             btn.setText(character.getCharacterName());
+
+            btn.setOnAction(event -> {
+
+                showTitle(character.getCharacterName());
+
+                avatarImg.setImage(new Image(getClass().getResourceAsStream(path)));
+                characterRace.setText(character.getCharacterRace());
+                characterClass.setText(character.getCharacterClass());
+                characterLevel.setText(String.valueOf(character.getCharacterLevel()));
+
+                showWindow(false, false, true);
+            });
 
             characterList.getChildren().add(btn);
         }
@@ -162,7 +192,7 @@ public class CharacterController implements Initializable {
     private void showAddCharacterMenu() {
         showTitle("Add character".toUpperCase());
         cleanFieldValues();
-        showWindow(false, true);
+        showWindow(false, true, false);
     }
 
     private void cleanFieldValues() {
@@ -202,9 +232,11 @@ public class CharacterController implements Initializable {
         return btn;
     }
 
-    private void showWindow(boolean showCharacterList, boolean showAddCharacterPanel) {
+    private void showWindow(boolean showCharacterList, boolean showAddCharacterPanel, boolean showCharacterInfoBox) {
+        characterInfoBox.setVisible(showCharacterInfoBox);
         scrollPane.setVisible(showCharacterList);
         addCharacterBox.setVisible(showAddCharacterPanel);
+        slotLabel.setVisible(!showCharacterInfoBox);
     }
 
     private void showTitle(String header) {
@@ -216,25 +248,34 @@ public class CharacterController implements Initializable {
 
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/fxml/character.fxml"));
+            loader.setLocation(getClass().getResource("/fxml/homepage.fxml"));
             loader.load();
             fxml = loader.getRoot();
+
+            if (fxml != null) {
+
+                Scene homepageScene = new Scene(fxml, 960, 600);
+                Stage homepageStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+                HomepageController homepageController = loader.getController();
+                homepageController.setCurrentUser(mUser);
+                homepageStage.show();
+
+                homepageStage.setTitle(String.format("%s - MMORPG", title));
+                homepageStage.setScene(homepageScene);
+                homepageStage.setResizable(false);
+                homepageStage.show();
+            } else {
+                System.out.printf("Cannot navigate to the %s scene", title);
+            }
+
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
 
-        if (fxml != null) {
-            Scene rootScene = new Scene(fxml, 960, 600);
-            Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
 
-            primaryStage.setTitle(String.format("%s - MMORPG", title));
-            primaryStage.setScene(rootScene);
-            primaryStage.setResizable(false);
-            primaryStage.show();
-        } else {
-            System.out.printf("Cannot navigate to the %s scene", title);
-        }
     }
 
     private String getRandomAvatarPath() {

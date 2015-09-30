@@ -24,7 +24,6 @@ import java.util.ResourceBundle;
 public class LoginController implements Initializable {
     private UserService mUserService = new UserServiceImpl();
     private ObservableList<User> mUsersList = FXCollections.observableArrayList();
-    private User mUser;
 
     @FXML
     private Label errorLabel;
@@ -45,30 +44,22 @@ public class LoginController implements Initializable {
                         "Password: %s %n",
                 usernameField.getText(), passwordField.getText());
 
-        boolean userExists;
-
         for (User user : getUserList()) {
-            userExists = usernameField.getText().equals(user.getUsername()) && passwordField.getText().equals(user.getPassword());
-
-            if (userExists) {
-                mUser = user;
-                break;
+            if (usernameField.getText().equals(user.getUsername()) && passwordField.getText().equals(user.getPassword())) {
+                System.out.println("Valid Credentials!");
+                openHomepage(actionEvent, user);
+                return;
+            } else {
+                System.out.println("Invalid Credentials!");
+                errorLabel.setText("Invalid username or password!");
             }
-        }
-
-        if (mUser != null) {
-            System.out.println("Valid Credentials!");
-            openHomepage(actionEvent, mUser);
-        } else {
-            System.out.println("Invalid Credentials!");
-            errorLabel.setText("Invalid username or password!");
         }
     }
 
     private void openHomepage(ActionEvent actionEvent, User currentUser) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/homepage.fxml"));
-        loader.load();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/homepage.fxml"));
+            loader.load();
         Parent root = loader.getRoot();
 
         Scene homepageScene = new Scene(root, 960, 600);
@@ -97,7 +88,7 @@ public class LoginController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        usernameField.setText("Quincy_Leito");
-        passwordField.setText("password");
+        usernameField.setText("rr");
+        passwordField.setText("rr");
     }
 }

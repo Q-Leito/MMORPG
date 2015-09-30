@@ -5,6 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.image.ImageView?>
 <AnchorPane styleClass="container" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CharacterController">
     <children>
@@ -88,6 +89,16 @@
                                 </HBox>
                             </children>
                         </VBox>
+
+                        <VBox GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="characterInfoBox" visible="false" maxWidth="400" prefWidth="400">
+                            <children>
+                                <ImageView fx:id="avatarImg" />
+                                <HBox><Label text="Class: " style="${characterClass.style}" /> <Label fx:id="characterClass" /></HBox>
+                                <HBox><Label text="Level: " style="${characterLevel.style}" /> <Label fx:id="characterLevel" /></HBox>
+                                <HBox><Label text="Race: " style="${characterRace.style}" /> <Label fx:id="characterRace" /></HBox>
+                            </children>
+                        </VBox>
+
                     </children>
                 </GridPane>
             </children>

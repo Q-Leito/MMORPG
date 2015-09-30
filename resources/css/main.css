@@ -43,6 +43,10 @@
     -fx-alignment: center;
 }
 
+#characterClass #characterLevel #characterRace {
+    -fx-font-size: 14;
+}
+
 .validationLabel {
     -fx-font-size: 14px;
     -fx-text-fill: #ff0;
@@ -121,3 +125,4 @@
     -fx-padding: 5px 10px;
     -fx-font-size: 1em;
 }
+
