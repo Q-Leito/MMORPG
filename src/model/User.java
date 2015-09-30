@@ -80,6 +80,10 @@ public class User {
         return mBalance;
     }
 
+    public void setBalance(Double balance) {
+        mBalance = balance;
+    }
+
     public String getFirstName() {
         return mFirstName;
     }
@@ -100,8 +104,16 @@ public class User {
         return mLastPayment;
     }
 
+    public void setLastPayment(Timestamp lastPayment) {
+        mLastPayment = lastPayment;
+    }
+
     public Integer getMonthsPayed() {
         return mMonthsPayed;
+    }
+
+    public void setMonthsPayed(Integer monthsPayed) {
+        mMonthsPayed = monthsPayed;
     }
 
     public String getPassword() {

@@ -31,19 +31,19 @@ public class RegistrationController {
     private ObservableList<User> mUsersList = FXCollections.observableArrayList();
 
     @FXML
-    private Label errorLabel;
+    public Label errorLabel;
     @FXML
-    private TextField firstNameField;
+    public TextField firstNameField;
     @FXML
-    private TextField lastNameField;
+    public TextField lastNameField;
     @FXML
-    private TextField usernameField;
+    public TextField usernameField;
     @FXML
-    private PasswordField passwordField;
+    public PasswordField passwordField;
     @FXML
-    private TextField ibanField;
+    public TextField ibanField;
     @FXML
-    private Button registerButton;
+    public Button registerButton;
 
     public boolean addUser(User user) {
         return mUserService.addUser(user);

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.TextFlow?>
+<?import java.lang.*?>
+<AnchorPane styleClass="container"  stylesheets="/css/main.css"
+          xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="controller.ProfileController">
+
+    <GridPane fx:id="containerProfile"
+              styleClass="grid-pane, grid-pane-home">
+
+        <Button fx:id="backToHomepage"
+                onAction="#openHomepage"
+                GridPane.rowIndex="0"
+                GridPane.columnIndex="0"/>
+
+        <TextFlow fx:id="title"
+                  GridPane.rowIndex="2"
+                  GridPane.columnIndex="0">
+            <Label text="Welcome "/>
+            <Label fx:id="userFirstNameLabel"/>
+            <Label text=" "/>
+            <Label fx:id="userLastNameLabel"/>
+            <Label text="!"/>
+        </TextFlow>
+
+        <AnchorPane GridPane.rowIndex="3"
+                    GridPane.columnIndex="0">
+
+            <Label fx:id="errorLabel"
+                   AnchorPane.topAnchor="5"
+                   AnchorPane.leftAnchor="5"
+                   styleClass="validationLabel"/>
+
+            <Label AnchorPane.topAnchor="30"
+                   AnchorPane.leftAnchor="10"
+                   text="Username: "/>
+            <Label fx:id="usernameLabel"
+                   AnchorPane.topAnchor="30"
+                   AnchorPane.leftAnchor="110"/>
+
+            <Label AnchorPane.topAnchor="50"
+                   AnchorPane.leftAnchor="10"
+                   text="Balance: "/>
+            <Label fx:id="userBalanceLabel"
+                   AnchorPane.topAnchor="50"
+                   AnchorPane.leftAnchor="110"/>
+
+            <Label AnchorPane.topAnchor="70"
+                   AnchorPane.leftAnchor="10"
+                   text="IBAN: "/>
+            <Label fx:id="userIbanLabel"
+                   AnchorPane.topAnchor="70"
+                   AnchorPane.leftAnchor="110"/>
+
+            <Label AnchorPane.topAnchor="100"
+                   AnchorPane.leftAnchor="10"
+                   text="Add money: "/>
+            <TextField fx:id="balanceField"
+                       AnchorPane.topAnchor="95"
+                       AnchorPane.leftAnchor="110"
+                       promptText="Enter amount"/>
+
+            <Button text="Add to balance"
+                    onAction="#addMoney"
+                    AnchorPane.topAnchor="135"
+                    AnchorPane.leftAnchor="163"/>
+
+            <Label AnchorPane.topAnchor="30"
+                   AnchorPane.leftAnchor="320"
+                   text="Character Slots: "/>
+            <TextFlow AnchorPane.topAnchor="30"
+                      AnchorPane.leftAnchor="544">
+                <Label fx:id="userCharacterSlotsLabel"/>
+                <Label text=" "/>
+                <Label text=" Slots"/>
+            </TextFlow>
+
+            <Label AnchorPane.topAnchor="50"
+                   AnchorPane.leftAnchor="320"
+                   text="Add Slots: "/>
+            <ChoiceBox fx:id="characterSlots"
+                       AnchorPane.topAnchor="50"
+                       AnchorPane.leftAnchor="530">
+                <value>
+                    <String fx:value="1 Slot"/>
+                </value>
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="1 Slot"/>
+                        <String fx:value="2 Slots"/>
+                        <String fx:value="3 Slots"/>
+                        <String fx:value="4 Slots"/>
+                        <String fx:value="5 Slots"/>
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+
+            <Button text="Add Slot(s)"
+                    onAction="#addSlot"
+                    AnchorPane.topAnchor="90"
+                    AnchorPane.leftAnchor="502"/>
+
+            <Label AnchorPane.topAnchor="140"
+                   AnchorPane.leftAnchor="320"
+                   text="Subscribed for: "/>
+            <TextFlow AnchorPane.topAnchor="140"
+                      AnchorPane.leftAnchor="524">
+                <Label fx:id="userMonthsPayedLabel"/>
+                <Label text=" "/>
+                <Label text=" Months"/>
+            </TextFlow>
+
+            <Label AnchorPane.topAnchor="170"
+                   AnchorPane.leftAnchor="320"
+                   text="Choose Subscription: "/>
+            <ChoiceBox fx:id="subscriptionChoice"
+                       AnchorPane.topAnchor="165"
+                       AnchorPane.leftAnchor="514">
+                <value>
+                    <String fx:value="1 Month"/>
+                </value>
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="1 Month"/>
+                        <String fx:value="2 Months"/>
+                        <String fx:value="3 Months"/>
+                        <String fx:value="1 Year"/>
+                    </FXCollections>
+                </items>
+            </ChoiceBox>
+
+            <Button text="Subscribe"
+                    onAction="#addSubscription"
+                    AnchorPane.topAnchor="205"
+                    AnchorPane.leftAnchor="516"/>
+        </AnchorPane>
+    </GridPane>
+</AnchorPane>

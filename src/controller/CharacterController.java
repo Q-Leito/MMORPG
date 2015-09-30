@@ -15,8 +15,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import model.*;
 import model.Character;
+import model.User;
 import service.UserService;
 import service.UserServiceImpl;
 
@@ -215,7 +215,10 @@ public class CharacterController implements Initializable {
         Parent fxml = null;
 
         try {
-            fxml = FXMLLoader.load(getClass().getResource(fxmlPath));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/fxml/character.fxml"));
+            loader.load();
+            fxml = loader.getRoot();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
