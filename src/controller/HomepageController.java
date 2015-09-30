@@ -301,21 +301,11 @@ public class HomepageController {
     }
 
     private void characterSlot(int characterSlot, double balance) {
-        int characterSlots = Integer.parseInt(getCharacterSlots()) + characterSlot;
-        User updatedUser = new User(
-                getUserName(),
-                Double.parseDouble(getBalance()) - balance,
-                getFirstName(),
-                getLastName(),
-                getIban(),
-                characterSlots,
-                new Timestamp(new Date().getTime()),
-                Integer.parseInt(getMonthsPayed()),
-                getPassword(),
-                Boolean.parseBoolean(getBanned())
-        );
 
-        updateUser(updatedUser);
+        int characterSlots = Integer.parseInt(getCharacterSlots()) + characterSlot;
+        mUser.setCharacterSlots(characterSlots);
+
+        updateUser(mUser);
         setCharacterSlots(String.valueOf(characterSlots));
     }
 

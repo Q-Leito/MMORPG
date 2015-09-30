@@ -27,6 +27,8 @@ import java.util.ResourceBundle;
 
 public class CharacterController implements Initializable {
 
+    //region UI controls
+
     @FXML
     private Button backBtn;
     @FXML
@@ -52,19 +54,14 @@ public class CharacterController implements Initializable {
     @FXML
     private Label title;
 
-    private static User mUser;
-    private UserService mUserService = new UserServiceImpl();
+    //endregion
 
-    public void loadData(User user) {
+    //region Fields
 
-        mUser = user;
+    private User mUser;
+    private final UserService mUserService = new UserServiceImpl();
 
-        Integer characterSlotsAvailable = mUser.getCharacterSlots();
-        Integer characterSlotsUsed = mUser.getCharacters() == null ? 0 : mUser.getCharacters().size();
-        slotLabel.setText(String.format("SLOTS USED %s/%s", characterSlotsUsed, characterSlotsAvailable));
-
-        loadCharacterList(characterSlotsUsed, characterSlotsAvailable);
-    }
+    //endregion
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -93,6 +90,16 @@ public class CharacterController implements Initializable {
 
         classBox.setItems(FXCollections.observableArrayList("Guardin", "Assassin", "Archmage", "Necromancer", "Prophet", "Shaman", "Druid", "Ranger"));
         raceBox.setItems(FXCollections.observableArrayList("Human", "Gnome", "Dwarf", "Elf", "Eladin", "Tiefling", "Deva", "Goliath"));
+    }
+
+    public void loadData(User user) {
+
+        mUser = user;
+
+        Integer characterSlotsAvailable = mUser.getCharacterSlots();
+        Integer characterSlotsUsed = mUser.getCharacters() == null ? 0 : mUser.getCharacters().size();
+        slotLabel.setText(String.format("SLOTS USED %s/%s", characterSlotsUsed, characterSlotsAvailable));
+        loadCharacterList(characterSlotsUsed, characterSlotsAvailable);
     }
 
     private void addCharacter() {

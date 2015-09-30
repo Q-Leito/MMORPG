@@ -126,4 +126,8 @@ public class User {
             mCharacters.add(character);
         }
     }
+
+    public void setCharacterSlots(Integer slots) {
+        mCharacterSlots = slots;
+    }
 }
