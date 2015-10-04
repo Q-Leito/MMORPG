@@ -2,7 +2,6 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -13,19 +12,17 @@ import model.User;
 import utils.Constants;
 import utils.Helpers;
 
-import java.net.URL;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.ResourceBundle;
 
-public class ProfileController extends Controller implements Initializable {
+public class ProfileController extends Controller {
 
     //region UI controls
 
     @FXML
     public Label messageLabel;
     @FXML
-    public Button backBtn;
+    public Button backButton;
 
     @FXML
     public Label usernameLabel;
@@ -37,24 +34,27 @@ public class ProfileController extends Controller implements Initializable {
     public Label userCharacterSlotsLabel;
     @FXML
     public Label userMonthsPayedLabel;
+
     @FXML
     public TextField balanceField;
     @FXML
-    public ChoiceBox characterSlots;
+    public ChoiceBox characterSlotBox;
     @FXML
-    public ChoiceBox subscriptionChoice;
+    public ChoiceBox subscriptionBox;
 
     //endregion
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    //region Methods
+
+    @FXML
+    public void initialize() {
 
         ImageView backImgBtnLayout = createImageBtnLayout(Constants.BACK_IMAGE_PATH, Constants.BACK_IMAGE_WIDTH, Constants.BACK_IMAGE_HEIGHT);
-        backBtn.setGraphic(backImgBtnLayout);
+        backButton.setGraphic(backImgBtnLayout);
     }
 
     @Override
-    public void initializeData() {
+    public void load() {
 
         String username = getUser().getUsername();
         String userFirstName = getUser().getFirstName();
@@ -103,7 +103,7 @@ public class ProfileController extends Controller implements Initializable {
 
     public void addSlotBtn_Click(ActionEvent actionEvent) {
 
-        String selectedItem = (String) characterSlots.getSelectionModel().getSelectedItem();
+        String selectedItem = (String) characterSlotBox.getSelectionModel().getSelectedItem();
         int amount;
 
         switch (selectedItem) {
@@ -168,7 +168,7 @@ public class ProfileController extends Controller implements Initializable {
     }
 
     public void addSubscriptionBtn_Click() {
-        String selectedItem = (String) subscriptionChoice.getSelectionModel().getSelectedItem();
+        String selectedItem = (String) subscriptionBox.getSelectionModel().getSelectedItem();
 
         int months;
         int balance;
@@ -207,4 +207,6 @@ public class ProfileController extends Controller implements Initializable {
 
         return null;
     }
+
+    //endregion
 }

@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,9 +13,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import model.Character;
+import service.CharacterService;
+import service.CharacterServiceImpl;
 import utils.Constants;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -51,20 +55,42 @@ public class CharacterController extends Controller implements Initializable {
     private TextField characterNameField;
 
     @FXML
-    private Label characterName;
-    @FXML
-    private Label characterClass;
-    @FXML
-    private Label characterLevel;
-    @FXML
-    private Label characterRace;
-    @FXML
-    private ImageView avatarImg;
-    @FXML
-    private Button addBtn;
-    @FXML
-    private ComboBox orderBox;
+    private Button addButton;
     //endregion
+
+    private ObservableList<Character> mCharacterList;
+    private CharacterService mCharacterService;
+
+    public CharacterService getCharacterService() {
+        return mCharacterService;
+    }
+
+    public void setCharacterService(CharacterService characterService) {
+        mCharacterService = characterService;
+    }
+
+    public ObservableList<Character> getCharacterList() {
+
+        return mCharacterList;
+    }
+
+    public void setCharacterList(ObservableList<Character> mCharacterList) {
+        this.mCharacterList = mCharacterList;
+    }
+
+    public CharacterController() {
+
+        setCharacterService(new CharacterServiceImpl());
+
+        List<Character> characters = getCharacterService().CharacterList();
+
+        if (characters != null && !characters.isEmpty()) {
+            ObservableList<Character> list = FXCollections.observableList(characters);
+            setCharacterList(list);
+        } else {
+            System.out.println("Database table doesn't have any character data");
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -72,7 +98,7 @@ public class CharacterController extends Controller implements Initializable {
         ImageView backImgBtnLayout = createImageBtnLayout(Constants.BACK_IMAGE_PATH, Constants.BACK_IMAGE_WIDTH, Constants.BACK_IMAGE_HEIGHT);
         backBtn.setGraphic(backImgBtnLayout);
         ImageView addImgBtnLayout = createImageBtnLayout(Constants.ADD_BUTTON_IMAGE_PATH, Constants.ADD_IMAGE_WIDTH, Constants.ADD_IMAGE_HEIGHT);
-        addBtn.setGraphic(addImgBtnLayout);
+        addButton.setGraphic(addImgBtnLayout);
 
         cancelBtn.setOnAction(event ->
         {
@@ -82,13 +108,12 @@ public class CharacterController extends Controller implements Initializable {
 
         levelField.setEditable(false);
 
-        orderBox.setItems(FXCollections.observableArrayList("Last added", "Level"));
         classBox.setItems(FXCollections.observableArrayList("Guardin", "Assassin", "Archmage", "Necromancer", "Prophet", "Shaman", "Druid", "Ranger"));
         characterRaceBox.setItems(FXCollections.observableArrayList("Human", "Gnome", "Dwarf", "Elf", "Eladin", "Tiefling", "Deva", "Goliath"));
     }
 
     @Override
-    public void initializeData() {
+    public void load() {
 
         int slotsAvailable = getUser().getCharacterSlots();
 
@@ -107,16 +132,20 @@ public class CharacterController extends Controller implements Initializable {
         Integer slotsUsed = getUser().getCharacters().size();
 
         boolean isValidated = false;
+        boolean characterNameExists = false;
+
+        String characterName = characterNameField.getText();
 
         if (slotsUsed <= maxSlots) {
-            String characterName = characterNameField.getText();
+
             String characterRace = (String) characterRaceBox.getSelectionModel().getSelectedItem();
             String characterClass = (String) classBox.getSelectionModel().getSelectedItem();
             String characterLevel = levelField.getText();
 
             isValidated = validateText(characterName, characterRace, characterClass, characterLevel);
+            characterNameExists = findCharacter(characterName);
 
-            if (isValidated) {
+            if (isValidated && !characterNameExists) {
 
                 setTitle(Constants.CHARACTER_SCENE_HEADER.toUpperCase());
                 showWindow(true, false, false);
@@ -133,13 +162,17 @@ public class CharacterController extends Controller implements Initializable {
             }
         }
 
-        messageLabel.setText(maxSlots < slotsUsed ? "All empty slots are used!" : !isValidated ? "All fields are required!" : Constants.EMPTY_STRING);
+        messageLabel.setText(maxSlots < slotsUsed ? "All empty slots are used!" : !isValidated ? "All fields are required!" : characterNameExists ? String.format("Sorry, but %s already exist. Try another!", characterName) : Constants.EMPTY_STRING);
     }
 
     private void createCharacter(Character newCharacter) {
 
         Button btn = createCharacterBtn(getRandomAvatarPath(), Constants.AVATAR_IMAGE_WIDTH, Constants.AVATAR_IMAGE_HEIGHT);
-        btn.setText(newCharacter.getCharacterName());
+        btn.setText(String.format("%s\nLevel: %s\nClass: %s \nRace: %s",
+                newCharacter.getCharacterName(),
+                newCharacter.getCharacterLevel(),
+                newCharacter.getCharacterClass(),
+                newCharacter.getCharacterRace()));
 
         Integer maxSlots = getUser().getCharacterSlots();
         Integer slotsUsed = getUser().getCharacters().size();
@@ -150,17 +183,7 @@ public class CharacterController extends Controller implements Initializable {
 
     private void loadCharacters() {
 
-        for (Character character : getUser().getCharacters()) {
-
-            Button btn = createCharacterBtn(getRandomAvatarPath(), Constants.AVATAR_IMAGE_WIDTH, Constants.AVATAR_IMAGE_HEIGHT);
-            btn.setText(String.format("%s\nLevel: %s\nClass: %s \nRace: %s",
-                    character.getCharacterName(),
-                    character.getCharacterLevel(),
-                    character.getCharacterClass(),
-                    character.getCharacterRace()));
-
-            characterList.getChildren().add(btn);
-        }
+        getUser().getCharacters().forEach(this::createCharacter);
     }
 
     public void newCharacterBtn_Click(ActionEvent actionEvent) {
@@ -176,7 +199,8 @@ public class CharacterController extends Controller implements Initializable {
         String level = String.valueOf(1 + random.nextInt(99));
         levelField.setText(level);
 
-        characterNameField.setText("");
+        messageLabel.setText(Constants.EMPTY_STRING);
+        characterNameField.setText(Constants.EMPTY_STRING);
         classBox.getSelectionModel().clearSelection();
         characterRaceBox.getSelectionModel().clearSelection();
     }
@@ -193,17 +217,35 @@ public class CharacterController extends Controller implements Initializable {
         addPanel.setVisible(!showCharacterInfoBox);
     }
 
+    private boolean findCharacter(String characterNameInput) {
+        int characterListSize = getCharacterList().size();
+
+        if (getCharacterList() != null && characterListSize > 0) {
+            for (Character character : getCharacterList()) {
+                String characterName = character.getCharacterName();
+
+                boolean isCharacterNameMatched = characterNameInput.equals(characterName);
+                if (isCharacterNameMatched) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private Button createCharacterBtn(String imgPath, double imgWidth, double imgHeight) {
         Button characterBtn = new Button();
         characterBtn.setMaxWidth(475.0d);
         characterBtn.setMaxHeight(100.0d);
         characterBtn.setMinWidth(475.0d);
         characterBtn.setMinHeight(100.0d);
-          characterBtn.setTextAlignment(TextAlignment.LEFT);
+        characterBtn.setTextAlignment(TextAlignment.LEFT);
 
         ImageView avatarImgBtnLayout = createImageBtnLayout(imgPath, imgWidth, imgHeight);
         characterBtn.setGraphic(avatarImgBtnLayout);
 
         return characterBtn;
     }
+
+
 }

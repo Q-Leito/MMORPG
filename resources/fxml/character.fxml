@@ -31,14 +31,9 @@
                                 <Label alignment="BASELINE_CENTER" text="ADD CHARACTER" GridPane.columnIndex="0"
                                        GridPane.rowIndex="1"/>
 
-                                <Button fx:id="addBtn" prefHeight="25" prefWidth="25" onAction="#newCharacterBtn_Click"
+                                <Button fx:id="addButton" prefHeight="25" prefWidth="25" onAction="#newCharacterBtn_Click"
                                         GridPane.columnIndex="1"
                                         GridPane.rowIndex="1" alignment="BASELINE_CENTER"/>
-
-                                <Label alignment="BASELINE_CENTER" text="ORDER BY" GridPane.columnIndex="0"
-                                       GridPane.rowIndex="2"/>
-
-                                <ComboBox fx:id="orderBox" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
                             </children>
                             <columnConstraints>
                                 <ColumnConstraints/>

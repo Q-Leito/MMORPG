@@ -12,7 +12,7 @@
     <GridPane fx:id="containerProfile"
               styleClass="grid-pane, grid-pane-home">
 
-        <Button fx:id="backBtn"
+        <Button fx:id="backButton"
                 onAction="#handleBackBtn_Click"
                 GridPane.rowIndex="0"
                 GridPane.columnIndex="0"/>
@@ -76,7 +76,7 @@
             <Label AnchorPane.topAnchor="50"
                    AnchorPane.leftAnchor="320"
                    text="Add Slots: "/>
-            <ChoiceBox fx:id="characterSlots"
+            <ChoiceBox fx:id="characterSlotBox"
                        AnchorPane.topAnchor="50"
                        AnchorPane.leftAnchor="530">
                 <value>
@@ -111,7 +111,7 @@
             <Label AnchorPane.topAnchor="170"
                    AnchorPane.leftAnchor="320"
                    text="Choose Subscription: "/>
-            <ChoiceBox fx:id="subscriptionChoice"
+            <ChoiceBox fx:id="subscriptionBox"
                        AnchorPane.topAnchor="165"
                        AnchorPane.leftAnchor="514">
                 <value>

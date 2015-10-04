@@ -10,7 +10,7 @@ public class HomeController extends Controller {
 
     //region Methods
 
-    public void initializeData() {
+    public void load() {
         String userFirstName = getUser().getFirstName();
         String userLastName = getUser().getLastName();
 

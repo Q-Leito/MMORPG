@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import model.User;
+import model.*;
 import service.UserService;
 import service.UserServiceImpl;
 import utils.Constants;
@@ -26,6 +26,7 @@ abstract class Controller {
     private UserService mUserService;
     private User mUser;
     private ObservableList<User> mUsersList;
+    private ObservableList<model.Character> mCharacterList;
 
     //endregion
 
@@ -35,6 +36,7 @@ abstract class Controller {
     private Label title;
 
     //endregion
+
 
     //region Properties
 
@@ -62,6 +64,8 @@ abstract class Controller {
         mUsersList = users;
     }
 
+
+
     protected void setTitle(String header) {
         title.setText(header);
     }
@@ -74,7 +78,7 @@ abstract class Controller {
 
     //region Methods
 
-    protected void initializeData() {
+    protected void load() {
     }
 
     protected void showScene(Node node, String fxmlPath, String header, Object obj) {
@@ -115,7 +119,7 @@ abstract class Controller {
                 }
             }
 
-            controller.initializeData();
+            controller.load();
 
             primaryStage.show();
         }
@@ -149,6 +153,7 @@ abstract class Controller {
 
         return String.format("%s/%s.jpg", Constants.IMAGE_AVATAR_PATH, avatarNr);
     }
+
 
     //endregion
 }
