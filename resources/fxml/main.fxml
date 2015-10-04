@@ -5,35 +5,30 @@
 <?import javafx.scene.text.TextFlow?>
 <AnchorPane styleClass="container" stylesheets="/css/main.css"
             xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="controller.HomepageController">
+            fx:controller="controller.HomeController">
 
     <GridPane fx:id="containerHomepage"
               styleClass="grid-pane, grid-pane-home">
 
         <Button text="Logout"
-                onAction="#handleLogout"
+                onAction="#handleLogoutBtn_Click"
                 GridPane.rowIndex="0"
                 GridPane.columnIndex="0"/>
 
         <Button text="Profile"
-                onAction="#handleProfile"
+                onAction="#handleProfileBtn_Click"
                 GridPane.rowIndex="0"
                 GridPane.columnIndex="1"/>
 
         <Button text="Characters"
-                onAction="#openCharacter"
+                onAction="#handleCharacterBtn_Click"
                 GridPane.rowIndex="0"
                 GridPane.columnIndex="2"/>
 
-        <TextFlow fx:id="title"
-                  GridPane.rowIndex="3"
-                  GridPane.columnIndex="0"
-                  GridPane.columnSpan="3">
-            <Label text="Welcome "/>
-            <Label fx:id="userFirstNameLabel"/>
-            <Label text=" "/>
-            <Label fx:id="userLastNameLabel"/>
-            <Label text="!"/>
-        </TextFlow>
+
+        <Label fx:id="title" GridPane.rowIndex="3"
+               GridPane.columnIndex="0"
+               GridPane.columnSpan="3"/>
+
     </GridPane>
 </AnchorPane>

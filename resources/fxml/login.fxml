@@ -7,14 +7,14 @@
            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
     <VBox>
         <Label fx:id="title" text="MMORPG"/>
-        <Label fx:id="errorLabel" styleClass="validationLabel"/>
+        <Label fx:id="messageLabel" styleClass="validationLabel"/>
         <GridPane styleClass="grid-pane">
 
             <Label text="Username: "
                    GridPane.rowIndex="0"
                    GridPane.columnIndex="0"/>
 
-            <TextField fx:id="usernameField"
+            <TextField fx:id="usernameTextField"
                        promptText="Enter username"
                        GridPane.rowIndex="0"
                        GridPane.columnIndex="1"/>
@@ -23,13 +23,13 @@
                    GridPane.rowIndex="1"
                    GridPane.columnIndex="0"/>
 
-            <PasswordField fx:id="passwordField"
+            <PasswordField fx:id="passwordTextField"
                            promptText="Enter password"
                            GridPane.rowIndex="1"
                            GridPane.columnIndex="1"/>
 
             <Button text="Sign In"
-                    onAction="#handleSignIn"
+                    onAction="#handleSignInBtn_Click"
                     GridPane.rowIndex="2"
                     GridPane.columnSpan="2"
                     GridPane.halignment="RIGHT"/>
@@ -38,7 +38,7 @@
         <TextFlow textAlignment="CENTER">
             <Label text="Don't have an account?"/>
             <Hyperlink text="Click here"
-                       onAction="#openRegisterScreen"/>
+                       onAction="#handleRegisterBtn_Click"/>
             <Label text="to register!"/>
         </TextFlow>
     </VBox>

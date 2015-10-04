@@ -4,16 +4,13 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<GridPane styleClass="container" fx:id="containerRegister" hgap="50" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8"
+<GridPane styleClass="container" fx:id="containerRegister" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistrationController">
-    <ImageView GridPane.rowIndex="0" onMouseClicked="#handleBackButton">
-        <image>
-            <Image url="/images/back_button.png" requestedWidth="50" requestedHeight="50"/>
-        </image>
-    </ImageView>
+    <Button fx:id="backBtn" onAction="#handleBackBtn_Click"/>
+
     <VBox GridPane.rowIndex="1" GridPane.columnIndex="1">
         <Label fx:id="title" text="MMORPG"/>
-        <Label fx:id="errorLabel" styleClass="validationLabel"/>
+        <Label fx:id="messageLabel" styleClass="validationLabel"/>
         <GridPane styleClass="grid-pane">
 
             <Label text="First name: * "
@@ -38,7 +35,7 @@
                    GridPane.rowIndex="2"
                    GridPane.columnIndex="0"/>
 
-            <TextField fx:id="usernameField"
+            <TextField fx:id="userNameField"
                        promptText="Enter username"
                        GridPane.rowIndex="2"
                        GridPane.columnIndex="1"/>
@@ -63,7 +60,7 @@
 
             <Button fx:id="registerButton"
                     text="Register"
-                    onAction="#handleRegister"
+                    onAction="#handleRegisterBtn_Click"
                     GridPane.rowIndex="5"
                     GridPane.columnIndex="1"
                     GridPane.halignment="RIGHT"/>

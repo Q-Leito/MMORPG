@@ -52,24 +52,14 @@ public class User {
     @ManyToMany(mappedBy = "mUsers")
     private Set<Server> mServers = new HashSet<>();
 
-    public User() {
-        super();
-    }
+    public User() {}
 
-    public User(String username, Double balance, String firstName, String lastName,
-                String iban, Integer characterSlots, Timestamp lastPayment,
-                Integer monthsPayed, String password, Boolean banned) {
-        super();
+    public User(String username, String firstName, String lastName, String iban, String password) {
         mUsername = username;
-        mBalance = balance;
         mFirstName = firstName;
         mLastName = lastName;
         mIban = iban;
-        mCharacterSlots = characterSlots;
-        mLastPayment = lastPayment;
-        mMonthsPayed = monthsPayed;
         mPassword = password;
-        mBanned = banned;
     }
 
     public String getUsername() {

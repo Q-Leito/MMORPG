@@ -5,32 +5,26 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.TextFlow?>
 <?import java.lang.*?>
-<AnchorPane styleClass="container"  stylesheets="/css/main.css"
-          xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="controller.ProfileController">
+<AnchorPane styleClass="container" stylesheets="/css/main.css"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.ProfileController">
 
     <GridPane fx:id="containerProfile"
               styleClass="grid-pane, grid-pane-home">
 
-        <Button fx:id="backToHomepage"
-                onAction="#openHomepage"
+        <Button fx:id="backBtn"
+                onAction="#handleBackBtn_Click"
                 GridPane.rowIndex="0"
                 GridPane.columnIndex="0"/>
 
-        <TextFlow fx:id="title"
-                  GridPane.rowIndex="2"
-                  GridPane.columnIndex="0">
-            <Label text="Welcome "/>
-            <Label fx:id="userFirstNameLabel"/>
-            <Label text=" "/>
-            <Label fx:id="userLastNameLabel"/>
-            <Label text="!"/>
-        </TextFlow>
+        <Label fx:id="title"
+               GridPane.rowIndex="2"
+               GridPane.columnIndex="0" text="Welcome "/>
 
         <AnchorPane GridPane.rowIndex="3"
                     GridPane.columnIndex="0">
 
-            <Label fx:id="errorLabel"
+            <Label fx:id="messageLabel"
                    AnchorPane.topAnchor="5"
                    AnchorPane.leftAnchor="5"
                    styleClass="validationLabel"/>
@@ -65,7 +59,7 @@
                        promptText="Enter amount"/>
 
             <Button text="Add to balance"
-                    onAction="#addMoney"
+                    onAction="#addMoneyBtn_Click"
                     AnchorPane.topAnchor="135"
                     AnchorPane.leftAnchor="163"/>
 
@@ -100,7 +94,7 @@
             </ChoiceBox>
 
             <Button text="Add Slot(s)"
-                    onAction="#addSlot"
+                    onAction="#addSlotBtn_Click"
                     AnchorPane.topAnchor="90"
                     AnchorPane.leftAnchor="502"/>
 
@@ -134,7 +128,7 @@
             </ChoiceBox>
 
             <Button text="Subscribe"
-                    onAction="#addSubscription"
+                    onAction="#addSubscriptionBtn_Click"
                     AnchorPane.topAnchor="205"
                     AnchorPane.leftAnchor="516"/>
         </AnchorPane>

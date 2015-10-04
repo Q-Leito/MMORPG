@@ -2,42 +2,35 @@ package controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import model.User;
-import service.UserService;
-import service.UserServiceImpl;
+import utils.Constants;
+import utils.Helpers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class ProfileController implements Initializable {
-    private UserService mUserService = new UserServiceImpl();
-    private User mUser;
+public class ProfileController extends Controller implements Initializable {
+
+    //region UI controls
 
     @FXML
-    public Button backToHomepage;
+    public Label messageLabel;
+    @FXML
+    public Button backBtn;
+
     @FXML
     public Label usernameLabel;
     @FXML
     public Label userBalanceLabel;
-    @FXML
-    public Label userFirstNameLabel;
-    @FXML
-    public Label userLastNameLabel;
     @FXML
     public Label userIbanLabel;
     @FXML
@@ -45,179 +38,173 @@ public class ProfileController implements Initializable {
     @FXML
     public Label userMonthsPayedLabel;
     @FXML
-    public Label errorLabel;
-    @FXML
     public TextField balanceField;
     @FXML
     public ChoiceBox characterSlots;
     @FXML
     public ChoiceBox subscriptionChoice;
 
-    public ProfileController() {
+    //endregion
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        ImageView backImgBtnLayout = createImageBtnLayout(Constants.BACK_IMAGE_PATH, Constants.BACK_IMAGE_WIDTH, Constants.BACK_IMAGE_HEIGHT);
+        backBtn.setGraphic(backImgBtnLayout);
     }
 
-    public boolean updateUser(User user) {
-        return mUserService.updateUser(user);
+    @Override
+    public void initializeData() {
+
+        String username = getUser().getUsername();
+        String userFirstName = getUser().getFirstName();
+        String userLastName = getUser().getLastName();
+        String iban = getUser().getIban();
+        String balance = String.valueOf(getUser().getBalance());
+        String userCharacterSlots = String.valueOf(getUser().getCharacterSlots());
+        String monthsPayed = String.valueOf(getUser().getMonthsPayed());
+
+        usernameLabel.setText(username);
+        userBalanceLabel.setText(balance);
+        userIbanLabel.setText(iban);
+        userCharacterSlotsLabel.setText(userCharacterSlots);
+        userMonthsPayedLabel.setText(monthsPayed);
+
+        String header = String.format("Welcome %s %s!", userFirstName, userLastName);
+        setTitle(header);
     }
 
-    public void setCurrentUser(User currentUser) {
-        mUser = currentUser;
-        usernameLabel.setText(mUser.getUsername());
-        userBalanceLabel.setText(String.valueOf(mUser.getBalance()));
-        userFirstNameLabel.setText(mUser.getFirstName());
-        userLastNameLabel.setText(mUser.getLastName());
-        userIbanLabel.setText(mUser.getIban());
-        userCharacterSlotsLabel.setText(String.valueOf(mUser.getCharacterSlots()));
-        userMonthsPayedLabel.setText(String.valueOf(mUser.getMonthsPayed()));
+    public void handleBackBtn_Click(ActionEvent actionEvent) {
+        Node node = (Node) actionEvent.getSource();
+        showScene(node, Constants.HOME_FXML_PATH, Constants.HOME_SCENE_HEADER, getUser());
     }
 
-    public void openHomepage(ActionEvent actionEvent) throws IOException {
-        System.out.println("You clicked me!");
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/homepage.fxml"));
-        loader.load();
-        Parent root = loader.getRoot();
+    public void addMoneyBtn_Click(ActionEvent actionEvent) {
 
-        Scene homepageScene = new Scene(root, 960, 600);
-        Stage homepageStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        String amountInput = balanceField.getText();
+        String warning = checkBalanceInput(amountInput);
 
-        homepageStage.setTitle("Homepage - MMORPG");
-        homepageStage.setScene(homepageScene);
-        homepageStage.setResizable(false);
-        HomepageController homepageController = loader.getController();
-        homepageController.setCurrentUser(mUser);
-        homepageStage.show();
-    }
+        if (warning == null) {
+            double userBalance = getUser().getBalance();
+            double amount = Double.parseDouble(amountInput);
+            double newBalance = ((userBalance + amount) * 100.0) / 100.0;
 
-    public void addMoney() {
-        String errorMessage = checkInput(balanceField);
-        if (errorMessage != null) {
-            errorLabel.setText(errorMessage);
-            balanceField.clear();
-            return;
+            getUser().setBalance(newBalance);
+
+            boolean isUpdated = updateUser(getUser());
+            if (isUpdated) {
+                userBalanceLabel.setText(String.valueOf(newBalance));
+            }
         }
-        double balance = Math.round((mUser.getBalance() +
-                Double.parseDouble(balanceField.getText())) * 100.0) / 100.0;
 
-        mUser.setBalance(balance);
-        boolean isUpdated = updateUser(mUser);
-
-        if (isUpdated) {
-            userBalanceLabel.setText(String.valueOf(balance));
-        }
+        messageLabel.setText(warning != null ? warning : Constants.EMPTY_STRING);
         balanceField.clear();
     }
 
-    private String checkInput(TextField textField) {
-        String id = textField.getId();
+    public void addSlotBtn_Click(ActionEvent actionEvent) {
 
-        switch (id) {
-            case "balanceField":
-                String content = textField.getText();
-                if (content.isEmpty())
-                    return "Add amount to your bank account!";
+        String selectedItem = (String) characterSlots.getSelectionModel().getSelectedItem();
+        int amount;
 
-                if (!isDouble(content))
-                    return "Please enter a number!";
-
-                if (Double.parseDouble(content) <= 0)
-                    return "Please enter a number greater than zero!";
+        switch (selectedItem) {
+            case "1 Slot":
+            default:
+                amount = 1;
+                break;
+            case "2 Slots":
+                amount = 2;
+                break;
+            case "3 Slots":
+                amount = 3;
+                break;
+            case "4 Slots":
+                amount = 4;
+                break;
+            case "5 Slots":
+                amount = 5;
                 break;
         }
 
+        if (getUser().getBalance() >= amount) {
+            int newCharacterSlots = getUser().getCharacterSlots() + amount;
 
-        return null;
-    }
+            Double newBalance = getUser().getBalance() - amount;
+            getUser().setCharacterSlots(newCharacterSlots);
+            getUser().setBalance(newBalance);
 
-    public void addSlot() {
-        int index = characterSlots.getSelectionModel().getSelectedIndex() + 1;
-        checkBalance(index);
-    }
-
-    private int addCharacterSlot(int characterSlot) {
-        return mUser.getCharacterSlots() + characterSlot;
-    }
-
-    private void checkBalance(int balance) {
-        if (mUser.getBalance() >= balance) {
-            int newCharacterSlots = addCharacterSlot(balance);
-
-            Double newBalance = mUser.getBalance() - balance;
-            mUser.setCharacterSlots(newCharacterSlots);
-            mUser.setBalance(newBalance);
-
-            boolean isUpdated = updateUser(mUser);
+            boolean isUpdated = updateUser(getUser());
 
             if (isUpdated) {
                 userBalanceLabel.setText(String.valueOf(newBalance));
                 userCharacterSlotsLabel.setText(String.valueOf(newCharacterSlots));
             }
-
-            errorLabel.setText("");
-        } else {
-            errorLabel.setText("Please add money to your account!");
         }
+
+        messageLabel.setText(getUser().getBalance() < amount ? "Please add money to your account!" : Constants.EMPTY_STRING);
     }
 
-    private void checkBalance(int months, int balance) {
-        if (mUser.getBalance() >= balance) {
-            int monthsPayed = mUser.getMonthsPayed() + months;
-            double newBalance = mUser.getBalance() - balance;
+    public boolean updateUser(User user) {
+        return getUserService().updateUser(user);
+    }
 
-            mUser.setMonthsPayed(monthsPayed);
-            mUser.setLastPayment(new Timestamp(new Date().getTime()));
-            mUser.setBalance(newBalance);
+    private void addAmount(int months, int balance) {
+        if (getUser().getBalance() >= balance) {
+            int monthsPayed = getUser().getMonthsPayed() + months;
+            double newBalance = getUser().getBalance() - balance;
+            Timestamp lastPayment = new Timestamp(new Date().getTime());
 
-            boolean isUpdated = updateUser(mUser);
+            getUser().setMonthsPayed(monthsPayed);
+            getUser().setLastPayment(lastPayment);
+            getUser().setBalance(newBalance);
+
+            boolean isUpdated = updateUser(getUser());
             if (isUpdated) {
                 userMonthsPayedLabel.setText(String.valueOf(monthsPayed));
                 userBalanceLabel.setText(String.valueOf(newBalance));
             }
-
-            errorLabel.setText("");
-        } else {
-            errorLabel.setText("Please add money to your account!");
         }
+
+        messageLabel.setText(getUser().getBalance() < balance ? "Please add money to your account!" : Constants.EMPTY_STRING);
     }
 
+    public void addSubscriptionBtn_Click() {
+        String selectedItem = (String) subscriptionChoice.getSelectionModel().getSelectedItem();
 
-    public void addSubscription() {
-        int index = subscriptionChoice.getSelectionModel().getSelectedIndex() + 1;
-        switch (index) {
-            case 1:
-                checkBalance(1, 5);
+        int months;
+        int balance;
+
+        switch (selectedItem) {
+            case "1 Month":
+            default:
+                months = 1;
+                balance = 5;
                 break;
-            case 2:
-                checkBalance(2, 8);
+            case "2 Months":
+                months = 2;
+                balance = 8;
                 break;
-            case 3:
-                checkBalance(3, 10);
+            case "3 Months":
+                months = 3;
+                balance = 10;
                 break;
-            case 4:
-                checkBalance(12, 35);
+            case "1 Year":
+                months = 12;
+                balance = 35;
                 break;
         }
+
+        addAmount(months, balance);
     }
 
-    private boolean isDouble(String amount) {
-        try {
-            Double balance = Double.parseDouble(amount);
-            System.out.println(balance + " is a number.");
-            return true;
-        } catch (NumberFormatException e) {
-            System.out.println(amount + " is not a number.");
-            return false;
+    private String checkBalanceInput(String value) {
+        if (value == null || value.isEmpty()) {
+            return "Add amount to your bank account!";
+        } else if (!Helpers.isDouble(value)) {
+            return "Please enter a number!";
+        } else if (Double.parseDouble(value) <= 0) {
+            return "Please enter a number greater than zero!";
         }
-    }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        final String backBtnImagePath = "/images/back_button.png";
-        Image backImg = new Image(getClass().getResourceAsStream(backBtnImagePath));
-        ImageView imageView = new ImageView(backImg);
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
-        backToHomepage.setGraphic(imageView);
+        return null;
     }
 }

@@ -1,148 +1,112 @@
 package controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+import javafx.scene.image.ImageView;
 import model.User;
-import service.UserService;
-import service.UserServiceImpl;
+import utils.Constants;
 
-import java.io.IOException;
-import java.sql.Timestamp;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class RegistrationController {
-    public static final double BALANCE = 0.0;
-    public static final int CHARACTER_SLOTS = 5;
-    public static final Timestamp LAST_PAYMENT = null;
-    public static final int MONTHS_PAYED = 0;
-    public static final boolean BANNED = false;
-    private UserService mUserService = new UserServiceImpl();
-    private ObservableList<User> mUsersList = FXCollections.observableArrayList();
+public class RegistrationController extends Controller implements Initializable {
+
+    //region UI Controls
+    @FXML
+    public Label messageLabel;
 
     @FXML
-    public Label errorLabel;
+    public Button backBtn;
+
+    @FXML
+    public TextField userNameField;
     @FXML
     public TextField firstNameField;
     @FXML
     public TextField lastNameField;
     @FXML
-    public TextField usernameField;
-    @FXML
-    public PasswordField passwordField;
-    @FXML
     public TextField ibanField;
     @FXML
+    public PasswordField passwordField;
+
+    @FXML
     public Button registerButton;
+    //endregion
 
-    public boolean addUser(User user) {
-        return mUserService.addUser(user);
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        ImageView backImgBtnLayout = createImageBtnLayout(Constants.BACK_IMAGE_PATH, Constants.BACK_IMAGE_WIDTH, Constants.BACK_IMAGE_HEIGHT);
+        backBtn.setGraphic(backImgBtnLayout);
     }
 
-    public ObservableList<User> getUserList() {
-        if (!mUsersList.isEmpty())
-            mUsersList.clear();
-        mUsersList = FXCollections.observableList(mUserService.userList());
-        return mUsersList;
-    }
+    public void handleRegisterBtn_Click(ActionEvent actionEvent) {
 
-    public void handleRegister(ActionEvent actionEvent) throws IOException {
-        System.out.printf("First name: %s %n" +
-                        "Last name: %s %n" +
-                        "Username: %s %n" +
-                        "Password: %s %n" +
-                        "IBAN: %s %n",
-                firstNameField.getText(), lastNameField.getText(), usernameField.getText(),
-                passwordField.getText(), ibanField.getText());
+        String userName = userNameField.getText();
+        String firstName = firstNameField.getText();
+        String lastName = lastNameField.getText();
+        String password = passwordField.getText();
+        String iban = ibanField.getText();
 
-        if (getUserList().size() <= 0) {
-            registerUser(actionEvent);
-        } else {
-            boolean exist = false;
-            for (User user : getUserList()) {
-                exist = usernameField.getText().equals(user.getUsername());
-            }
-            if (!exist) {
-                registerUser(actionEvent);
-            } else {
-                System.out.println("Duplicate Username!");
-                errorLabel.setText("Sorry, but "
-                        + usernameField.getText()
-                        + " already  exist. Try another!");
-            }
+        Node node = (Node) actionEvent.getSource();
+
+        boolean isValidated = validateText(userName, firstName, lastName, password, iban);
+
+        if (isValidated) {
+            registerUser(node, userName, firstName, lastName, password, iban);
         }
+
+        messageLabel.setText(!isValidated ? "All fields are required!" : Constants.EMPTY_STRING);
     }
 
-    private void openHomepage(ActionEvent actionEvent, User currentUser) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/homepage.fxml"));
-        loader.load();
-        Parent root = loader.getRoot();
-
-        Scene homepageScene = new Scene(root, 960, 600);
-        Stage homepageStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-        homepageStage.setTitle("Home - MMORPG");
-        homepageStage.setScene(homepageScene);
-        homepageStage.setResizable(false);
-        HomepageController homepageController = loader.getController();
-        homepageController.setCurrentUser(currentUser);
-        homepageStage.show();
+    public void handleBackBtn_Click(ActionEvent actionEvent) {
+        Node node = (Node) actionEvent.getSource();
+        showScene(node, Constants.LOGIN_FXML_PATH, Constants.LOGIN_SCENE_HEADER, null);
     }
 
-    private void registerUser(ActionEvent actionEvent) throws IOException {
+    private void registerUser(Node node, String userName, String firstName, String lastName, String password, String iban) {
 
-        if (!firstNameField.getText().isEmpty() ||
-                !lastNameField.getText().isEmpty() ||
-                !usernameField.getText().isEmpty() ||
-                !passwordField.getText().isEmpty() ||
-                !ibanField.getText().isEmpty()) {
+        boolean userNamesExists = findUser(userName);
 
-            User newUser = new User(
-                    usernameField.getText(),
-                    BALANCE,
-                    firstNameField.getText(),
-                    lastNameField.getText(),
-                    ibanField.getText(),
-                    CHARACTER_SLOTS,
-                    LAST_PAYMENT,
-                    MONTHS_PAYED,
-                    passwordField.getText(),
-                    BANNED
-            );
+        if (!userNamesExists) {
+            User newUser = new User(userName, firstName, lastName, iban, password);
+            setUser(newUser);
 
             boolean isAdded = addUser(newUser);
-
             if (isAdded) {
-                openHomepage(actionEvent, newUser);
-            } else {
-                System.out.println("Something went wrong!");
+                showScene(node, Constants.HOME_FXML_PATH, Constants.HOME_SCENE_HEADER, getUser());
             }
-        } else {
-            errorLabel.setText("All fields are required!");
         }
+
+        String warning = String.format("Sorry, but %s already exist. Try another!", userName);
+        messageLabel.setText(userNamesExists ? warning : Constants.EMPTY_STRING);
     }
 
-    public void handleBackButton(Event event) throws IOException {
-        System.out.println("You clicked me!");
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/login.fxml"));
-
-        Scene rootScene = new Scene(root, 960, 600);
-        Stage primaryStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        primaryStage.setTitle("Login - MMORPG");
-        primaryStage.setScene(rootScene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+    private boolean addUser(User user) {
+        return getUserService().addUser(user);
     }
+
+    private boolean findUser(String userNameInput) {
+        int userListSize = getUserList().size();
+
+        if (getUserList() != null && userListSize > 0) {
+            for (User user : getUserList()) {
+                String userName = user.getUsername();
+
+                boolean isUserNameMatched = userNameInput.equals(userName);
+                if (isUserNameMatched) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
 }

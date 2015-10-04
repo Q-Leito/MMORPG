@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.image.ImageView?>
+
 <AnchorPane styleClass="container" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CharacterController">
     <children>
@@ -13,21 +14,48 @@
         <GridPane fx:id="containerCharacter" hgap="50" styleClass="grid-pane, grid-pane-characters">
             <children>
 
-                <Button fx:id="backBtn" onAction="#handleBackBtn"/>
+                <Button fx:id="backBtn" onAction="#handleBackBtn_Click"/>
 
                 <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <children>
 
                         <Label fx:id="title" text="CHARACTERS" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-                        <Label fx:id="slotLabel" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                            <VBox.margin>
-                                <Insets bottom="10.0" top="10.0"/>
-                            </VBox.margin>
-                        </Label>
+                        <GridPane fx:id="addPanel" hgap="5.0" vgap="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <children>
 
-                        <ScrollPane GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="scrollPane" maxHeight="300"
-                                    vbarPolicy="AS_NEEDED" hbarPolicy="NEVER" vmax="300">
+                                <Label text="SLOTS" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <Label fx:id="slotLabel" alignment="BASELINE_CENTER" GridPane.columnIndex="1"
+                                       GridPane.rowIndex="0"/>
+
+                                <Label alignment="BASELINE_CENTER" text="ADD CHARACTER" GridPane.columnIndex="0"
+                                       GridPane.rowIndex="1"/>
+
+                                <Button fx:id="addBtn" prefHeight="25" prefWidth="25" onAction="#newCharacterBtn_Click"
+                                        GridPane.columnIndex="1"
+                                        GridPane.rowIndex="1" alignment="BASELINE_CENTER"/>
+
+                                <Label alignment="BASELINE_CENTER" text="ORDER BY" GridPane.columnIndex="0"
+                                       GridPane.rowIndex="2"/>
+
+                                <ComboBox fx:id="orderBox" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints/>
+                                <ColumnConstraints/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                                <RowConstraints/>
+                            </rowConstraints>
+                            <padding>
+                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                            </padding>
+                        </GridPane>
+
+                        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="300" vbarPolicy="AS_NEEDED"
+                                    vmax="300" GridPane.columnIndex="1" GridPane.rowIndex="3">
                             <content>
                                 <FlowPane fx:id="characterList" columnHalignment="CENTER" hgap="4" vgap="4"/>
                             </content>
@@ -36,12 +64,18 @@
                             </padding>
                         </ScrollPane>
 
-                        <VBox GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="addCharacterBox" visible="false" maxWidth="400" prefWidth="400">
+                        <VBox fx:id="addCharacterBox" maxWidth="400" prefWidth="400" visible="false"
+                              GridPane.columnIndex="1" GridPane.rowIndex="3">
                             <children>
+                                <Label fx:id="messageLabel" styleClass="validationLabel">
+                                    <VBox.margin>
+                                        <Insets bottom="5.0"/>
+                                    </VBox.margin>
+                                </Label>
 
                                 <Label text="Name: *"/>
 
-                                <TextField fx:id="nameField" prefWidth="400">
+                                <TextField fx:id="characterNameField" prefWidth="400">
                                     <VBox.margin>
                                         <Insets bottom="5.0"/>
                                     </VBox.margin>
@@ -65,7 +99,7 @@
 
                                 <Label text="Race: *"/>
 
-                                <ComboBox fx:id="raceBox" prefWidth="400">
+                                <ComboBox fx:id="characterRaceBox" prefWidth="400">
                                     <VBox.margin>
                                         <Insets bottom="5.0"/>
                                     </VBox.margin>
@@ -73,13 +107,13 @@
 
                                 <HBox prefWidth="400">
                                     <children>
-                                        <Button fx:id="addBtn" prefWidth="150" text="add">
+                                        <Button prefWidth="150" text="add" onAction="#addCharacterBtn_Click">
                                             <HBox.margin>
                                                 <Insets right="5.0"/>
                                             </HBox.margin>
                                         </Button>
 
-                                        <Region prefWidth="100" />
+                                        <Region prefWidth="100"/>
 
                                         <Button fx:id="cancelBtn" prefWidth="150" text="cancel"/>
                                     </children>
@@ -90,16 +124,45 @@
                             </children>
                         </VBox>
 
-                        <VBox GridPane.columnIndex="1" GridPane.rowIndex="3" fx:id="characterInfoBox" visible="false" maxWidth="400" prefWidth="400">
+                        <VBox fx:id="characterInfoBox" maxWidth="500" prefWidth="500" visible="false"
+                              GridPane.columnIndex="1" GridPane.rowIndex="3">
                             <children>
-                                <ImageView fx:id="avatarImg" />
-                                <HBox><Label text="Class: " style="${characterClass.style}" /> <Label fx:id="characterClass" /></HBox>
-                                <HBox><Label text="Level: " style="${characterLevel.style}" /> <Label fx:id="characterLevel" /></HBox>
-                                <HBox><Label text="Race: " style="${characterRace.style}" /> <Label fx:id="characterRace" /></HBox>
+                                <ImageView fx:id="avatarImg"/>
+
+                                <VBox spacing="10">
+                                    <HBox>
+                                        <children>
+                                            <Label text="Class: "/>
+                                            <Label fx:id="characterClass"/>
+                                        </children>
+                                    </HBox>
+                                    <HBox>
+                                        <children>
+                                            <Label text="Level: "/>
+                                            <Label fx:id="characterLevel"/>
+                                        </children>
+                                    </HBox>
+                                    <HBox>
+                                        <children>
+                                            <Label text="Race: "/>
+                                            <Label fx:id="characterRace"/>
+                                        </children>
+                                    </HBox>
+                                </VBox>
                             </children>
                         </VBox>
 
                     </children>
+                    <columnConstraints>
+                        <ColumnConstraints/>
+                        <ColumnConstraints/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                    </rowConstraints>
                 </GridPane>
             </children>
             <columnConstraints>

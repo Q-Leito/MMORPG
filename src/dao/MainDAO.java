@@ -8,14 +8,16 @@ import java.util.List;
 
 public abstract class MainDAO
 {
+    private HibernateUtil hibernate = HibernateUtil.getInstance();
+
     protected boolean add(Object obj) {
         boolean isAdded = false;
 
         try {
-            Session session = HibernateUtil.openSession();
+            Session session = hibernate.openSession();
             session.beginTransaction();
             session.save(obj);
-            HibernateUtil.commitTransaction(session);
+            hibernate.commitTransaction(session);
 
             isAdded = true;
         } catch (Exception ex) {
@@ -31,10 +33,10 @@ public abstract class MainDAO
 
         try
         {
-            Session session = HibernateUtil.openSession();
+            Session session = hibernate.openSession();
             session.beginTransaction();
             session.saveOrUpdate(obj);
-            HibernateUtil.commitTransaction(session);
+            hibernate.commitTransaction(session);
 
             isUpdated = true;
         } catch (Exception ex)
@@ -53,10 +55,10 @@ public abstract class MainDAO
 
         try
         {
-            Session session = HibernateUtil.openSession();
+            Session session = hibernate.openSession();
             session.beginTransaction();
             session.update(obj);
-            HibernateUtil.commitTransaction(session);
+            hibernate.commitTransaction(session);
 
             isDeleted = true;
         } catch (Exception ex)
@@ -65,25 +67,6 @@ public abstract class MainDAO
         }
 
         return isDeleted;
-    }
-
-    protected <T> T get(Class<T> entity, String columnValue) {
-
-        Object obj = null;
-
-        try {
-            Session session = HibernateUtil.openSession();
-            session.beginTransaction();
-            obj = session.load(entity, columnValue);
-
-            session.update(obj);
-
-            HibernateUtil.commitTransaction(session);
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-
-        return (T) obj;
     }
 
     protected <T> List<T> getList(EntityEnum entity)
@@ -96,10 +79,10 @@ public abstract class MainDAO
 
         try
         {
-            Session session = HibernateUtil.openSession();
+            Session session = hibernate.openSession();
             session.beginTransaction();
             result = session.createQuery(String.format("FROM %s", entity)).list();
-            HibernateUtil.commitTransaction(session);
+            hibernate.commitTransaction(session);
         } catch (Exception ex)
         {
             ex.printStackTrace();
