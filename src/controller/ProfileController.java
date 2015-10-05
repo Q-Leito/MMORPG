@@ -87,7 +87,7 @@ public class ProfileController extends Controller {
         if (warning == null) {
             double userBalance = getUser().getBalance();
             double amount = Double.parseDouble(amountInput);
-            double newBalance = ((userBalance + amount) * 100.0) / 100.0;
+            double newBalance = Math.round((userBalance + amount)) * 100.0 / 100.0;
 
             getUser().setBalance(newBalance);
 

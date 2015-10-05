@@ -24,23 +24,25 @@
                         <GridPane fx:id="topPanel" hgap="5.0" vgap="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <children>
 
-                                <Label text="SLOTS" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                                <Label text="FREE SLOTS" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
                                 <Label fx:id="slotLabel" alignment="BASELINE_CENTER" GridPane.columnIndex="1"
                                        GridPane.rowIndex="0"/>
 
                                 <Label alignment="BASELINE_CENTER" text="ADD CHARACTER" GridPane.columnIndex="0"
                                        GridPane.rowIndex="1"/>
 
-                                <Button fx:id="addButton" prefHeight="25" prefWidth="25" onAction="#newCharacterBtn_Click"
+                                <Button fx:id="addButton" prefHeight="25" prefWidth="25"
+                                        onAction="#newCharacterBtn_Click"
                                         GridPane.columnIndex="1"
                                         GridPane.rowIndex="1" alignment="BASELINE_CENTER"/>
                             </children>
                             <padding>
-                                <Insets bottom="5.0" />
+                                <Insets bottom="5.0"/>
                             </padding>
                         </GridPane>
 
-                        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="500" prefWidth="450" prefHeight="350" vbarPolicy="AS_NEEDED"
+                        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="500" prefWidth="450"
+                                    prefHeight="350" vbarPolicy="AS_NEEDED"
                                     vmax="300" GridPane.columnIndex="1" GridPane.rowIndex="3">
                             <content>
                                 <FlowPane fx:id="characterList" columnHalignment="CENTER" hgap="4" vgap="4"/>
@@ -111,28 +113,8 @@
                         </VBox>
 
                     </children>
-                    <columnConstraints>
-                        <ColumnConstraints/>
-                        <ColumnConstraints/>
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints/>
-                        <RowConstraints/>
-                        <RowConstraints/>
-                        <RowConstraints/>
-                    </rowConstraints>
                 </GridPane>
             </children>
-            <columnConstraints>
-                <ColumnConstraints/>
-                <ColumnConstraints/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints/>
-                <RowConstraints/>
-            </rowConstraints>
-
         </GridPane>
     </children>
-
 </AnchorPane>

@@ -4,13 +4,19 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
-<GridPane styleClass="container" fx:id="containerRegister" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8"
+<?import javafx.geometry.Insets?>
+<GridPane styleClass="container" fx:id="containerRegister" stylesheets="/css/main.css"
+          xmlns="http://javafx.com/javafx/8"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistrationController">
     <Button fx:id="backBtn" onAction="#handleBackBtn_Click"/>
 
     <VBox GridPane.rowIndex="1" GridPane.columnIndex="1">
         <Label fx:id="title" text="MMORPG"/>
-        <Label fx:id="messageLabel" styleClass="validationLabel"/>
+        <Label fx:id="messageLabel" styleClass="validationLabel">
+            <VBox.margin>
+                <Insets bottom="5" />
+            </VBox.margin>
+        </Label>
         <GridPane styleClass="grid-pane">
 
             <Label text="First name: * "

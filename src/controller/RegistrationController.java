@@ -40,6 +40,8 @@ public class RegistrationController extends Controller implements Initializable 
     public Button registerButton;
     //endregion
 
+    boolean userNamesExists;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ImageView backImgBtnLayout = createImageBtnLayout(Constants.BACK_IMAGE_PATH, Constants.BACK_IMAGE_WIDTH, Constants.BACK_IMAGE_HEIGHT);
@@ -62,7 +64,7 @@ public class RegistrationController extends Controller implements Initializable 
             registerUser(node, userName, firstName, lastName, password, iban);
         }
 
-        messageLabel.setText(!isValidated ? "All fields are required!" : Constants.EMPTY_STRING);
+        messageLabel.setText(!isValidated ? "All fields are required!" : userNamesExists ? String.format("Sorry, but %s already exist. Try another!", userName) : Constants.EMPTY_STRING);
     }
 
     public void handleBackBtn_Click(ActionEvent actionEvent) {
@@ -72,7 +74,7 @@ public class RegistrationController extends Controller implements Initializable 
 
     private void registerUser(Node node, String userName, String firstName, String lastName, String password, String iban) {
 
-        boolean userNamesExists = findUser(userName);
+        userNamesExists = findUser(userName);
 
         if (!userNamesExists) {
             User newUser = new User(userName, firstName, lastName, iban, password);
@@ -83,9 +85,6 @@ public class RegistrationController extends Controller implements Initializable 
                 showScene(node, Constants.HOME_FXML_PATH, Constants.HOME_SCENE_HEADER, getUser());
             }
         }
-
-        String warning = String.format("Sorry, but %s already exist. Try another!", userName);
-        messageLabel.setText(userNamesExists ? warning : Constants.EMPTY_STRING);
     }
 
     private boolean addUser(User user) {

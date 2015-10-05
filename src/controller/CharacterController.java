@@ -119,7 +119,7 @@ public class CharacterController extends Controller implements Initializable {
         Set<Character> characters = getUser().getCharacters();
         int slotsUsed = characters == null ? 0 : characters.size();
 
-        String slotLabelText = String.format("%s/%s", slotsUsed, slotsAvailable);
+        String slotLabelText = String.valueOf(slotsAvailable - slotsUsed);
         slotLabel.setText(slotLabelText);
 
         loadCharacters();
@@ -127,41 +127,41 @@ public class CharacterController extends Controller implements Initializable {
 
     public void addCharacterBtn_Click(ActionEvent actionEvent) {
 
-        Integer maxSlots = getUser().getCharacterSlots();
+        Integer slotsAvailable = getUser().getCharacterSlots();
         Integer slotsUsed = getUser().getCharacters().size();
 
-        boolean isValidated = false;
-        boolean characterNameExists = false;
+        boolean isValidated;
+        boolean characterNameExists;
 
         String characterName = characterNameField.getText();
 
-        if (slotsUsed <= maxSlots) {
+        String characterRace = (String) characterRaceBox.getSelectionModel().getSelectedItem();
+        String characterClass = (String) classBox.getSelectionModel().getSelectedItem();
+        String characterLevel = levelField.getText();
 
-            String characterRace = (String) characterRaceBox.getSelectionModel().getSelectedItem();
-            String characterClass = (String) classBox.getSelectionModel().getSelectedItem();
-            String characterLevel = levelField.getText();
+        isValidated = validateText(characterName, characterRace, characterClass, characterLevel);
+        characterNameExists = findCharacter(characterName);
 
-            isValidated = validateText(characterName, characterRace, characterClass, characterLevel);
-            characterNameExists = findCharacter(characterName);
+        if (isValidated && !characterNameExists) {
 
-            if (isValidated && !characterNameExists) {
+            setTitle(Constants.CHARACTER_SCENE_HEADER.toUpperCase());
+            showWindow(true, false);
 
-                setTitle(Constants.CHARACTER_SCENE_HEADER.toUpperCase());
-                showWindow(true, false);
+            Character character = new Character(characterName, characterClass, characterRace, Integer.parseInt(characterLevel));
 
-                Character character = new Character(characterName, characterClass, characterRace, Integer.parseInt(characterLevel));
+            getUser().setCharacter(character);
 
-                getUser().setCharacter(character);
+            boolean isAdded = getUserService().updateUser(getUser());
 
-                boolean isAdded = getUserService().updateUser(getUser());
+            if (isAdded) {
+                createCharacter(character);
 
-                if (isAdded) {
-                    createCharacter(character);
-                }
+                String slotLabelText = String.valueOf(slotsAvailable - slotsUsed - 1);
+                slotLabel.setText(slotLabelText);
             }
         }
 
-        messageLabel.setText(maxSlots < slotsUsed ? "All empty slots are used!" : !isValidated ? "All fields are required!" : characterNameExists ? String.format("Sorry, but %s already exist. Try another!", characterName) : Constants.EMPTY_STRING);
+        messageLabel.setText(slotsAvailable < slotsUsed ? "All empty slots are used!" : !isValidated ? "All fields are required!" : characterNameExists ? String.format("Sorry, but %s already exist. Try another!", characterName) : Constants.EMPTY_STRING);
     }
 
     private void createCharacter(Character newCharacter) {
@@ -173,10 +173,6 @@ public class CharacterController extends Controller implements Initializable {
                 newCharacter.getCharacterClass(),
                 newCharacter.getCharacterRace()));
 
-        Integer maxSlots = getUser().getCharacterSlots();
-        Integer slotsUsed = getUser().getCharacters().size();
-        slotLabel.setText(String.format("%s/%s", slotsUsed, maxSlots));
-
         characterList.getChildren().add(0, btn);
     }
 
@@ -186,6 +182,13 @@ public class CharacterController extends Controller implements Initializable {
     }
 
     public void newCharacterBtn_Click(ActionEvent actionEvent) {
+
+        Integer maxSlots = getUser().getCharacterSlots();
+        Integer slotsUsed = getUser().getCharacters().size();
+
+        if (maxSlots == slotsUsed) {
+            return;
+        }
 
         setTitle("Add character".toUpperCase());
 

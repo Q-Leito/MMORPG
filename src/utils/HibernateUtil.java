@@ -53,9 +53,12 @@ public class HibernateUtil {
     }
 
     public void commitTransaction(Session session) {
+
         ManagedSessionContext.unbind(HibernateUtil.SESSION_FACTORY);
         session.flush();
         session.getTransaction().commit();
+
+
         session.close();
     }
 

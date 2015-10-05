@@ -13,6 +13,8 @@
       <root url="jar://$PROJECT_DIR$/lib/hibernate-commons-annotations-4.0.1.Final.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ideaLibSources/hibernate-core-4.2.0.Final-sources.jar!/" />
+    </SOURCES>
   </library>
 </component>
