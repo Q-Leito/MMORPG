@@ -1,6 +1,7 @@
 package model;
 
 import org.hibernate.annotations.Proxy;
+import utils.Constants;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -9,23 +10,23 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Proxy(lazy=false)
+@Proxy(lazy = false)
 public class User {
 
     @Id
-    @Column(name = "user_name")
+    @Column(name = "user_name", nullable = false)
     private String mUsername;
 
     @Column(name = "balance")
     private Double mBalance;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String mFirstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", nullable = false)
     private String mLastName;
 
-    @Column(name = "iban")
+    @Column(name = "iban", nullable = false)
     private String mIban;
 
     @Column(name = "character_slots")
@@ -37,25 +38,30 @@ public class User {
     @Column(name = "months_payed")
     private Integer mMonthsPayed;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String mPassword;
 
     @Column(name = "banned")
     private Boolean mBanned;
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch=FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "owns",
             joinColumns = {@JoinColumn(name = "user_name")},
             inverseJoinColumns = {@JoinColumn(name = "name")})
+    @OrderBy("level")
     private Set<Character> mCharacters = new HashSet<>();
 
     @ManyToMany(mappedBy = "mUsers")
     private Set<Server> mServers = new HashSet<>();
 
-    public User() {}
+    public User() {
+    }
 
     public User(String username, String firstName, String lastName, String iban, String password) {
         mUsername = username;
+        mBalance = Constants.BALANCE;
+        mCharacterSlots = Constants.CHARACTER_SLOTS;
+        mMonthsPayed = Constants.MONTHS_PAYED;
         mFirstName = firstName;
         mLastName = lastName;
         mIban = iban;
@@ -116,10 +122,6 @@ public class User {
 
     public Set<Character> getCharacters() {
         return mCharacters;
-    }
-
-    public Set<Server> getServers() {
-        return mServers;
     }
 
     public void setCharacter(Character character) {

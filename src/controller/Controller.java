@@ -11,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import model.*;
+import service.ServerService;
+import service.ServerServiceImpl;
 import service.UserService;
 import service.UserServiceImpl;
 import utils.Constants;
@@ -23,6 +25,7 @@ abstract class Controller {
 
     //region Fields
 
+    private ServerService mServerService;
     private UserService mUserService;
     private User mUser;
     private ObservableList<User> mUsersList;
@@ -64,7 +67,13 @@ abstract class Controller {
         mUsersList = users;
     }
 
+    public ServerService getServerService() {
+        return mServerService;
+    }
 
+    public void setServerService(ServerService mServerService) {
+        this.mServerService = mServerService;
+    }
 
     protected void setTitle(String header) {
         title.setText(header);
@@ -74,6 +83,7 @@ abstract class Controller {
 
     protected Controller() {
         setUserService(new UserServiceImpl());
+        setServerService(new ServerServiceImpl());
     }
 
     //region Methods
@@ -81,7 +91,7 @@ abstract class Controller {
     protected void load() {
     }
 
-    protected void showScene(Node node, String fxmlPath, String header, Object obj) {
+    protected <T> void showScene(Node node, String fxmlPath, String header, Object obj) {
         URL navigationUrl = getClass().getResource(fxmlPath);
 
         Parent root = null;

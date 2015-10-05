@@ -21,7 +21,7 @@
 
                         <Label fx:id="title" text="CHARACTERS" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-                        <GridPane fx:id="addPanel" hgap="5.0" vgap="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <GridPane fx:id="topPanel" hgap="5.0" vgap="5.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <children>
 
                                 <Label text="SLOTS" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
@@ -35,21 +35,12 @@
                                         GridPane.columnIndex="1"
                                         GridPane.rowIndex="1" alignment="BASELINE_CENTER"/>
                             </children>
-                            <columnConstraints>
-                                <ColumnConstraints/>
-                                <ColumnConstraints/>
-                            </columnConstraints>
-                            <rowConstraints>
-                                <RowConstraints/>
-                                <RowConstraints/>
-                                <RowConstraints/>
-                            </rowConstraints>
                             <padding>
-                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                                <Insets bottom="5.0" />
                             </padding>
                         </GridPane>
 
-                        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="300" vbarPolicy="AS_NEEDED"
+                        <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="500" prefWidth="450" prefHeight="350" vbarPolicy="AS_NEEDED"
                                     vmax="300" GridPane.columnIndex="1" GridPane.rowIndex="3">
                             <content>
                                 <FlowPane fx:id="characterList" columnHalignment="CENTER" hgap="4" vgap="4"/>
@@ -116,34 +107,6 @@
                                         <Insets top="5.0"/>
                                     </VBox.margin>
                                 </HBox>
-                            </children>
-                        </VBox>
-
-                        <VBox fx:id="characterInfoBox" maxWidth="500" prefWidth="500" visible="false"
-                              GridPane.columnIndex="1" GridPane.rowIndex="3">
-                            <children>
-                                <ImageView fx:id="avatarImg"/>
-
-                                <VBox spacing="10">
-                                    <HBox>
-                                        <children>
-                                            <Label text="Class: "/>
-                                            <Label fx:id="characterClass"/>
-                                        </children>
-                                    </HBox>
-                                    <HBox>
-                                        <children>
-                                            <Label text="Level: "/>
-                                            <Label fx:id="characterLevel"/>
-                                        </children>
-                                    </HBox>
-                                    <HBox>
-                                        <children>
-                                            <Label text="Race: "/>
-                                            <Label fx:id="characterRace"/>
-                                        </children>
-                                    </HBox>
-                                </VBox>
                             </children>
                         </VBox>
 

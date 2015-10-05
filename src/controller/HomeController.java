@@ -3,12 +3,58 @@ package controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import model.Server;
 import utils.Constants;
+
+import java.util.List;
 
 public class HomeController extends Controller {
 
+    //region UI control
+
+    @FXML
+    public VBox serverBox;
+
+    //endregion
+
+    private List<Server> servers;
+
     //region Methods
+
+    @FXML
+    public void initialize() {
+
+        List<Server> servers = getServerService().ServerList();
+
+        servers.forEach(this::createServers);
+    }
+
+    private void createServers(Server server) {
+
+        Button serverBtn = createServerBtn(server.getServerName(), server.getServerAddress(), server.getServerConnectedUsers(), server.getServerMaxUsers());
+
+        serverBtn.setOnAction(event -> server.setUsers(getUser()));
+
+        serverBox.getChildren().add(0, serverBtn);
+    }
+
+    private Button createServerBtn(String serverName, String serverAddress, Integer serverConnectedUsers, Integer serverMaxUsers) {
+        Button serverBtn = new Button();
+        serverBtn.setMaxWidth(300.0d);
+        serverBtn.setMaxHeight(50.0d);
+        serverBtn.setMinWidth(300.0d);
+        serverBtn.setMinHeight(50.0d);
+
+        serverBtn.setText(String.format("%s (%s) Users: %s/%s", serverName, serverAddress, serverConnectedUsers, serverMaxUsers));
+
+        ImageView avatarImgBtnLayout = createImageBtnLayout(serverConnectedUsers >= serverMaxUsers ? "/images/full.png" : "/images/available.png", 15.0d, 15.0d);
+        serverBtn.setGraphic(avatarImgBtnLayout);
+
+        return serverBtn;
+    }
 
     public void load() {
         String userFirstName = getUser().getFirstName();

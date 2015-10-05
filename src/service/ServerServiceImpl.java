@@ -19,5 +19,5 @@ public class ServerServiceImpl extends MainDAO implements ServerService {
     public void deleteServer(String serverName) { delete(serverName); }
 
     @Override
-    public void updateServer(Server user) { update(user); }
+    public void updateServer(Server server) { update(server); }
 }

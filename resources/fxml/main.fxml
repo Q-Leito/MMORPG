@@ -30,5 +30,12 @@
                GridPane.columnIndex="0"
                GridPane.columnSpan="3"/>
 
+        <VBox fx:id="serverBox"
+              spacing="5"
+              GridPane.rowIndex="4"
+              GridPane.columnIndex="0"
+              GridPane.columnSpan="3" />
     </GridPane>
+
+
 </AnchorPane>

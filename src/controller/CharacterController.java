@@ -35,13 +35,11 @@ public class CharacterController extends Controller implements Initializable {
     @FXML
     private FlowPane characterList;
     @FXML
-    private GridPane addPanel;
+    private GridPane topPanel;
     @FXML
     private ScrollPane scrollPane;
     @FXML
     private VBox addCharacterBox;
-    @FXML
-    private VBox characterInfoBox;
 
     @FXML
     private Button cancelBtn;
@@ -102,7 +100,7 @@ public class CharacterController extends Controller implements Initializable {
 
         cancelBtn.setOnAction(event ->
         {
-            showWindow(true, false, false);
+            showWindow(true, false);
             setTitle(Constants.CHARACTER_SCENE_HEADER.toUpperCase());
         });
 
@@ -115,7 +113,8 @@ public class CharacterController extends Controller implements Initializable {
     @Override
     public void load() {
 
-        int slotsAvailable = getUser().getCharacterSlots();
+        Integer characterSlots = getUser().getCharacterSlots();
+        int slotsAvailable = characterSlots == null ? 0 : characterSlots;
 
         Set<Character> characters = getUser().getCharacters();
         int slotsUsed = characters == null ? 0 : characters.size();
@@ -148,7 +147,7 @@ public class CharacterController extends Controller implements Initializable {
             if (isValidated && !characterNameExists) {
 
                 setTitle(Constants.CHARACTER_SCENE_HEADER.toUpperCase());
-                showWindow(true, false, false);
+                showWindow(true, false);
 
                 Character character = new Character(characterName, characterClass, characterRace, Integer.parseInt(characterLevel));
 
@@ -188,10 +187,10 @@ public class CharacterController extends Controller implements Initializable {
 
     public void newCharacterBtn_Click(ActionEvent actionEvent) {
 
-        setTitle("Add character".toUpperCase().toUpperCase());
+        setTitle("Add character".toUpperCase());
 
         cleanFieldValues();
-        showWindow(false, true, false);
+        showWindow(false, true);
     }
 
     private void cleanFieldValues() {
@@ -210,15 +209,14 @@ public class CharacterController extends Controller implements Initializable {
         showScene(node, Constants.HOME_FXML_PATH, Constants.HOME_SCENE_HEADER, getUser());
     }
 
-    private void showWindow(boolean showCharacterList, boolean showAddCharacterPanel, boolean showCharacterInfoBox) {
-        characterInfoBox.setVisible(showCharacterInfoBox);
+    private void showWindow(boolean showCharacterList, boolean showAddCharacterPanel) {
         scrollPane.setVisible(showCharacterList);
         addCharacterBox.setVisible(showAddCharacterPanel);
-        addPanel.setVisible(!showCharacterInfoBox);
+        topPanel.setVisible(!showAddCharacterPanel);
     }
 
     private boolean findCharacter(String characterNameInput) {
-        int characterListSize = getCharacterList().size();
+        int characterListSize = getCharacterList() == null ? 0 : getCharacterList().size();
 
         if (getCharacterList() != null && characterListSize > 0) {
             for (Character character : getCharacterList()) {
@@ -235,9 +233,9 @@ public class CharacterController extends Controller implements Initializable {
 
     private Button createCharacterBtn(String imgPath, double imgWidth, double imgHeight) {
         Button characterBtn = new Button();
-        characterBtn.setMaxWidth(475.0d);
+        characterBtn.setMaxWidth(400.0d);
         characterBtn.setMaxHeight(100.0d);
-        characterBtn.setMinWidth(475.0d);
+        characterBtn.setMinWidth(400.0d);
         characterBtn.setMinHeight(100.0d);
         characterBtn.setTextAlignment(TextAlignment.LEFT);
 
@@ -246,6 +244,4 @@ public class CharacterController extends Controller implements Initializable {
 
         return characterBtn;
     }
-
-
 }

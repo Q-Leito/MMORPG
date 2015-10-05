@@ -24,19 +24,17 @@ public class Server {
     @Column(name = "connected_users")
     private Integer mServerConnectedUsers;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "stores",
-                joinColumns = {@JoinColumn(name = "address")},
-                inverseJoinColumns = {@JoinColumn(name = "user_name")})
+                joinColumns = {@JoinColumn(name = "user_name")},
+                inverseJoinColumns = {@JoinColumn(name = "address")})
     private Set<User> mUsers = new HashSet<>();
 
     public Server() {
-        super();
     }
 
     public Server(String serverAddress, String serverName, String serverLocation,
                   Integer serverMaxUsers, Integer serverConnectedUsers) {
-        super();
         mServerAddress = serverAddress;
         mServerName = serverName;
         mServerLocation = serverLocation;
@@ -66,5 +64,11 @@ public class Server {
 
     public Set<User> getUsers() {
         return mUsers;
+    }
+
+    public void setUsers(User user) {
+        if (user != null) {
+            mUsers.add(user);
+        }
     }
 }

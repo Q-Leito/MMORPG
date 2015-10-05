@@ -1,5 +1,7 @@
 package utils;
 
+import java.sql.Timestamp;
+
 public class Constants {
 
     public final static double APP_WIDTH = 960.0d;
@@ -36,6 +38,10 @@ public class Constants {
     public final static double ADD_IMAGE_HEIGHT = 15.0d;
     public final static double AVATAR_IMAGE_WIDTH = 75.0d;
     public final static double AVATAR_IMAGE_HEIGHT = 75.0d;
+
+    public static final double BALANCE = 0.0;
+    public static final int CHARACTER_SLOTS = 5;
+    public static final int MONTHS_PAYED = 0;
 
     public static final String EMPTY_STRING = "";
 }

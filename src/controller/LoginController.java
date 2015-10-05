@@ -9,7 +9,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import model.User;
+import model.*;
+import service.ServerService;
+import service.ServerServiceImpl;
 import utils.Constants;
 
 import java.net.URL;
@@ -40,6 +42,8 @@ public class LoginController extends Controller implements Initializable {
         } else {
             System.out.println("Database table doesn't have any user data");
         }
+
+        createServers();
     }
 
     //region Methods
@@ -83,7 +87,33 @@ public class LoginController extends Controller implements Initializable {
         return isSignedIn;
     }
 
+    private void createServers() {
+
+        List<Server> serverList = getServerService().ServerList();
+        int serversAmount = serverList == null ? 0 : serverList.size();
+
+        if (serversAmount <= 0) {
+
+            Server server1 = new Server("199.00.22.1", "Server 1", "Europe", 100, 50);
+            Server server2 = new Server("143.12.14.2", "Server 2", "Africa", 100, 100);
+            Server server3 = new Server("321.64.12.1", "Server 3", "America", 100, 83);
+
+            boolean isServerAdded;
+
+            isServerAdded = getServerService().addServer(server1);
+            System.out.printf("Server 1 created: %s\n", isServerAdded);
+            isServerAdded = getServerService().addServer(server2);
+            System.out.printf("Server 2 created: %s\n", isServerAdded);
+            isServerAdded = getServerService().addServer(server3);
+            System.out.printf("Server 3 created: %s\n", isServerAdded);
+        }
+    }
+
     private User findUser(String userNameInput, String userPasswordInput) {
+
+        if (getUserList() == null) {
+            return null;
+        }
 
         for (User user : getUserList()) {
 
