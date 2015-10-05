@@ -20,6 +20,7 @@ import utils.Constants;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
+import java.util.Set;
 
 abstract class Controller {
 
@@ -37,6 +38,7 @@ abstract class Controller {
 
     @FXML
     private Label title;
+    private Server mServer;
 
     //endregion
 
@@ -126,6 +128,9 @@ abstract class Controller {
                 } else if (obj instanceof ObservableList) {
                     ObservableList<User> userList = (ObservableList<User>) obj;
                     controller.setUserList(userList);
+                } else if (obj instanceof Server) {
+                    Server server = (Server) obj;
+                    controller.setServer(server);
                 }
             }
 
@@ -162,6 +167,14 @@ abstract class Controller {
         int avatarNr = 1 + random.nextInt(9);
 
         return String.format("%s/%s.jpg", Constants.IMAGE_AVATAR_PATH, avatarNr);
+    }
+
+    public void setServer(Server server) {
+        mServer = server;
+    }
+
+    public Server getServer() {
+        return mServer;
     }
 
 

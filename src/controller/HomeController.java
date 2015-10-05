@@ -7,6 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import model.Server;
+import service.ServerServiceImpl;
 import utils.Constants;
 
 import java.util.List;
@@ -36,7 +37,23 @@ public class HomeController extends Controller {
 
         Button serverBtn = createServerBtn(server.getServerName(), server.getServerAddress(), server.getServerConnectedUsers(), server.getServerMaxUsers());
 
-        serverBtn.setOnAction(event -> server.setUsers(getUser()));
+        serverBtn.setOnAction(event -> {
+
+            setServer(server);
+
+            getServer().setUsers(getUser());
+            getServer().setServerConnectedUsers(server.getServerConnectedUsers() + 1);
+
+            boolean isAdded = getServerService().updateServer(getServer());
+
+            if (isAdded) {
+                serverBtn.setText(String.format("%s (%s) Users: %s/%s", server.getServerName(), server.getServerAddress(), server.getServerConnectedUsers(), server.getServerMaxUsers()));
+
+                Node node = (Node) event.getSource();
+
+                showScene(node, Constants.SERVER_FXML_PATH, server.getServerName(), getServer());
+            }
+        });
 
         serverBox.getChildren().add(0, serverBtn);
     }
@@ -49,6 +66,8 @@ public class HomeController extends Controller {
         serverBtn.setMinHeight(50.0d);
 
         serverBtn.setText(String.format("%s (%s) Users: %s/%s", serverName, serverAddress, serverConnectedUsers, serverMaxUsers));
+
+        serverBtn.setDisable(serverConnectedUsers >= serverMaxUsers);
 
         ImageView avatarImgBtnLayout = createImageBtnLayout(serverConnectedUsers >= serverMaxUsers ? "/images/full.png" : "/images/available.png", 15.0d, 15.0d);
         serverBtn.setGraphic(avatarImgBtnLayout);

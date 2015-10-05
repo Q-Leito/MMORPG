@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane styleClass="container" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ServerController">
+   <children>
+   
+       <VBox alignment="CENTER" fillWidth="false">
+           <children>
+               <Label text="CONNECTED" textAlignment="CENTER" textFill="#09ff00">
+               <font>
+                  <Font size="21.0" />
+               </font>
+            </Label>
+   
+               <Button onAction="#disconnectFromServer" text="Disconnect from server" />
+           </children>
+       </VBox>
+   </children>
+</AnchorPane>

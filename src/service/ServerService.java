@@ -8,5 +8,5 @@ public interface ServerService {
     boolean addServer(Server server);
     List<Server> ServerList();
     void deleteServer(String serverName);
-    void updateServer(Server server);
+    boolean updateServer(Server server);
 }

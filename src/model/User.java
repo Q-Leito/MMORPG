@@ -51,13 +51,15 @@ public class User {
     @OrderBy("level")
     private Set<Character> mCharacters = new HashSet<>();
 
-    @ManyToMany(mappedBy = "mUsers")
+    @ManyToMany(mappedBy = "mUsers", fetch = FetchType.EAGER)
     private Set<Server> mServers = new HashSet<>();
 
     public User() {
+        super();
     }
 
     public User(String username, String firstName, String lastName, String iban, String password) {
+        super();
         mUsername = username;
         mBalance = Constants.BALANCE;
         mCharacterSlots = Constants.CHARACTER_SLOTS;
@@ -133,5 +135,13 @@ public class User {
 
     public void setCharacterSlots(Integer slots) {
         mCharacterSlots = slots;
+    }
+
+    public Set<Server> getServer() {
+        return mServers;
+    }
+
+    public void setServer(Server server) {
+        mServers.add(server);
     }
 }

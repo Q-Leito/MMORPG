@@ -1,11 +1,14 @@
 package model;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "servers")
+@Proxy(lazy = false)
 public class Server {
 
     @Id
@@ -26,15 +29,17 @@ public class Server {
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "stores",
-                joinColumns = {@JoinColumn(name = "user_name")},
-                inverseJoinColumns = {@JoinColumn(name = "address")})
+                joinColumns = {@JoinColumn(name = "address")},
+                inverseJoinColumns = {@JoinColumn(name = "user_name")})
     private Set<User> mUsers = new HashSet<>();
 
     public Server() {
+        super();
     }
 
     public Server(String serverAddress, String serverName, String serverLocation,
                   Integer serverMaxUsers, Integer serverConnectedUsers) {
+        super();
         mServerAddress = serverAddress;
         mServerName = serverName;
         mServerLocation = serverLocation;
@@ -60,6 +65,10 @@ public class Server {
 
     public Integer getServerConnectedUsers() {
         return mServerConnectedUsers;
+    }
+
+    public void setServerConnectedUsers(int serverConnectedUsers) {
+        mServerConnectedUsers = serverConnectedUsers;
     }
 
     public Set<User> getUsers() {

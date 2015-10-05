@@ -46,7 +46,7 @@ public class HibernateUtil {
 
     public Session openSession() {
         mSession = SESSION_FACTORY.openSession();
-        mSession.setFlushMode(FlushMode.MANUAL);
+        mSession.setFlushMode(FlushMode.COMMIT);
         ManagedSessionContext.bind(mSession);
 
         return mSession;
@@ -55,10 +55,8 @@ public class HibernateUtil {
     public void commitTransaction(Session session) {
 
         ManagedSessionContext.unbind(HibernateUtil.SESSION_FACTORY);
-        session.flush();
         session.getTransaction().commit();
-
-
+        session.flush();
         session.close();
     }
 

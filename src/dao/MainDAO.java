@@ -17,7 +17,8 @@ public abstract class MainDAO
             Session session = hibernate.openSession();
             session.beginTransaction();
             session.save(obj);
-            hibernate.commitTransaction(session);
+            session.getTransaction().commit();
+            session.close();
 
             isAdded = true;
         } catch (Exception ex) {
@@ -36,7 +37,8 @@ public abstract class MainDAO
             Session session = hibernate.openSession();
             session.beginTransaction();
             session.saveOrUpdate(obj);
-            hibernate.commitTransaction(session);
+            session.getTransaction().commit();
+            session.close();
 
             isUpdated = true;
         } catch (Exception ex)
@@ -58,7 +60,8 @@ public abstract class MainDAO
             Session session = hibernate.openSession();
             session.beginTransaction();
             session.update(obj);
-            hibernate.commitTransaction(session);
+            session.getTransaction().commit();
+            session.close();
 
             isDeleted = true;
         } catch (Exception ex)
@@ -82,7 +85,8 @@ public abstract class MainDAO
             Session session = hibernate.openSession();
             session.beginTransaction();
             result = session.createQuery(String.format("FROM %s", entity)).list();
-            hibernate.commitTransaction(session);
+            session.getTransaction().commit();
+            session.close();
         } catch (Exception ex)
         {
             ex.printStackTrace();

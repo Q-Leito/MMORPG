@@ -10,6 +10,7 @@ public class Constants {
 
     private final static String FXML_PATH = "/fxml";
     public final static String LOGIN_FXML_PATH = String.format("%s/login.fxml", FXML_PATH);
+    public final static String SERVER_FXML_PATH = String.format("%s/server.fxml", FXML_PATH);
     public final static String PROFILE_FXML_PATH = String.format("%s/profile.fxml", FXML_PATH);
     public final static String CHARACTER_FXML_PATH = String.format("%s/character.fxml", FXML_PATH);
     public final static String HOME_FXML_PATH = String.format("%s/main.fxml", FXML_PATH);
@@ -27,6 +28,7 @@ public class Constants {
     public final static double DEFAULT_FONT_TEXT_SIZE = 12.0d;
 
     public final static String LOGIN_SCENE_HEADER = "Login";
+    public final static String SERVER_SCENE_HEADER = "Server";
     public final static String PROFILE_SCENE_HEADER = "Profile";
     public final static String CHARACTER_SCENE_HEADER = "Characters";
     public final static String HOME_SCENE_HEADER = "Home";
