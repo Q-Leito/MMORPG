@@ -19,7 +19,7 @@
 
         <Label fx:id="title"
                GridPane.rowIndex="2"
-               GridPane.columnIndex="0" text="Welcome "/>
+               GridPane.columnIndex="0"/>
 
         <AnchorPane GridPane.rowIndex="3"
                     GridPane.columnIndex="0">

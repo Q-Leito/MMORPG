@@ -122,6 +122,10 @@ public class CharacterController extends Controller implements Initializable {
         String slotLabelText = String.valueOf(slotsAvailable - slotsUsed);
         slotLabel.setText(slotLabelText);
 
+        String header = String.format("%s - %s %s!", Constants.CHARACTER_SCENE_HEADER, getUser().getFirstName(),
+                getUser().getLastName());
+        setTitle(header);
+
         loadCharacters();
     }
 
@@ -161,7 +165,7 @@ public class CharacterController extends Controller implements Initializable {
             }
         }
 
-        messageLabel.setText(slotsAvailable < slotsUsed ? "All empty slots are used!" : !isValidated ? "All fields are required!" : characterNameExists ? String.format("Sorry, but %s already exist. Try another!", characterName) : Constants.EMPTY_STRING);
+        messageLabel.setText(slotsAvailable < slotsUsed ? "All  slots are in use!" : !isValidated ? "All fields are required!" : characterNameExists ? String.format("Sorry, but %s already exist. Try another!", characterName) : Constants.EMPTY_STRING);
     }
 
     private void createCharacter(Character newCharacter) {

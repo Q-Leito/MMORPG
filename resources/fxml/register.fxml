@@ -1,82 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
-<GridPane styleClass="container" fx:id="containerRegister" stylesheets="/css/main.css"
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane styleClass="container" fx:id="containerRegister" stylesheets="/css/main.css"
           xmlns="http://javafx.com/javafx/8"
           xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistrationController">
-    <Button fx:id="backBtn" onAction="#handleBackBtn_Click"/>
 
-    <VBox GridPane.rowIndex="1" GridPane.columnIndex="1">
-        <Label fx:id="title" text="MMORPG"/>
-        <Label fx:id="messageLabel" styleClass="validationLabel">
-            <VBox.margin>
-                <Insets bottom="5" />
-            </VBox.margin>
-        </Label>
-        <GridPane styleClass="grid-pane">
+    <GridPane fx:id="containerHomepage"
+              styleClass="grid-pane-register">
 
-            <Label text="First name: * "
-                   GridPane.rowIndex="0"
-                   GridPane.columnIndex="0"/>
+        <Button fx:id="backBtn" onAction="#handleBackBtn_Click"/>
 
-            <TextField fx:id="firstNameField"
-                       promptText="Enter your first name"
+        <VBox GridPane.rowIndex="3" GridPane.columnIndex="2">
+            <Label fx:id="title" text="MMORPG"/>
+            <Label fx:id="messageLabel" styleClass="validationLabel">
+                <VBox.margin>
+                    <Insets bottom="5" />
+                </VBox.margin>
+            </Label>
+            <GridPane styleClass="grid-pane">
+
+                <Label text="First name: * "
                        GridPane.rowIndex="0"
-                       GridPane.columnIndex="1"/>
+                       GridPane.columnIndex="0"/>
 
-            <Label text="Last name: * "
-                   GridPane.rowIndex="1"
-                   GridPane.columnIndex="0"/>
-
-            <TextField fx:id="lastNameField"
-                       promptText="Enter last name"
-                       GridPane.rowIndex="1"
-                       GridPane.columnIndex="1"/>
-
-            <Label text="Username: * "
-                   GridPane.rowIndex="2"
-                   GridPane.columnIndex="0"/>
-
-            <TextField fx:id="userNameField"
-                       promptText="Enter username"
-                       GridPane.rowIndex="2"
-                       GridPane.columnIndex="1"/>
-
-            <Label text="Password: * "
-                   GridPane.rowIndex="3"
-                   GridPane.columnIndex="0"/>
-
-            <PasswordField fx:id="passwordField"
-                           promptText="Enter password"
-                           GridPane.rowIndex="3"
+                <TextField fx:id="firstNameField"
+                           promptText="Enter your first name"
+                           GridPane.rowIndex="0"
                            GridPane.columnIndex="1"/>
 
-            <Label text="Iban number: * "
-                   GridPane.rowIndex="4"
-                   GridPane.columnIndex="0"/>
+                <Label text="Last name: * "
+                       GridPane.rowIndex="1"
+                       GridPane.columnIndex="0"/>
 
-            <TextField fx:id="ibanField"
-                       promptText="Enter IBAN number"
+                <TextField fx:id="lastNameField"
+                           promptText="Enter last name"
+                           GridPane.rowIndex="1"
+                           GridPane.columnIndex="1"/>
+
+                <Label text="Username: * "
+                       GridPane.rowIndex="2"
+                       GridPane.columnIndex="0"/>
+
+                <TextField fx:id="userNameField"
+                           promptText="Enter username"
+                           GridPane.rowIndex="2"
+                           GridPane.columnIndex="1"/>
+
+                <Label text="Password: * "
+                       GridPane.rowIndex="3"
+                       GridPane.columnIndex="0"/>
+
+                <PasswordField fx:id="passwordField"
+                               promptText="Enter password"
+                               GridPane.rowIndex="3"
+                               GridPane.columnIndex="1"/>
+
+                <Label text="Iban number: * "
                        GridPane.rowIndex="4"
-                       GridPane.columnIndex="1"/>
+                       GridPane.columnIndex="0"/>
 
-            <Button fx:id="registerButton"
-                    text="Register"
-                    onAction="#handleRegisterBtn_Click"
-                    GridPane.rowIndex="5"
-                    GridPane.columnIndex="1"
-                    GridPane.halignment="RIGHT"/>
+                <TextField fx:id="ibanField"
+                           promptText="Enter IBAN number"
+                           GridPane.rowIndex="4"
+                           GridPane.columnIndex="1"/>
 
-            <Label styleClass="validationLabel"
-                   text="* Required!"
-                   GridPane.rowIndex="5"
-                   GridPane.columnIndex="0"/>
+                <Button fx:id="registerButton"
+                        text="Register"
+                        onAction="#handleRegisterBtn_Click"
+                        GridPane.rowIndex="5"
+                        GridPane.columnIndex="1"
+                        GridPane.halignment="RIGHT"/>
 
-        </GridPane>
-    </VBox>
+                <Label styleClass="validationLabel"
+                       text="* Required!"
+                       GridPane.rowIndex="5"
+                       GridPane.columnIndex="0"/>
 
-</GridPane>
+            </GridPane>
+        </VBox>
+    </GridPane>
+</AnchorPane>

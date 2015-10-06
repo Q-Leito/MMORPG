@@ -9,9 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import model.*;
-import service.ServerService;
-import service.ServerServiceImpl;
+import model.Server;
+import model.User;
 import utils.Constants;
 
 import java.net.URL;
@@ -50,8 +49,8 @@ public class LoginController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        usernameTextField.setText("rr");
-        passwordTextField.setText("rr");
+        usernameTextField.setText("Quincy_Leito");
+        passwordTextField.setText("password");
     }
 
     public void handleSignInBtn_Click(ActionEvent actionEvent) {

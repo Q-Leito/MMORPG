@@ -73,6 +73,11 @@
     -fx-hgap: 15;
 }
 
+.grid-pane-register {
+    -fx-vgap: 25;
+    -fx-hgap: 50;
+}
+
 .scroll-pane > .viewport {
     -fx-background-color: transparent;
 }

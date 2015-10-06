@@ -70,7 +70,7 @@ public class ProfileController extends Controller {
         userCharacterSlotsLabel.setText(userCharacterSlots);
         userMonthsPayedLabel.setText(monthsPayed);
 
-        String header = String.format("Welcome %s %s!", userFirstName, userLastName);
+        String header = String.format("%s - %s %s!", Constants.PROFILE_SCENE_HEADER, userFirstName, userLastName);
         setTitle(header);
     }
 
