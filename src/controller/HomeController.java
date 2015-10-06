@@ -4,10 +4,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import model.Server;
-import service.ServerServiceImpl;
 import utils.Constants;
 
 import java.util.List;
@@ -17,11 +17,12 @@ public class HomeController extends Controller {
     //region UI control
 
     @FXML
+    public Label messageLabel;
+
+    @FXML
     public VBox serverBox;
 
     //endregion
-
-    private List<Server> servers;
 
     //region Methods
 
@@ -29,47 +30,60 @@ public class HomeController extends Controller {
     public void initialize() {
 
         List<Server> servers = getServerService().ServerList();
-
         servers.forEach(this::createServers);
     }
 
     private void createServers(Server server) {
 
-        Button serverBtn = createServerBtn(server.getServerName(), server.getServerAddress(), server.getServerConnectedUsers(), server.getServerMaxUsers());
+        String serverName = server.getServerName();
+        String serverAddress = server.getServerAddress();
+        int serverConnectedUsers = server.getServerConnectedUsers();
+        int serverMaxUsers = server.getServerMaxUsers();
+        boolean isServerAvailable = serverConnectedUsers < serverMaxUsers;
+        String imagePath = isServerAvailable ? Constants.SERVER_AVAILABLE_IMAGE_PATH : Constants.SERVER_FULL_IMAGE_PATH;
 
-        serverBtn.setOnAction(event -> {
+        Button serverButton = createServerButton(serverName, serverAddress, serverConnectedUsers, serverMaxUsers, imagePath);
+        serverButton.setDisable(!isServerAvailable);
 
-            setServer(server);
+        serverButton.setOnAction(actionEvent -> {
 
-            getServer().setUsers(getUser());
-            getServer().setServerConnectedUsers(server.getServerConnectedUsers() + 1);
-
-            boolean isAdded = getServerService().updateServer(getServer());
+            boolean isAdded = connectToServer(server);
 
             if (isAdded) {
-                serverBtn.setText(String.format("%s (%s) Users: %s/%s", server.getServerName(), server.getServerAddress(), server.getServerConnectedUsers(), server.getServerMaxUsers()));
-
-                Node node = (Node) event.getSource();
-
-                showScene(node, Constants.SERVER_FXML_PATH, server.getServerName(), getServer());
+                Node node = (Node) actionEvent.getSource();
+                showScene(node, Constants.SERVER_FXML_PATH, serverName, getServer());
             }
         });
 
-        serverBox.getChildren().add(0, serverBtn);
+        serverBox.getChildren().add(0, serverButton);
     }
 
-    private Button createServerBtn(String serverName, String serverAddress, Integer serverConnectedUsers, Integer serverMaxUsers) {
-        Button serverBtn = new Button();
-        serverBtn.setMaxWidth(300.0d);
-        serverBtn.setMaxHeight(50.0d);
-        serverBtn.setMinWidth(300.0d);
-        serverBtn.setMinHeight(50.0d);
+    private boolean connectToServer(Server server) {
 
+        int charactersSize = getUser().getCharacters().size();
+
+        if (charactersSize > 0) {
+            setServer(server);
+
+            getServer().setUsers(getUser());
+            int connectedUsers = getServer().getServerConnectedUsers() + 1;
+            getServer().setServerConnectedUsers(connectedUsers);
+
+            return getServerService().updateServer(getServer());
+        }
+
+        messageLabel.setText("No characters are created");
+
+        return false;
+    }
+
+    private Button createServerButton(String serverName, String serverAddress, Integer serverConnectedUsers, Integer serverMaxUsers, String imagePath) {
+        Button serverBtn = new Button();
+
+        serverBtn.setPrefSize(Constants.SERVER_BUTTON_WIDTH, Constants.SERVER_BUTTON_HEIGHT);
         serverBtn.setText(String.format("%s (%s) Users: %s/%s", serverName, serverAddress, serverConnectedUsers, serverMaxUsers));
 
-        serverBtn.setDisable(serverConnectedUsers >= serverMaxUsers);
-
-        ImageView avatarImgBtnLayout = createImageBtnLayout(serverConnectedUsers >= serverMaxUsers ? "/images/full.png" : "/images/available.png", 15.0d, 15.0d);
+        ImageView avatarImgBtnLayout = createImageBtnLayout(imagePath, Constants.SERVER_IMAGE_WIDTH, Constants.SERVER_IMAGE_HEIGHT);
         serverBtn.setGraphic(avatarImgBtnLayout);
 
         return serverBtn;

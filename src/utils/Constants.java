@@ -20,6 +20,9 @@ public class Constants {
     public final static String BACK_IMAGE_PATH = String.format("%s/back_button.png", IMAGE_PATH);
     public final static String ADD_BUTTON_IMAGE_PATH = String.format("%s/add.png", IMAGE_PATH);
 
+    public final static String SERVER_AVAILABLE_IMAGE_PATH = String.format("%s/available.png", IMAGE_PATH);
+    public final static String SERVER_FULL_IMAGE_PATH = String.format("%s/full.png", IMAGE_PATH);
+
     public final static String IMAGE_AVATAR_PATH = String.format("%s/avatars", IMAGE_PATH);
 
     private final static String FONT_PATH = "/fonts";
@@ -36,12 +39,17 @@ public class Constants {
 
     public final static double BACK_IMAGE_WIDTH = 25.0d;
     public final static double BACK_IMAGE_HEIGHT = 25.0d;
+    public final static double SERVER_IMAGE_HEIGHT = 15.0d;
+    public final static double SERVER_IMAGE_WIDTH = 15.0d;
     public final static double ADD_IMAGE_WIDTH = 15.0d;
     public final static double ADD_IMAGE_HEIGHT = 15.0d;
     public final static double AVATAR_IMAGE_WIDTH = 75.0d;
     public final static double AVATAR_IMAGE_HEIGHT = 75.0d;
 
-    public static final double BALANCE = 0.0;
+    public final static double SERVER_BUTTON_WIDTH = 300.0d;
+    public final static double SERVER_BUTTON_HEIGHT= 50.0d;
+
+    public static final double BALANCE = 0.0d;
     public static final int CHARACTER_SLOTS = 5;
     public static final int MONTHS_PAYED = 0;
 

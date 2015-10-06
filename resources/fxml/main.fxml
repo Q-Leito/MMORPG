@@ -30,9 +30,15 @@
                GridPane.columnIndex="0"
                GridPane.columnSpan="3"/>
 
+        <Label fx:id="messageLabel"
+               styleClass="validationLabel"
+               GridPane.rowIndex="4"
+               GridPane.columnIndex="0"
+               GridPane.columnSpan="3"/>
+
         <VBox fx:id="serverBox"
               spacing="5"
-              GridPane.rowIndex="4"
+              GridPane.rowIndex="5"
               GridPane.columnIndex="0"
               GridPane.columnSpan="3" />
     </GridPane>
