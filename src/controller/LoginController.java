@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -17,7 +18,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class LoginController extends Controller implements Initializable {
+public class LoginController extends Controller {
 
     //region  UI controls
 
@@ -28,6 +29,8 @@ public class LoginController extends Controller implements Initializable {
     public TextField usernameTextField;
     @FXML
     public PasswordField passwordTextField;
+    @FXML
+    public Button createUsersBtn;
 
     //endregion
 
@@ -45,12 +48,32 @@ public class LoginController extends Controller implements Initializable {
         createServers();
     }
 
-    //region Methods
+    @FXML
+    public void initialize() {
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+        List<User> users = getUserService().userList();
 
+        if (users != null) {
+            int userListSize = users.size();
+            createUsersBtn.setVisible(!(userListSize > 1000));
+        }
     }
+
+    public void createUsersBtn_Click(ActionEvent actionEvent) {
+        for (int i = 0; i < 1000; i++) {
+            String username = String.format("Quency%s", i);
+            String password = String.format("welkom%s", i);
+            String firstName = String.format("Quency");
+            String lastName = String.format("Leito");
+            String iban = String.format("123456");
+
+            User user = new User(username, firstName, lastName, iban, password);
+            boolean isAdded = getUserService().addUser(user);
+            System.out.printf("User '%s' is added: %s \n", username, isAdded);
+        }
+    }
+
+    //region Methods
 
     public void handleSignInBtn_Click(ActionEvent actionEvent) {
 
