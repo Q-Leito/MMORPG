@@ -9,4 +9,5 @@ public interface UserService {
     List<User> userList();
     boolean deleteUser(String userName);
     boolean updateUser(User user);
+    String checkUsername(String userName);
 }

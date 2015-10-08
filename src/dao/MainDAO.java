@@ -77,6 +77,23 @@ public abstract class MainDAO
         return get(entity);
     }
 
+    protected <T> T get(String query) {
+        Object result = null;
+
+        try {
+            Session session = hibernate.openSession();
+            session.beginTransaction();
+            result = session.createQuery(query).uniqueResult();
+            session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+        return (T)result;
+    }
+
     private <T> List<T> get(EntityEnum entity) {
         Object result = null;
 
@@ -96,4 +113,8 @@ public abstract class MainDAO
 
         return (List<T>) result;
     }
+
+
+
 }
+

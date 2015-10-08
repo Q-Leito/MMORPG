@@ -25,4 +25,12 @@ public class UserServiceImpl extends MainDAO implements UserService {
     public boolean updateUser(User user) {
         return update(user);
     }
+
+    @Override
+    public String checkUsername(String userName) {
+
+        String query = String.format("SELECT mUsername FROM User WHERE mUsername = '%s'",userName);
+
+        return get(query);
+    }
 }

@@ -92,25 +92,7 @@ public class RegistrationController extends Controller implements Initializable 
     }
 
     private boolean findUser(String userNameInput) {
-
-        if (getUserList() == null) {
-            return false;
-        }
-
-        int userListSize = getUserList().size();
-
-        if (getUserList() != null && userListSize > 0) {
-            for (User user : getUserList()) {
-                String userName = user.getUsername();
-
-                boolean isUserNameMatched = userNameInput.equals(userName);
-                if (isUserNameMatched) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        String nameExists = getUserService().checkUsername(userNameInput);
+        return  nameExists == null;
     }
-
-
 }

@@ -41,5 +41,7 @@
                        onAction="#handleRegisterBtn_Click"/>
             <Label text="to register!"/>
         </TextFlow>
+
+        <Button fx:id="createUsersBtn" text="Create users" onAction="#createUsersBtn_Click" />
     </VBox>
 </GridPane>
