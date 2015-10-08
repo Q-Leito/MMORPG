@@ -1,101 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane styleClass="container" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.CharacterController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" styleClass="container" stylesheets="/css/main.css"
+            xmlns="http://javafx.com/javafx/8" fx:controller="controller.CharacterController">
 
-    <GridPane fx:id="containerHomepage" styleClass="grid-pane, grid-pane-characters">
+    <GridPane fx:id="containerHomepage"
+              styleClass="grid-pane, grid-pane-home">
 
-        <Button fx:id="backBtn" onAction="#handleBackBtn_Click"/>
+        <Button fx:id="backBtn"
+                onAction="#handleBackBtn_Click"
+                GridPane.columnIndex="0"
+                GridPane.rowIndex="0"/>
 
-        <GridPane GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <Label fx:id="title"
+               GridPane.columnIndex="0"
+               GridPane.rowIndex="1"
+                GridPane.columnSpan="2"/>
 
-            <Label fx:id="title" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <AnchorPane GridPane.rowIndex="2"
+                    GridPane.columnIndex="0">
 
-            <GridPane fx:id="topPanel" hgap="5.0" vgap="5.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                <padding>
-                    <Insets bottom="5.0"/>
-                </padding>
+            <Label text="Free slots: "
+                   AnchorPane.topAnchor="5"
+                   AnchorPane.leftAnchor="10"/>
+            <Label fx:id="slotLabel"
+                   AnchorPane.topAnchor="5"
+                   AnchorPane.leftAnchor="150"/>
 
-                <Label text="FREE SLOTS" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                <Label fx:id="slotLabel" alignment="BASELINE_CENTER" GridPane.columnIndex="1"
-                       GridPane.rowIndex="0"/>
+            <Label text="Add Character: "
+                   AnchorPane.topAnchor="30"
+                   AnchorPane.leftAnchor="10"/>
+            <Button fx:id="addButton"
+                    onAction="#newCharacterBtn_Click"
+                    AnchorPane.topAnchor="27"
+                    AnchorPane.leftAnchor="150"/>
 
-                <Label alignment="BASELINE_CENTER" text="ADD CHARACTER" GridPane.columnIndex="0"
-                       GridPane.rowIndex="1"/>
+            <ScrollPane fx:id="scrollPane"
+                        AnchorPane.topAnchor="65"
+                        AnchorPane.leftAnchor="10"
+                        hbarPolicy="NEVER"
+                        maxHeight="500"
+                        prefWidth="450"
+                        prefHeight="350"
+                        vbarPolicy="AS_NEEDED"
+                        vmax="300">
 
-                <Button fx:id="addButton" prefHeight="25" prefWidth="25"
-                        onAction="#newCharacterBtn_Click"
-                        GridPane.columnIndex="1"
-                        GridPane.rowIndex="1" alignment="BASELINE_CENTER"/>
-            </GridPane>
+                <FlowPane fx:id="characterList"
+                          columnHalignment="CENTER"
+                          hgap="4"
+                          vgap="4"/>
 
-            <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" maxHeight="500" prefWidth="450"
-                        prefHeight="350" vbarPolicy="AS_NEEDED"
-                        vmax="300" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                <padding>
-                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-                </padding>
-                <FlowPane fx:id="characterList" columnHalignment="CENTER" hgap="4" vgap="4"/>
             </ScrollPane>
 
-            <VBox fx:id="addCharacterBox" maxWidth="400" prefWidth="400" visible="false"
-                  GridPane.columnIndex="0" GridPane.rowIndex="2">
-                <Label fx:id="messageLabel" styleClass="validationLabel">
-                    <VBox.margin>
-                        <Insets bottom="5.0"/>
-                    </VBox.margin>
-                </Label>
+        </AnchorPane>
 
-                <Label text="Name: *"/>
+        <VBox fx:id="addCharacterBox"
+              visible="false"
+              GridPane.columnIndex="0"
+              GridPane.rowIndex="2">
 
-                <TextField fx:id="characterNameField" prefWidth="400">
-                    <VBox.margin>
-                        <Insets bottom="5.0"/>
-                    </VBox.margin>
-                </TextField>
+            <Label fx:id="messageLabel" styleClass="validationLabel"/>
 
-                <Label text="Class: *"/>
+            <GridPane styleClass="grid-pane, grid-pane-home">
 
-                <ComboBox fx:id="classBox" prefWidth="400">
-                    <VBox.margin>
-                        <Insets bottom="5.0"/>
-                    </VBox.margin>
-                </ComboBox>
+                <Label text="Name: *"
+                       GridPane.rowIndex="0"
+                       GridPane.columnIndex="0"/>
 
-                <Label text="Level: *"/>
+                <TextField fx:id="characterNameField"
+                           promptText="Enter character name"
+                           GridPane.rowIndex="0"
+                           GridPane.columnIndex="1"
+                           GridPane.halignment="RIGHT"/>
 
-                <TextField fx:id="levelField" prefWidth="400">
-                    <VBox.margin>
-                        <Insets bottom="5.0"/>
-                    </VBox.margin>
-                </TextField>
+                <Label text="Class: *"
+                       GridPane.rowIndex="1"
+                       GridPane.columnIndex="0"/>
 
-                <Label text="Race: *"/>
+                <ComboBox fx:id="classBox"
+                          GridPane.rowIndex="1"
+                          GridPane.columnIndex="1"
+                          GridPane.halignment="RIGHT"/>
 
-                <ComboBox fx:id="characterRaceBox" prefWidth="400">
-                    <VBox.margin>
-                        <Insets bottom="5.0"/>
-                    </VBox.margin>
-                </ComboBox>
+                <Label text="Level: *"
+                       GridPane.rowIndex="2"
+                       GridPane.columnIndex="0"/>
 
-                <HBox prefWidth="400">
-                    <VBox.margin>
-                        <Insets top="5.0"/>
-                    </VBox.margin>
-                    <Button prefWidth="150" text="add" onAction="#addCharacterBtn_Click">
-                        <HBox.margin>
-                            <Insets right="5.0"/>
-                        </HBox.margin>
-                    </Button>
+                <TextField fx:id="levelField"
+                           GridPane.rowIndex="2"
+                           GridPane.columnIndex="1"
+                           GridPane.halignment="RIGHT"/>
 
-                    <Region prefWidth="100"/>
+                <Label text="Race: *"
+                       GridPane.rowIndex="3"
+                       GridPane.columnIndex="0"/>
 
-                    <Button fx:id="cancelBtn" prefWidth="150" text="cancel"/>
-                </HBox>
-            </VBox>
-        </GridPane>
+                <ComboBox fx:id="characterRaceBox"
+                          GridPane.rowIndex="3"
+                          GridPane.columnIndex="1"
+                          GridPane.halignment="RIGHT"/>
+
+                <Button text="add"
+                        GridPane.rowIndex="4"
+                        GridPane.columnIndex="0"
+                        onAction="#addCharacterBtn_Click"/>
+
+                <Button fx:id="cancelBtn"
+                        text="cancel"
+                        GridPane.rowIndex="4"
+                        GridPane.columnIndex="1"
+                        GridPane.halignment="RIGHT"/>
+
+            </GridPane>
+        </VBox>
     </GridPane>
 </AnchorPane>

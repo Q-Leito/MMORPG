@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane styleClass="container" fx:id="containerRegister" stylesheets="/css/main.css"
-          xmlns="http://javafx.com/javafx/8"
-          xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.RegistrationController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" styleClass="container" fx:id="containerRegister"
+          stylesheets="/css/main.css"
+          xmlns="http://javafx.com/javafx/8" fx:controller="controller.RegistrationController">
 
     <GridPane fx:id="containerHomepage"
               styleClass="grid-pane-register">
@@ -14,11 +13,8 @@
 
         <VBox GridPane.rowIndex="3" GridPane.columnIndex="2">
             <Label fx:id="title" text="MMORPG"/>
-            <Label fx:id="messageLabel" styleClass="validationLabel">
-                <VBox.margin>
-                    <Insets bottom="5" />
-                </VBox.margin>
-            </Label>
+            <Label fx:id="messageLabel" styleClass="validationLabel"/>
+
             <GridPane styleClass="grid-pane">
 
                 <Label text="First name: * "
