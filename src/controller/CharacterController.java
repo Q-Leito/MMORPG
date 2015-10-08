@@ -35,8 +35,6 @@ public class CharacterController extends Controller implements Initializable {
     @FXML
     private FlowPane characterList;
     @FXML
-    private GridPane topPanel;
-    @FXML
     private ScrollPane scrollPane;
     @FXML
     private VBox addCharacterBox;
@@ -219,7 +217,6 @@ public class CharacterController extends Controller implements Initializable {
     private void showWindow(boolean showCharacterList, boolean showAddCharacterPanel) {
         scrollPane.setVisible(showCharacterList);
         addCharacterBox.setVisible(showAddCharacterPanel);
-        topPanel.setVisible(!showAddCharacterPanel);
     }
 
     private boolean findCharacter(String characterNameInput) {
