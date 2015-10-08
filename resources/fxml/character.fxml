@@ -41,8 +41,8 @@
                         AnchorPane.leftAnchor="10"
                         hbarPolicy="NEVER"
                         maxHeight="500"
-                        prefWidth="450"
-                        prefHeight="350"
+                        prefWidth="425"
+                        prefHeight="325"
                         vbarPolicy="AS_NEEDED"
                         vmax="300">
 

@@ -49,8 +49,7 @@ public class LoginController extends Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        usernameTextField.setText("Quincy_Leito");
-        passwordTextField.setText("password");
+
     }
 
     public void handleSignInBtn_Click(ActionEvent actionEvent) {
