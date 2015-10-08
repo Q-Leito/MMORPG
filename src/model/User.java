@@ -61,9 +61,10 @@ public class User {
     public User(String username, String firstName, String lastName, String iban, String password) {
         super();
         mUsername = username;
-        mBalance = Constants.BALANCE;
-        mCharacterSlots = Constants.CHARACTER_SLOTS;
-        mMonthsPayed = Constants.MONTHS_PAYED;
+        mBalance = Constants.USER_BALANCE;
+        mCharacterSlots = Constants.USER_CHARACTER_SLOTS;
+        mMonthsPayed = Constants.USER_MONTHS_PAYED;
+        mBanned = Constants.USER_BANNED;
         mFirstName = firstName;
         mLastName = lastName;
         mIban = iban;

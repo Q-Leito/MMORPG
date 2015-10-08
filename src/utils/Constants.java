@@ -49,9 +49,10 @@ public class Constants {
     public final static double SERVER_BUTTON_WIDTH = 300.0d;
     public final static double SERVER_BUTTON_HEIGHT= 50.0d;
 
-    public static final double BALANCE = 0.0d;
-    public static final int CHARACTER_SLOTS = 5;
-    public static final int MONTHS_PAYED = 0;
+    public static final double USER_BALANCE = 0.0d;
+    public static final int USER_CHARACTER_SLOTS = 5;
+    public static final int USER_MONTHS_PAYED = 0;
+    public static final boolean USER_BANNED = false;
 
     public static final String EMPTY_STRING = "";
 }
