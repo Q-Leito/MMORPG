@@ -92,7 +92,7 @@ public class RegistrationController extends Controller implements Initializable 
     }
 
     private boolean findUser(String userNameInput) {
-        String nameExists = getUserService().checkUsername(userNameInput);
-        return  nameExists == null;
+        String name = getUserService().checkUsername(userNameInput);
+        return  name != null && !name.isEmpty();
     }
 }

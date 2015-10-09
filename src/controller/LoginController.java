@@ -35,28 +35,13 @@ public class LoginController extends Controller {
     //endregion
 
     public LoginController() {
-
-        List<User> users = getUserService().userList();
-
-        if (users != null && !users.isEmpty()) {
-            ObservableList<User> list = FXCollections.observableList(users);
-            setUserList(list);
-        } else {
-            System.out.println("Database table doesn't have any user data");
-        }
-
         createServers();
     }
 
     @FXML
     public void initialize() {
-
-        List<User> users = getUserService().userList();
-
-        if (users != null) {
-            int userListSize = users.size();
-            createUsersBtn.setVisible(!(userListSize > 1000));
-        }
+        long userListSize = getUserService().count();
+        createUsersBtn.setVisible(!(userListSize > 1000));
     }
 
     public void createUsersBtn_Click(ActionEvent actionEvent) {
@@ -90,7 +75,7 @@ public class LoginController extends Controller {
 
     public void handleRegisterBtn_Click(ActionEvent actionEvent) {
         Node node = (Node) actionEvent.getSource();
-        showScene(node, Constants.REGISTER_FXML_PATH, Constants.REGISTRATION_SCENE_HEADER, getUserList());
+        showScene(node, Constants.REGISTER_FXML_PATH, Constants.REGISTRATION_SCENE_HEADER, null);
     }
 
     private boolean signIn(String userName, String userPassword) {
@@ -131,25 +116,8 @@ public class LoginController extends Controller {
     }
 
     private User findUser(String userNameInput, String userPasswordInput) {
-
-        if (getUserList() == null) {
-            return null;
-        }
-
-        for (User user : getUserList()) {
-
-            String userName = user.getUsername();
-            String userPassword = user.getPassword();
-
-            boolean isUserNameMatched = userNameInput.equals(userName);
-            boolean isUserPasswordMatched = userPasswordInput.equals(userPassword);
-
-            if (isUserNameMatched && isUserPasswordMatched) {
-                return user;
-            }
-        }
-
-        return null;
+        User user = getUserService().get(userNameInput, userPasswordInput);
+        return user;
     }
 
     //endregion
