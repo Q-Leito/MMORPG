@@ -40,7 +40,7 @@ public class LoginController extends Controller {
     }
 
     public void createUsersBtn_Click(ActionEvent actionEvent) {
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 1001; i++) {
             String username = String.format("Peter%s", i);
             String password = String.format("welkom%s", i);
             String firstName = "Peter";

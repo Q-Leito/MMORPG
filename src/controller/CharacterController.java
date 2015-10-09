@@ -112,7 +112,10 @@ public class CharacterController extends Controller implements Initializable {
     }
 
     public void createCharactersBtn_Click(ActionEvent actionEvent) {
-        for (int i = 0; i < 1000; i++) {
+        Integer slotsAvailable = getUser().getCharacterSlots();
+        Integer slotsUsed = getUser().getCharacters().size();
+
+        for (int i = 0; i < 1001; i++) {
             String characterName = String.format("Roman%s", i);
             String characterClass = "Assassin";
             String characterRace = "Human";
@@ -123,9 +126,12 @@ public class CharacterController extends Controller implements Initializable {
             getUser().setCharacter(character);
 
             boolean isUpdated = getUserService().updateUser(getUser());
+            slotsAvailable++;
 
             if (isUpdated) {
                 createCharacter(character);
+                String slotLabelText = String.valueOf((slotsAvailable - slotsUsed));
+                slotLabel.setText(slotLabelText);
             }
             System.out.printf("Character '%s' is added: %s \n", characterName, isAdded);
         }

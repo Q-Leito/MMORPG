@@ -37,10 +37,10 @@
                     AnchorPane.leftAnchor="150"/>
 
             <Button fx:id="createCharactersBtn"
-                    text="Create characters"
+                    text="Create 1000 characters"
                     onAction="#createCharactersBtn_Click"
                     AnchorPane.topAnchor="27"
-                    AnchorPane.leftAnchor="234"/>
+                    AnchorPane.leftAnchor="204"/>
 
             <ScrollPane fx:id="scrollPane"
                         AnchorPane.topAnchor="65"

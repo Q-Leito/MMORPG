@@ -43,7 +43,7 @@
         </TextFlow>
 
         <Button fx:id="createUsersBtn"
-                text="Create users"
+                text="Create 1000 users"
                 onAction="#createUsersBtn_Click" />
     </VBox>
 </GridPane>
