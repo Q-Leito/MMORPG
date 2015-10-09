@@ -1,5 +1,6 @@
 package model;
 
+import org.hibernate.annotations.Index;
 import org.hibernate.annotations.Proxy;
 import utils.Constants;
 

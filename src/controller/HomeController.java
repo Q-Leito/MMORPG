@@ -18,7 +18,6 @@ public class HomeController extends Controller {
 
     @FXML
     public Label messageLabel;
-
     @FXML
     public VBox serverBox;
 

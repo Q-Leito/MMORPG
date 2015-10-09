@@ -125,6 +125,8 @@ public class ProfileController extends Controller {
                 break;
         }
 
+        messageLabel.setText(getUser().getBalance() < amount ? "Please add money to your account!" : Constants.EMPTY_STRING);
+
         if (getUser().getBalance() >= amount) {
             int newCharacterSlots = getUser().getCharacterSlots() + amount;
 
@@ -139,8 +141,6 @@ public class ProfileController extends Controller {
                 userCharacterSlotsLabel.setText(String.valueOf(newCharacterSlots));
             }
         }
-
-        messageLabel.setText(getUser().getBalance() < amount ? "Please add money to your account!" : Constants.EMPTY_STRING);
     }
 
     public boolean updateUser(User user) {
@@ -148,6 +148,8 @@ public class ProfileController extends Controller {
     }
 
     private void addAmount(int months, int balance) {
+        messageLabel.setText(getUser().getBalance() < balance ? "Please add money to your account!" : Constants.EMPTY_STRING);
+
         if (getUser().getBalance() >= balance) {
             int monthsPayed = getUser().getMonthsPayed() + months;
             double newBalance = getUser().getBalance() - balance;
@@ -163,8 +165,6 @@ public class ProfileController extends Controller {
                 userBalanceLabel.setText(String.valueOf(newBalance));
             }
         }
-
-        messageLabel.setText(getUser().getBalance() < balance ? "Please add money to your account!" : Constants.EMPTY_STRING);
     }
 
     public void addSubscriptionBtn_Click() {
