@@ -9,6 +9,7 @@ import java.util.Set;
 public class Character {
 
     @Id
+//    @Index(name = "character_index", columnNames = { "name" })
     @Column(name = "name")
     private String mCharacterName;
 

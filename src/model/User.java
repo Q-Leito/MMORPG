@@ -14,6 +14,7 @@ import java.util.Set;
 public class User {
 
     @Id
+//    @Index(name = "username_index", columnNames = { "user_name" })
     @Column(name = "user_name", nullable = false)
     private String mUsername;
 
@@ -99,6 +100,10 @@ public class User {
         return mCharacterSlots;
     }
 
+    public void setCharacterSlots(Integer slots) {
+        mCharacterSlots = slots;
+    }
+
     public Timestamp getLastPayment() {
         return mLastPayment;
     }
@@ -132,10 +137,6 @@ public class User {
         if (character != null) {
             mCharacters.add(character);
         }
-    }
-
-    public void setCharacterSlots(Integer slots) {
-        mCharacterSlots = slots;
     }
 
     public Set<Server> getServer() {

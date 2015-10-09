@@ -18,16 +18,16 @@ import service.CharacterServiceImpl;
 import utils.Constants;
 
 import java.net.URL;
-import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 public class CharacterController extends Controller implements Initializable {
+     //region UI controls
 
-    //region UI controls
-
+    @FXML
+    public Button createCharactersBtn;
     @FXML
     private Label messageLabel;
     @FXML
@@ -52,18 +52,15 @@ public class CharacterController extends Controller implements Initializable {
     private TextField characterNameField;
     @FXML
     private Button addButton;
-    @FXML
-    public Button createCharactersBtn;
+
 
     //endregion
-
     private ObservableList<Character> mCharacterList;
     private CharacterService mCharacterService;
 
     public CharacterController() {
 
-        setCharacterService(new CharacterServiceImpl());
-    }
+        setCharacterService(new CharacterServiceImpl());    }
 
     public CharacterService getCharacterService() {
         return mCharacterService;
@@ -72,7 +69,7 @@ public class CharacterController extends Controller implements Initializable {
     public void setCharacterService(CharacterService characterService) {
         mCharacterService = characterService;
     }
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -97,10 +94,7 @@ public class CharacterController extends Controller implements Initializable {
     }
 
     public void createCharactersBtn_Click(ActionEvent actionEvent) {
-        Integer slotsAvailable = getUser().getCharacterSlots();
-        Integer slotsUsed = getUser().getCharacters().size();
-
-        for (int i = 0; i < 1000; i++) {
+                for (int i = 0; i < 1000; i++) {
             String characterName = String.format("Roman%s", i);
             String characterClass = "Assassin";
             String characterRace = "Human";
@@ -108,17 +102,7 @@ public class CharacterController extends Controller implements Initializable {
 
             Character character = new Character(characterName, characterClass, characterRace, characterLevel);
             boolean isAdded = getCharacterService().addCharacter(character);
-            getUser().setCharacter(character);
-
-            boolean isUpdated = getUserService().updateUser(getUser());
-            slotsAvailable++;
-
-            if (isUpdated) {
-                createCharacter(character);
-                String slotLabelText = String.valueOf((slotsAvailable - slotsUsed));
-                slotLabel.setText(slotLabelText);
-            }
-            System.out.printf("Character '%s' is added: %s \n", characterName, isAdded);
+  System.out.printf("Character '%s' is added: %s \n", characterName, isAdded);
         }
     }
 
