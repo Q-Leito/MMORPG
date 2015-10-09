@@ -26,9 +26,8 @@ import java.util.concurrent.TimeUnit;
 
 public class CharacterController extends Controller implements Initializable {
 
-    @FXML
-    public Button createCharactersBtn;
     //region UI controls
+
     @FXML
     private Label messageLabel;
     @FXML
@@ -53,22 +52,17 @@ public class CharacterController extends Controller implements Initializable {
     private TextField characterNameField;
     @FXML
     private Button addButton;
+    @FXML
+    public Button createCharactersBtn;
+
     //endregion
+
     private ObservableList<Character> mCharacterList;
     private CharacterService mCharacterService;
 
     public CharacterController() {
 
         setCharacterService(new CharacterServiceImpl());
-
-        List<Character> characters = getCharacterService().CharacterList();
-
-        if (characters != null && !characters.isEmpty()) {
-            ObservableList<Character> list = FXCollections.observableList(characters);
-            setCharacterList(list);
-        } else {
-            System.out.println("Database table doesn't have any character data");
-        }
     }
 
     public CharacterService getCharacterService() {
@@ -77,15 +71,6 @@ public class CharacterController extends Controller implements Initializable {
 
     public void setCharacterService(CharacterService characterService) {
         mCharacterService = characterService;
-    }
-
-    public ObservableList<Character> getCharacterList() {
-
-        return mCharacterList;
-    }
-
-    public void setCharacterList(ObservableList<Character> mCharacterList) {
-        this.mCharacterList = mCharacterList;
     }
 
     @Override
@@ -115,7 +100,7 @@ public class CharacterController extends Controller implements Initializable {
         Integer slotsAvailable = getUser().getCharacterSlots();
         Integer slotsUsed = getUser().getCharacters().size();
 
-        for (int i = 0; i < 1001; i++) {
+        for (int i = 0; i < 1000; i++) {
             String characterName = String.format("Roman%s", i);
             String characterClass = "Assassin";
             String characterRace = "Human";

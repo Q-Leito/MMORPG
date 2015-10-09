@@ -51,6 +51,8 @@ public class LoginController extends Controller {
             boolean isAdded = getUserService().addUser(user);
             System.out.printf("User '%s' is added: %s \n", username, isAdded);
         }
+
+        createUsersBtn.setDisable(true);
     }
 
     //region Methods
