@@ -36,6 +36,12 @@
                     AnchorPane.topAnchor="27"
                     AnchorPane.leftAnchor="150"/>
 
+            <Button fx:id="createCharactersBtn"
+                    text="Create characters"
+                    onAction="#createCharactersBtn_Click"
+                    AnchorPane.topAnchor="27"
+                    AnchorPane.leftAnchor="234"/>
+
             <ScrollPane fx:id="scrollPane"
                         AnchorPane.topAnchor="65"
                         AnchorPane.leftAnchor="10"

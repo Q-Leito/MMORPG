@@ -21,7 +21,7 @@ public class Character {
     @Column(name = "level")
     private Integer mCharacterLevel;
 
-    @ManyToMany(mappedBy="mCharacters")
+    @ManyToMany(mappedBy = "mCharacters")
     private Set<User> mUsers = new HashSet<>();
 
     public Character() {

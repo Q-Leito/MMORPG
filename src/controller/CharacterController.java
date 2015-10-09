@@ -1,5 +1,6 @@
 package controller;
 
+import com.google.common.base.Stopwatch;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import model.Character;
@@ -22,9 +22,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public class CharacterController extends Controller implements Initializable {
 
+    @FXML
+    public Button createCharactersBtn;
     //region UI controls
     @FXML
     private Label messageLabel;
@@ -38,7 +41,6 @@ public class CharacterController extends Controller implements Initializable {
     private ScrollPane scrollPane;
     @FXML
     private VBox addCharacterBox;
-
     @FXML
     private Button cancelBtn;
     @FXML
@@ -49,13 +51,25 @@ public class CharacterController extends Controller implements Initializable {
     private TextField levelField;
     @FXML
     private TextField characterNameField;
-
     @FXML
     private Button addButton;
     //endregion
-
     private ObservableList<Character> mCharacterList;
     private CharacterService mCharacterService;
+
+    public CharacterController() {
+
+        setCharacterService(new CharacterServiceImpl());
+
+        List<Character> characters = getCharacterService().CharacterList();
+
+        if (characters != null && !characters.isEmpty()) {
+            ObservableList<Character> list = FXCollections.observableList(characters);
+            setCharacterList(list);
+        } else {
+            System.out.println("Database table doesn't have any character data");
+        }
+    }
 
     public CharacterService getCharacterService() {
         return mCharacterService;
@@ -74,20 +88,6 @@ public class CharacterController extends Controller implements Initializable {
         this.mCharacterList = mCharacterList;
     }
 
-    public CharacterController() {
-
-        setCharacterService(new CharacterServiceImpl());
-
-        List<Character> characters = getCharacterService().CharacterList();
-
-        if (characters != null && !characters.isEmpty()) {
-            ObservableList<Character> list = FXCollections.observableList(characters);
-            setCharacterList(list);
-        } else {
-            System.out.println("Database table doesn't have any character data");
-        }
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -99,13 +99,36 @@ public class CharacterController extends Controller implements Initializable {
         cancelBtn.setOnAction(event ->
         {
             showWindow(true, false);
-            setTitle(Constants.CHARACTER_SCENE_HEADER.toUpperCase());
+            setTitle(String.format("%s - %s %s!", Constants.CHARACTER_SCENE_HEADER, getUser().getFirstName(), getUser().getLastName()));
         });
 
         levelField.setEditable(false);
 
         classBox.setItems(FXCollections.observableArrayList("Guardin", "Assassin", "Archmage", "Necromancer", "Prophet", "Shaman", "Druid", "Ranger"));
         characterRaceBox.setItems(FXCollections.observableArrayList("Human", "Gnome", "Dwarf", "Elf", "Eladin", "Tiefling", "Deva", "Goliath"));
+
+        long characterListSize = getCharacterService().count();
+        createCharactersBtn.setVisible(!(characterListSize > 1000));
+    }
+
+    public void createCharactersBtn_Click(ActionEvent actionEvent) {
+        for (int i = 0; i < 1000; i++) {
+            String characterName = String.format("Roman%s", i);
+            String characterClass = "Assassin";
+            String characterRace = "Human";
+            int characterLevel = 100;
+
+            Character character = new Character(characterName, characterClass, characterRace, characterLevel);
+            boolean isAdded = getCharacterService().addCharacter(character);
+            getUser().setCharacter(character);
+
+            boolean isUpdated = getUserService().updateUser(getUser());
+
+            if (isUpdated) {
+                createCharacter(character);
+            }
+            System.out.printf("Character '%s' is added: %s \n", characterName, isAdded);
+        }
     }
 
     @Override
@@ -192,7 +215,7 @@ public class CharacterController extends Controller implements Initializable {
             return;
         }
 
-        setTitle("Add character".toUpperCase());
+        setTitle("Add Character");
 
         cleanFieldValues();
         showWindow(false, true);
@@ -220,19 +243,14 @@ public class CharacterController extends Controller implements Initializable {
     }
 
     private boolean findCharacter(String characterNameInput) {
-        int characterListSize = getCharacterList() == null ? 0 : getCharacterList().size();
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        String name = getCharacterService().checkCharacterName(characterNameInput);
+        stopwatch.stop();
 
-        if (getCharacterList() != null && characterListSize > 0) {
-            for (Character character : getCharacterList()) {
-                String characterName = character.getCharacterName();
+        stopwatch.elapsed(TimeUnit.MILLISECONDS);
+        System.out.println("Execute time: " + stopwatch);
 
-                boolean isCharacterNameMatched = characterNameInput.equals(characterName);
-                if (isCharacterNameMatched) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return name != null && !name.isEmpty();
     }
 
     private Button createCharacterBtn(String imgPath, double imgWidth, double imgHeight) {

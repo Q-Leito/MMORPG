@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.TextFlow?>
-<GridPane styleClass="container" fx:id="containerLogin" stylesheets="/css/main.css" xmlns="http://javafx.com/javafx/8"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.LoginController">
+<GridPane xmlns:fx="http://javafx.com/fxml/1" styleClass="container" fx:id="containerLogin" stylesheets="/css/main.css"
+           xmlns="http://javafx.com/javafx/8" fx:controller="controller.LoginController">
     <VBox>
         <Label fx:id="title" text="MMORPG"/>
         <Label fx:id="messageLabel" styleClass="validationLabel"/>
@@ -42,6 +42,8 @@
             <Label text="to register!"/>
         </TextFlow>
 
-        <Button fx:id="createUsersBtn" text="Create users" onAction="#createUsersBtn_Click" />
+        <Button fx:id="createUsersBtn"
+                text="Create users"
+                onAction="#createUsersBtn_Click" />
     </VBox>
 </GridPane>

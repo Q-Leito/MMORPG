@@ -1,7 +1,7 @@
 package controller;
 
+import com.google.common.base.Stopwatch;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -15,6 +15,7 @@ import utils.Constants;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 
 public class RegistrationController extends Controller implements Initializable {
 
@@ -92,7 +93,13 @@ public class RegistrationController extends Controller implements Initializable 
     }
 
     private boolean findUser(String userNameInput) {
+        Stopwatch stopwatch = Stopwatch.createStarted();
         String name = getUserService().checkUsername(userNameInput);
-        return  name != null && !name.isEmpty();
+        stopwatch.stop();
+
+        stopwatch.elapsed(TimeUnit.MILLISECONDS);
+        System.out.println("Execute time: " + stopwatch);
+
+        return name != null && !name.isEmpty();
     }
 }

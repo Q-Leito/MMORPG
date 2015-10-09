@@ -1,10 +1,7 @@
 package controller;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,9 +11,7 @@ import model.Server;
 import model.User;
 import utils.Constants;
 
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class LoginController extends Controller {
 
@@ -46,11 +41,11 @@ public class LoginController extends Controller {
 
     public void createUsersBtn_Click(ActionEvent actionEvent) {
         for (int i = 0; i < 1000; i++) {
-            String username = String.format("Quency%s", i);
+            String username = String.format("Peter%s", i);
             String password = String.format("welkom%s", i);
-            String firstName = String.format("Quency");
-            String lastName = String.format("Leito");
-            String iban = String.format("123456");
+            String firstName = "Peter";
+            String lastName = "de Vries";
+            String iban = "123456";
 
             User user = new User(username, firstName, lastName, iban, password);
             boolean isAdded = getUserService().addUser(user);

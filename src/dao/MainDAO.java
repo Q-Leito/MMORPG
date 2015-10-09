@@ -6,8 +6,7 @@ import utils.HibernateUtil;
 
 import java.util.List;
 
-public abstract class MainDAO
-{
+public abstract class MainDAO {
     private HibernateUtil hibernate = HibernateUtil.getInstance();
 
     protected boolean add(Object obj) {
@@ -32,8 +31,7 @@ public abstract class MainDAO
 
         boolean isUpdated = false;
 
-        try
-        {
+        try {
             Session session = hibernate.openSession();
             session.beginTransaction();
             session.saveOrUpdate(obj);
@@ -41,8 +39,7 @@ public abstract class MainDAO
             session.close();
 
             isUpdated = true;
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
@@ -55,8 +52,7 @@ public abstract class MainDAO
 
         if (obj == null) return isDeleted;
 
-        try
-        {
+        try {
             Session session = hibernate.openSession();
             session.beginTransaction();
             session.update(obj);
@@ -64,16 +60,14 @@ public abstract class MainDAO
             session.close();
 
             isDeleted = true;
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
         return isDeleted;
     }
 
-    protected <T> List<T> getList(EntityEnum entity)
-    {
+    protected <T> List<T> getList(EntityEnum entity) {
         return get(entity);
     }
 
@@ -91,21 +85,19 @@ public abstract class MainDAO
             System.out.println(e.getMessage());
         }
 
-        return (T)result;
+        return (T) result;
     }
 
     private <T> List<T> get(EntityEnum entity) {
         Object result = null;
 
-        try
-        {
+        try {
             Session session = hibernate.openSession();
             session.beginTransaction();
             result = session.createQuery(String.format("FROM %s", entity)).list();
             session.getTransaction().commit();
             session.close();
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
 
             System.out.println(ex.getMessage());
@@ -113,8 +105,5 @@ public abstract class MainDAO
 
         return (List<T>) result;
     }
-
-
-
 }
 

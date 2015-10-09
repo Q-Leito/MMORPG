@@ -9,4 +9,6 @@ public interface CharacterService {
     List<Character> CharacterList();
     void deleteCharacter(String characterName);
     void updateCharacter(Character character);
+    String checkCharacterName(String characterName);
+    long count();
 }

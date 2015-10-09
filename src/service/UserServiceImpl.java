@@ -14,7 +14,9 @@ public class UserServiceImpl extends MainDAO implements UserService {
     }
 
     @Override
-    public List<User> userList() { return getList(EntityEnum.User); }
+    public List<User> userList() {
+        return getList(EntityEnum.User);
+    }
 
     @Override
     public boolean deleteUser(String userName) {
@@ -28,20 +30,17 @@ public class UserServiceImpl extends MainDAO implements UserService {
 
     @Override
     public String checkUsername(String userName) {
-
-        String query = String.format("SELECT mUsername FROM User WHERE mUsername = '%s'",userName);
-
+        String query = String.format("SELECT mUsername FROM User WHERE mUsername = '%s'", userName);
         return get(query);
     }
 
     @Override
     public User get(String userName, String password) {
         String query = String.format("FROM User WHERE mUsername = '%s' AND mPassword = '%s'", userName, password);
-
         return get(query);
     }
 
-    public long  count() {
+    public long count() {
         String query = String.format("SELECT count(*) FROM User");
         return get(query);
     }
